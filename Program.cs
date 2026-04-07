@@ -68,7 +68,7 @@ if (transportMode == "http")
     var host = builder.Configuration.GetValue<string>("Transport:Http:Host") ?? "0.0.0.0";
 
     var app = builder.Build();
-    app.MapMcp();
+    app.MapMcp("/mcp");
 
     Console.Error.WriteLine($"ILSpy MCP server listening on http://{host}:{port}");
     app.Run($"http://{host}:{port}");
