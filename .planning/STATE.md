@@ -75,6 +75,12 @@ None yet.
 - ICSharpCode.Decompiler 9.1 to 10.x may have API changes in decompiler surface — investigate during Phase 2
 - Target framework changed from net9.0 to net10.0 (only runtime available) — verify CI compatibility
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260407-hz7 | Switch MCP server from stdio to HTTP server transport | 2026-04-07 | e38806a | [260407-hz7-switch-mcp-server-from-stdio-to-http-ser](./quick/260407-hz7-switch-mcp-server-from-stdio-to-http-ser/) |
+
 ## Session Continuity
 
 Last session: 2026-04-07T05:01:31.698Z
