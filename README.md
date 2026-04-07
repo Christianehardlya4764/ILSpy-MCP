@@ -156,58 +156,121 @@ Ask your AI assistant to work with .NET assemblies using natural language. Repla
 | `search_members_by_name` | Search for members by name |
 | `find_extension_methods` | Find extension methods for a type |
 
-<details>
-<summary>Transport Modes (stdio / HTTP)</summary>
+## Running as an HTTP Server (Remote / VM)
 
-### Stdio (Default)
+By default the server uses **stdio** — the MCP client launches it and communicates via stdin/stdout. For remote access (e.g. running on an analysis VM while the MCP client runs on your workstation), switch to **HTTP mode**.
 
-The default mode. The MCP client launches and communicates with the server via stdin/stdout. No additional configuration needed.
+### Starting the HTTP server
 
+Pick whichever matches how you installed it:
+
+**Pre-built binary:**
 ```bash
-ilspy-mcp
+# From the directory where you extracted the release archive
+./ILSpy.Mcp --transport http        # Linux / macOS
+.\ILSpy.Mcp.exe --transport http    # Windows
 ```
 
-### HTTP
-
-HTTP mode runs the server as a standalone HTTP service, useful for remote access or running in a VM.
-
+**dotnet tool:**
 ```bash
 ilspy-mcp --transport http
 ```
 
-By default, the HTTP server listens on `http://0.0.0.0:3001`.
+**From source:**
+```bash
+# From the repo root (where ILSpy.Mcp.csproj lives)
+dotnet run -- --transport http
+```
 
-**Configuration priority** (highest first):
+The server starts and prints:
+```
+ILSpy MCP server listening on http://0.0.0.0:3001
+```
 
-| Priority | Method | Example |
-|----------|--------|---------|
-| 1 | CLI argument | `--transport http` |
-| 2 | Environment variable | `ILSPY_TRANSPORT=http` |
-| 3 | appsettings.json | `"Transport": { "Type": "http" }` |
+It stays running in the foreground until you stop it (Ctrl+C).
 
-Port and host are configurable:
+### Connecting your MCP client
 
-| Setting | Default | Env Variable | appsettings.json Path |
-|---------|---------|--------------|----------------------|
-| Port | 3001 | `Transport__Http__Port` | `Transport:Http:Port` |
-| Host | 0.0.0.0 | `Transport__Http__Host` | `Transport:Http:Host` |
+From the machine running your AI assistant, point the MCP client at the server's HTTP endpoint. Replace `analysis-vm` with the server's hostname or IP:
 
-**MCP client configuration for HTTP:**
+**Claude Code:**
+```bash
+claude mcp add ilspy-mcp --transport http --url http://analysis-vm:3001/mcp --scope user
+```
 
+**Claude Desktop / Cursor (MCP settings JSON):**
 ```json
 {
   "mcpServers": {
     "ilspy-mcp": {
       "type": "http",
-      "url": "http://localhost:3001/"
+      "url": "http://analysis-vm:3001/mcp"
     }
   }
 }
 ```
 
-**Note:** No authentication is applied. Rely on network-level security (firewall rules, VM networking) to control access.
+### Changing port and host
 
-</details>
+| Setting | Default | CLI | Env Variable | appsettings.json |
+|---------|---------|-----|--------------|------------------|
+| Transport | stdio | `--transport http` | `ILSPY_TRANSPORT=http` | `Transport:Type` |
+| Port | 3001 | — | `Transport__Http__Port` | `Transport:Http:Port` |
+| Host | 0.0.0.0 | — | `Transport__Http__Host` | `Transport:Http:Host` |
+
+Transport mode is resolved in priority order: CLI arg > env var > appsettings.json.
+
+To make HTTP the permanent default, edit `appsettings.json` (located next to the binary):
+```json
+{
+  "Transport": {
+    "Type": "http",
+    "Http": {
+      "Port": 3001,
+      "Host": "0.0.0.0"
+    }
+  }
+}
+```
+
+### Running as a background service
+
+To keep the server running after you disconnect from the VM:
+
+**Linux (systemd):**
+```bash
+# /etc/systemd/system/ilspy-mcp.service
+[Unit]
+Description=ILSpy MCP Server
+After=network.target
+
+[Service]
+ExecStart=/path/to/ILSpy.Mcp --transport http
+Restart=on-failure
+User=youruser
+
+[Install]
+WantedBy=multi-user.target
+```
+```bash
+sudo systemctl enable --now ilspy-mcp
+```
+
+**Windows (Task Scheduler or sc.exe):**
+```powershell
+# Quick background run with nohup equivalent
+Start-Process -NoNewWindow -FilePath .\ILSpy.Mcp.exe -ArgumentList "--transport http"
+```
+
+**Docker / tmux / screen** also work — the server is a single self-contained binary with no external dependencies.
+
+### Security
+
+No authentication is built in. The server binds to `0.0.0.0` (all interfaces) by default. Protect it with:
+- Firewall rules limiting access to trusted IPs
+- A reverse proxy (nginx, Caddy) adding TLS and/or auth
+- VPN or SSH tunnel between client and server
+- Binding to `127.0.0.1` and using SSH port forwarding
 
 <details>
 <summary>Configuration Reference</summary>

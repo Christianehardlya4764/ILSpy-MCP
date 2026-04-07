@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 
-// Determine transport mode from args, env, or config
+// Determine transport mode from args, env, or config (highest priority first)
 var transportMode = "stdio"; // default
 
 // Check CLI args first (highest priority)
@@ -25,6 +25,19 @@ else if (Environment.GetEnvironmentVariable("ILSPY_TRANSPORT") is string envTran
          && !string.IsNullOrWhiteSpace(envTransport))
 {
     transportMode = envTransport.ToLowerInvariant();
+}
+// Then appsettings.json
+else
+{
+    var config = new ConfigurationBuilder()
+        .SetBasePath(AppContext.BaseDirectory)
+        .AddJsonFile("appsettings.json", optional: true)
+        .Build();
+    var configTransport = config["Transport:Type"];
+    if (!string.IsNullOrWhiteSpace(configTransport))
+    {
+        transportMode = configTransport.ToLowerInvariant();
+    }
 }
 
 if (transportMode == "http")
