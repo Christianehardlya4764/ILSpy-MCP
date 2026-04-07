@@ -7,7 +7,15 @@ Ask your favourite AI Chatbot to explain how to use ILSpy MCP Server: [![ChatGPT
 
 ## What is this?
 
-ILSpy MCP Server lets AI assistants decompile, inspect, and analyze .NET assemblies through natural language. It integrates [ILSpy](https://github.com/icsharpcode/ILSpy) as a Model Context Protocol (MCP) server, so tools like Claude Code, Cursor, and Claude Desktop can perform .NET reverse engineering directly.
+ILSpy MCP Server lets AI assistants decompile, inspect, and analyze .NET assemblies through natural language. It wraps [ICSharpCode.Decompiler](https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.Decompiler) — the same decompilation engine that powers ILSpy — as a [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server. No GUI needed. Your AI assistant calls the decompiler directly and gets back structured results it can reason over.
+
+This means you can do things the ILSpy GUI can't:
+
+- **Ask questions in natural language** — "What does this method do?" or "Find all types that implement ILogger" instead of clicking through tree views
+- **Chain analysis across multiple assemblies** in a single conversation — trace a call from your app through framework code and into a NuGet package
+- **Get AI-powered explanations** alongside raw decompiled code — the assistant reads the output and explains patterns, potential bugs, or architectural decisions
+- **Automate bulk analysis** — decompile entire namespaces, search across types, and map dependency graphs without manual navigation
+- **Integrate into any MCP client** — Claude Code, Cursor, Claude Desktop, or any tool that speaks MCP
 
 ## Install
 
@@ -293,6 +301,36 @@ The server can be configured via environment variables:
 ## Architecture
 
 The server follows a clean layered architecture: **Domain** (core entities), **Application** (use cases), **Infrastructure** (ILSpy and file system adapters), and **Transport** (MCP protocol layer). All operations are read-only -- the server never modifies files on disk.
+
+## Comparison with Other .NET Decompilation MCP Servers
+
+Several projects expose .NET decompilation over MCP. Here's how ILSpy MCP Server compares:
+
+| | **ILSpy MCP Server** | [DnSpy-MCPserver-Extension](https://github.com/AgentSmithers/DnSpy-MCPserver-Extension) | [DecompilerServer](https://github.com/pardeike/DecompilerServer) | [ilspy-mcp-server](https://github.com/Borealin/ilspy-mcp-server) | [@iffrce/mcp-dotnetdc](https://www.npmjs.com/package/@iffrce/mcp-dotnetdc) |
+|---|---|---|---|---|---|
+| **Engine** | ICSharpCode.Decompiler (actively maintained) | dnSpyEx (community fork of abandoned dnSpy) | ICSharpCode.Decompiler | ILSpy CLI (`ilspycmd`) | ILSpy CLI (`ilspycmd`) |
+| **Runtime required** | None (self-contained binary) or .NET | .NET + dnSpyEx install | .NET 10 | Python 3.8+ and ILSpy CLI | Node.js and ILSpy CLI |
+| **Install options** | Pre-built binary, `dotnet tool`, or source | Clone + build | Clone + build | `pip install` | `npm install` |
+| **Transport** | stdio + HTTP (remote/VM support) | SSE or stdio | stdio | stdio | stdio |
+| **Cross-platform** | Windows, Linux, macOS (x64 + ARM64) | Windows only (dnSpyEx dependency) | Windows, Linux, macOS | Depends on ILSpy CLI availability | Depends on ILSpy CLI availability |
+| **Architecture** | Clean layered (Domain/Application/Infrastructure/Transport) | dnSpyEx plugin | Single project | Python wrapper around CLI | Node.js wrapper around CLI |
+| **Type decompilation** | Yes | Yes | Yes | Yes | Yes |
+| **Method decompilation** | Yes (including `.ctor`/`.cctor`) | Yes | Yes (member-scoped snippets) | No | No |
+| **Type hierarchy analysis** | Yes | No | No | No | No |
+| **Extension method discovery** | Yes | No | No | No | No |
+| **Assembly architecture overview** | Yes | Yes | No | Yes | No |
+| **Member search** | Yes | Yes | Yes | No | No |
+| **Multi-version comparison** | No | No | Yes | No | No |
+| **Read-only by design** | Yes (never modifies files) | Has renaming/edit capabilities | Yes | Yes | Yes |
+
+### Why ILSpy MCP Server?
+
+- **Zero-dependency install.** Download a single self-contained binary — no .NET SDK, no Python, no Node.js, no ILSpy CLI to install separately. It just works.
+- **Actively maintained engine.** Built on ICSharpCode.Decompiler, the same library that powers ILSpy — under active development with regular releases. Not dependent on abandoned tools like dnSpy.
+- **Remote analysis via HTTP.** Run the server on an analysis VM or build server and connect from anywhere. No other .NET decompilation MCP server supports this out of the box.
+- **True cross-platform support.** Pre-built binaries for Windows, Linux, and macOS on both x64 and ARM64. No Windows-only dependencies.
+- **Direct engine integration.** Calls the decompiler library in-process for maximum speed and fidelity. No shelling out to CLI tools, no parsing text output, no intermediate formats.
+- **Safe by design.** Every operation is read-only. The server never writes to disk, never modifies assemblies, never executes the code it analyzes.
 
 ## Acknowledgements
 
