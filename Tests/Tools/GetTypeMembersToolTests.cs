@@ -81,4 +81,37 @@ public class GetTypeMembersToolTests
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().Be("TYPE_NOT_FOUND");
     }
+
+    [Fact]
+    public async Task GetTypeMembers_SimpleClass_ListsConstructors()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<GetTypeMembersTool>();
+
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            CancellationToken.None);
+
+        result.Should().Contain("Constructors:");
+        result.Should().Contain(".ctor");
+    }
+
+    [Fact]
+    public async Task GetTypeMembers_SimpleClass_ConstructorsBeforeMethods()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<GetTypeMembersTool>();
+
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            CancellationToken.None);
+
+        var ctorIndex = result.IndexOf("Constructors:");
+        var methodIndex = result.IndexOf("Methods:");
+        ctorIndex.Should().BeGreaterThan(-1);
+        methodIndex.Should().BeGreaterThan(-1);
+        ctorIndex.Should().BeLessThan(methodIndex);
+    }
 }

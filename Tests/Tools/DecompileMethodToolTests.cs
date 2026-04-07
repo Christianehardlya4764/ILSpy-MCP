@@ -80,4 +80,21 @@ public class DecompileMethodToolTests
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().Be("TYPE_NOT_FOUND");
     }
+
+    [Fact]
+    public async Task DecompileMethod_Constructor_ReturnsCode()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<DecompileMethodTool>();
+
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            ".ctor",
+            null,
+            CancellationToken.None);
+
+        result.Should().NotBeNullOrWhiteSpace();
+        result.Should().Contain("SimpleClass");
+    }
 }
