@@ -10,7 +10,7 @@ ILSpy MCP Server enables AI assistants (like Claude Code, Cursor) to decompile a
 
 ### Prerequisites
 
-- .NET 9.0 SDK or higher (not needed for pre-built binaries)
+- .NET 10.0 SDK or higher (not needed for pre-built binaries)
 - MCP-compatible client (Claude Code, Cursor, Claude Desktop, etc.)
 
 ### Installation
