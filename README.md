@@ -139,6 +139,7 @@ Ask your AI assistant to work with .NET assemblies using natural language. Repla
 - **Decompile a type** -- "Decompile the String class from `C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.0\System.Runtime.dll`"
 - **List all types** -- "List all types in `C:\Users\me\projects\MyApp\bin\Debug\net10.0\MyLibrary.dll`"
 - **Find a method** -- "Find the CalculateTotal method in `D:\libs\Calculator.dll`"
+- **Decompile a constructor** -- "Decompile the .ctor constructor of UserService in `C:\repos\MyApp\bin\Debug\net10.0\MyApp.dll`"
 - **Analyze type hierarchy** -- "Show me the type hierarchy for ProductService in `C:\repos\ECommerce\bin\Release\net10.0\ECommerce.dll`"
 - **Search members** -- "Search for members containing 'Authenticate' in `C:\repos\AuthService\bin\Debug\net10.0\Auth.dll`"
 
@@ -147,10 +148,10 @@ Ask your AI assistant to work with .NET assemblies using natural language. Repla
 | Tool | Description |
 |------|-------------|
 | `decompile_type` | Decompile and analyze a .NET type from a DLL |
-| `decompile_method` | Decompile and analyze a specific method |
+| `decompile_method` | Decompile and analyze a specific method or constructor (`.ctor`/`.cctor`) |
 | `list_assembly_types` | List all types in an assembly |
 | `analyze_assembly` | Get architectural overview of an assembly |
-| `get_type_members` | Get complete API surface of a type |
+| `get_type_members` | Get complete API surface of a type (constructors, methods, properties, fields, events) |
 | `find_type_hierarchy` | Find inheritance relationships |
 | `search_members_by_name` | Search for members by name |
 | `find_extension_methods` | Find extension methods for a type |
