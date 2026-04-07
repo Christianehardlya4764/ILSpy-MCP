@@ -5,7 +5,7 @@ milestone_name: milestone
 status: planning
 stopped_at: Phase 1 context gathered
 last_updated: "2026-04-07T05:01:31.703Z"
-last_activity: 2026-04-07 — Roadmap revised (test-first split)
+last_activity: 2026-04-07 — Quick task 260407-hz7 completed (HTTP transport)
 progress:
   total_phases: 7
   completed_phases: 0
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-07)
 Phase: 1 of 7 (Test Infrastructure & Baseline)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-04-07 — Roadmap revised (test-first split)
+Last activity: 2026-04-07 — Quick task 260407-hz7 completed (HTTP transport)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -71,11 +71,12 @@ None yet.
 
 ### Blockers/Concerns
 
-- MCP SDK 0.4 to 1.x may have breaking changes in tool registration/transport — investigate during Phase 2
+- MCP SDK 0.4 to 1.2.0 upgrade completed in quick task 260407-hz7 — no breaking changes in tool registration
 - ICSharpCode.Decompiler 9.1 to 10.x may have API changes in decompiler surface — investigate during Phase 2
+- Target framework changed from net9.0 to net10.0 (only runtime available) — verify CI compatibility
 
 ## Session Continuity
 
 Last session: 2026-04-07T05:01:31.698Z
-Stopped at: Phase 1 context gathered
+Stopped at: Quick task 260407-hz7 completed
 Resume file: .planning/phases/01-test-infrastructure-baseline/01-CONTEXT.md
