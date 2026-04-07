@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Create TestTargets class library and shared test fixture infrastructure
+- [x] 01-01-PLAN.md — Create TestTargets class library and shared test fixture infrastructure
 - [ ] 01-02-PLAN.md — Write regression tests for all 8 tools and remove old test files
 
 ### Phase 2: SDK Upgrades & Bug Fixes

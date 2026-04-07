@@ -61,7 +61,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Testing
 
-- [ ] **TEST-01**: All existing tools have regression tests that pass after SDK upgrades
+- [x] **TEST-01**: All existing tools have regression tests that pass after SDK upgrades
 - [ ] **TEST-02**: Cross-reference analysis tools (XREF-01 through XREF-04) have integration tests against real assemblies
 - [ ] **TEST-03**: IL disassembly output (IL-01, IL-02) has integration tests verifying structural correctness
 - [ ] **TEST-04**: Bug fixes (SDK-03, SDK-04, SDK-05) each have regression tests proving the fix
@@ -98,7 +98,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TEST-01 | Phase 1 | Pending |
+| TEST-01 | Phase 1 | Complete |
 | SDK-01 | Phase 2 | Pending |
 | SDK-02 | Phase 2 | Pending |
 | SDK-03 | Phase 2 | Pending |
