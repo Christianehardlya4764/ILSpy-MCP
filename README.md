@@ -123,15 +123,21 @@ Pick your client and follow the steps.
 
 2. Restart Claude Desktop.
 
+## How It Works
+
+You don't interact with ILSpy MCP directly. Your MCP client (Claude Code, Cursor, etc.) launches and communicates with it automatically in the background.
+
+To analyze a .NET assembly, just **mention the full path to the DLL** in your chat. The AI assistant will call the appropriate ILSpy tools for you.
+
 ## Usage Examples
 
-Once configured, ask your AI assistant to work with .NET assemblies using natural language:
+Ask your AI assistant to work with .NET assemblies using natural language. Replace the paths with actual DLL paths on your machine:
 
-- **Decompile a type** -- "Decompile the String class from /path/to/System.Runtime.dll"
-- **List all types** -- "List all types in the assembly /path/to/MyLibrary.dll"
-- **Find a method** -- "Find the CalculateTotal method in /path/to/Calculator.dll"
-- **Analyze type hierarchy** -- "Show me the type hierarchy for ProductService in /path/to/ECommerce.dll"
-- **Search members** -- "Search for members containing 'Authenticate' in /path/to/Auth.dll"
+- **Decompile a type** -- "Decompile the String class from `C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.0\System.Runtime.dll`"
+- **List all types** -- "List all types in `C:\Users\me\projects\MyApp\bin\Debug\net10.0\MyLibrary.dll`"
+- **Find a method** -- "Find the CalculateTotal method in `D:\libs\Calculator.dll`"
+- **Analyze type hierarchy** -- "Show me the type hierarchy for ProductService in `C:\repos\ECommerce\bin\Release\net10.0\ECommerce.dll`"
+- **Search members** -- "Search for members containing 'Authenticate' in `C:\repos\AuthService\bin\Debug\net10.0\Auth.dll`"
 
 ## Available Tools
 
