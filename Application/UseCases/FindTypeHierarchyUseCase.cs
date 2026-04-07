@@ -34,11 +34,9 @@ public sealed class FindTypeHierarchyUseCase
 
             _logger.LogInformation("Finding hierarchy for type {TypeName} in {Assembly}", typeName, assemblyPath);
 
-            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(
-                cancellationToken, 
-                _timeout.CreateTimeoutToken());
+            using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
 
-            var typeInfo = await _decompiler.GetTypeInfoAsync(assembly, type, timeoutCts.Token);
+            var typeInfo = await _decompiler.GetTypeInfoAsync(assembly, type, timeout.Token);
 
             var result = new System.Text.StringBuilder();
             result.AppendLine($"Type Hierarchy: {typeInfo.FullName}");

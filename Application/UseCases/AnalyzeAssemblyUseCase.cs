@@ -34,11 +34,9 @@ public sealed class AnalyzeAssemblyUseCase
 
             _logger.LogInformation("Analyzing assembly {Assembly}", assemblyPath);
 
-            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(
-                cancellationToken, 
-                _timeout.CreateTimeoutToken());
+            using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
 
-            var assemblyInfo = await _decompiler.GetAssemblyInfoAsync(assembly, timeoutCts.Token);
+            var assemblyInfo = await _decompiler.GetAssemblyInfoAsync(assembly, timeout.Token);
 
             // Build a summary of the assembly
             var result = new StringBuilder();

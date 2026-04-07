@@ -39,11 +39,9 @@ public sealed class DecompileTypeUseCase
             _logger.LogInformation("Decompiling type {TypeName} from {Assembly}", typeName, assemblyPath);
 
             // Apply timeout
-            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(
-                cancellationToken, 
-                _timeout.CreateTimeoutToken());
+            using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
 
-            var decompilation = await _decompiler.DecompileTypeAsync(assembly, type, timeoutCts.Token);
+            var decompilation = await _decompiler.DecompileTypeAsync(assembly, type, timeout.Token);
 
             return decompilation.SourceCode;
         }

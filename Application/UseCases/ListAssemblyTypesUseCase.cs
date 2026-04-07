@@ -34,11 +34,9 @@ public sealed class ListAssemblyTypesUseCase
             _logger.LogInformation("Listing types from {Assembly} with filter: {Filter}", 
                 assemblyPath, namespaceFilter ?? "none");
 
-            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(
-                cancellationToken, 
-                _timeout.CreateTimeoutToken());
+            using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
 
-            var types = await _decompiler.ListTypesAsync(assembly, namespaceFilter, timeoutCts.Token);
+            var types = await _decompiler.ListTypesAsync(assembly, namespaceFilter, timeout.Token);
 
             var result = new System.Text.StringBuilder();
             result.AppendLine($"Assembly: {assembly.FileName}");
