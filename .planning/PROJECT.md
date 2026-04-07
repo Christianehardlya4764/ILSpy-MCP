@@ -19,14 +19,13 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 - ✓ Find type hierarchy — existing
 - ✓ Search members by name — existing
 - ✓ Find extension methods — existing
+- ✓ Upgrade MCP SDK from 0.4.0-preview.3 to stable 1.x — Validated in Phase 2: SDK Upgrades & Bug Fixes
+- ✓ Upgrade ICSharpCode.Decompiler from 9.1 to 10.x — Validated in Phase 2: SDK Upgrades & Bug Fixes
+- ✓ Fix MaxConcurrentOperations semaphore enforcement — Validated in Phase 2: SDK Upgrades & Bug Fixes
+- ✓ Fix CancellationTokenSource leak in TimeoutService — Validated in Phase 2: SDK Upgrades & Bug Fixes
+- ✓ Include constructors (.ctor/.cctor) in get_type_members and decompile_method — Validated in Phase 2: SDK Upgrades & Bug Fixes
 
 ### Active
-
-- [ ] Upgrade MCP SDK from 0.4.0-preview.3 to stable 1.x
-- [ ] Upgrade ICSharpCode.Decompiler from 9.1 to 10.x
-- [ ] Fix MaxConcurrentOperations semaphore enforcement
-- [ ] Fix CancellationTokenSource leak in TimeoutService
-- [ ] Include constructors (.ctor/.cctor) in get_type_members and decompile_method
 - [ ] Cross-reference analysis: find_usages, find_implementors, find_instantiations, find_dependencies
 - [ ] IL/CIL output for types and methods
 - [ ] List assembly references (name, version, culture, public key token)
@@ -39,7 +38,7 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 - [ ] List and extract embedded resources
 - [ ] List nested types and find compiler-generated types
 - [ ] Bulk decompilation: decompile_namespace, export_project
-- [~] Critical-path test coverage for P0 features and bug fixes — Phase 1 established regression baseline (31 tests for all 8 tools)
+- [~] Critical-path test coverage for P0 features and bug fixes — Phase 1 baseline (31 tests), Phase 2 added 11 bug fix regression tests (42 total)
 
 ### Out of Scope
 
@@ -68,8 +67,8 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Upgrade SDKs before new features | Clean foundation, avoid rework on deprecated APIs | — Pending |
-| Fix bugs before new features | Stable baseline for tests to validate against | — Pending |
+| Upgrade SDKs before new features | Clean foundation, avoid rework on deprecated APIs | ✓ Done (Phase 2) |
+| Fix bugs before new features | Stable baseline for tests to validate against | ✓ Done (Phase 2) |
 | P0-P2 this milestone, P3 deferred | Session management is architectural change, separable | — Pending |
 | Critical-path tests (not exhaustive) | P0 + bug fixes get thorough tests, lighter elsewhere | — Pending |
 | Reusable ILScanner for IL-based features | Cross-refs, string search, constant search share scanning logic | — Pending |
@@ -92,4 +91,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-07 after Phase 1 completion — test infrastructure and regression baseline established*
+*Last updated: 2026-04-07 after Phase 2 completion — SDK upgrades, bug fixes (CTS leak, concurrency, constructors), 42 tests total*
