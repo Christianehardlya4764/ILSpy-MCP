@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.png" alt="ILSpy MCP Server Banner" />
+</p>
+
 # ILSpy MCP Server
 
 MCP server that gives AI assistants .NET decompilation and static analysis capabilities via [ILSpy](https://github.com/icsharpcode/ILSpy).
