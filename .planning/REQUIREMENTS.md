@@ -98,13 +98,42 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated by roadmapper) | | |
+| TEST-01 | Phase 1 | Pending |
+| SDK-01 | Phase 2 | Pending |
+| SDK-02 | Phase 2 | Pending |
+| SDK-03 | Phase 2 | Pending |
+| SDK-04 | Phase 2 | Pending |
+| SDK-05 | Phase 2 | Pending |
+| TEST-04 | Phase 2 | Pending |
+| IL-01 | Phase 3 | Pending |
+| IL-02 | Phase 3 | Pending |
+| TEST-03 | Phase 3 | Pending |
+| XREF-01 | Phase 4 | Pending |
+| XREF-02 | Phase 4 | Pending |
+| XREF-03 | Phase 4 | Pending |
+| XREF-04 | Phase 4 | Pending |
+| TEST-02 | Phase 4 | Pending |
+| META-01 | Phase 5 | Pending |
+| META-02 | Phase 5 | Pending |
+| META-03 | Phase 5 | Pending |
+| META-04 | Phase 5 | Pending |
+| RES-01 | Phase 5 | Pending |
+| RES-02 | Phase 5 | Pending |
+| TYPE-01 | Phase 5 | Pending |
+| TYPE-02 | Phase 5 | Pending |
+| SRCH-01 | Phase 6 | Pending |
+| SRCH-02 | Phase 6 | Pending |
+| XASM-01 | Phase 6 | Pending |
+| XASM-02 | Phase 6 | Pending |
+| BULK-01 | Phase 7 | Pending |
+| BULK-02 | Phase 7 | Pending |
+| DOC-01 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 27 total
-- Mapped to phases: 0
-- Unmapped: 27 ⚠️
+- v1 requirements: 30 total
+- Mapped to phases: 30/30
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-07*
-*Last updated: 2026-04-07 after initial definition*
+*Last updated: 2026-04-07 after roadmap revision (test-first split)*
