@@ -9,11 +9,11 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### SDK & Stability
 
-- [ ] **SDK-01**: Upgrade ModelContextProtocol SDK from 0.4.0-preview.3 to 1.2.0 stable without breaking existing tools
-- [ ] **SDK-02**: Upgrade ICSharpCode.Decompiler from 9.1.0.7988 to 10.x without breaking existing tools
-- [ ] **SDK-03**: MaxConcurrentOperations semaphore is enforced (configured value actually limits concurrent operations)
-- [ ] **SDK-04**: CancellationTokenSource in TimeoutService is properly disposed (no leak under repeated calls)
-- [ ] **SDK-05**: Constructors (.ctor and .cctor) are included in get_type_members output and can be decompiled via decompile_method
+- [x] **SDK-01**: Upgrade ModelContextProtocol SDK from 0.4.0-preview.3 to 1.2.0 stable without breaking existing tools
+- [x] **SDK-02**: Upgrade ICSharpCode.Decompiler from 9.1.0.7988 to 10.x without breaking existing tools
+- [x] **SDK-03**: MaxConcurrentOperations semaphore is enforced (configured value actually limits concurrent operations)
+- [x] **SDK-04**: CancellationTokenSource in TimeoutService is properly disposed (no leak under repeated calls)
+- [x] **SDK-05**: Constructors (.ctor and .cctor) are included in get_type_members output and can be decompiled via decompile_method
 
 ### Cross-Reference Analysis
 
@@ -64,7 +64,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **TEST-01**: All existing tools have regression tests that pass after SDK upgrades
 - [ ] **TEST-02**: Cross-reference analysis tools (XREF-01 through XREF-04) have integration tests against real assemblies
 - [ ] **TEST-03**: IL disassembly output (IL-01, IL-02) has integration tests verifying structural correctness
-- [ ] **TEST-04**: Bug fixes (SDK-03, SDK-04, SDK-05) each have regression tests proving the fix
+- [x] **TEST-04**: Bug fixes (SDK-03, SDK-04, SDK-05) each have regression tests proving the fix
 
 ### Documentation
 
@@ -99,12 +99,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | TEST-01 | Phase 1 | Complete |
-| SDK-01 | Phase 2 | Pending |
-| SDK-02 | Phase 2 | Pending |
-| SDK-03 | Phase 2 | Pending |
-| SDK-04 | Phase 2 | Pending |
-| SDK-05 | Phase 2 | Pending |
-| TEST-04 | Phase 2 | Pending |
+| SDK-01 | Phase 2 | Complete |
+| SDK-02 | Phase 2 | Complete |
+| SDK-03 | Phase 2 | Complete |
+| SDK-04 | Phase 2 | Complete |
+| SDK-05 | Phase 2 | Complete |
+| TEST-04 | Phase 2 | Complete |
 | IL-01 | Phase 3 | Pending |
 | IL-02 | Phase 3 | Pending |
 | TEST-03 | Phase 3 | Pending |
