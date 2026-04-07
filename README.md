@@ -1,211 +1,137 @@
 # ILSpy MCP Server
 
-A Model Context Protocol (MCP) server that provides .NET assembly decompilation and analysis capabilities.
+MCP server that gives AI assistants .NET decompilation and static analysis capabilities via [ILSpy](https://github.com/icsharpcode/ILSpy).
 
 ## What is this?
 
-ILSpy MCP Server enables AI assistants (like Claude Code, Cursor) to decompile and analyze .NET assemblies directly through natural language commands. It integrates [ILSpy](https://github.com/icsharpcode/ILSpy) to provide powerful reverse-engineering capabilities.
+ILSpy MCP Server lets AI assistants decompile, inspect, and analyze .NET assemblies through natural language. It integrates [ILSpy](https://github.com/icsharpcode/ILSpy) as a Model Context Protocol (MCP) server, so tools like Claude Code, Cursor, and Claude Desktop can perform .NET reverse engineering directly.
 
-## Quick Start
+## Install
 
-### Prerequisites
+### Option A: Pre-built Binary (Recommended -- no .NET required)
 
-- .NET 10.0 SDK or higher (not needed for pre-built binaries)
-- MCP-compatible client (Claude Code, Cursor, Claude Desktop, etc.)
+1. Download the latest release for your platform from [Releases](https://github.com/gentledepp/ILSpy-Mcp/releases):
 
-### Installation
+   | Platform | File |
+   |----------|------|
+   | Windows x64 | `ilspy-mcp-win-x64.zip` |
+   | Linux x64 | `ilspy-mcp-linux-x64.tar.gz` |
+   | Linux ARM64 | `ilspy-mcp-linux-arm64.tar.gz` |
+   | macOS x64 | `ilspy-mcp-osx-x64.zip` |
+   | macOS ARM64 | `ilspy-mcp-osx-arm64.zip` |
 
-Install as a global dotnet tool from NuGet:
+   Each release includes SHA256 checksums (`.sha256` files) for verifying download integrity.
 
-```bash
-dotnet tool install -g ILSpyMcp.Server
-```
+2. Extract the archive:
 
-To update to the latest version:
+   **Windows (PowerShell):**
+   ```powershell
+   Expand-Archive ilspy-mcp-win-x64.zip -DestinationPath ilspy-mcp
+   ```
 
-```bash
-dotnet tool update -g ILSpyMcp.Server
-```
+   **Linux:**
+   ```bash
+   tar -xzf ilspy-mcp-linux-x64.tar.gz -C ilspy-mcp
+   chmod +x ilspy-mcp/ILSpy.Mcp
+   ```
 
-### Pre-built Binaries (No .NET Required)
+   **macOS:**
+   ```bash
+   unzip ilspy-mcp-osx-arm64.zip -d ilspy-mcp
+   chmod +x ilspy-mcp/ILSpy.Mcp
+   ```
 
-Self-contained binaries are available for airgapped environments or systems without a .NET runtime. Download the latest release from the [GitHub Releases page](https://github.com/gentledepp/ILSpy-Mcp/releases).
+3. Continue to [Configure Your MCP Client](#configure-your-mcp-client) below.
 
-| Platform | File |
-|----------|------|
-| Windows x64 | `ilspy-mcp-win-x64.zip` |
-| Linux x64 | `ilspy-mcp-linux-x64.tar.gz` |
-| Linux ARM64 | `ilspy-mcp-linux-arm64.tar.gz` |
-| macOS x64 | `ilspy-mcp-osx-x64.zip` |
-| macOS ARM64 | `ilspy-mcp-osx-arm64.zip` |
+### Option B: dotnet tool
 
-Each release includes SHA256 checksums (`.sha256` files) for verifying download integrity.
+1. Install as a global tool:
+   ```bash
+   dotnet tool install -g ILSpyMcp.Server
+   ```
 
-**Windows:**
+2. To update later:
+   ```bash
+   dotnet tool update -g ILSpyMcp.Server
+   ```
 
-```powershell
-Expand-Archive ilspy-mcp-win-x64.zip -DestinationPath ilspy-mcp
-.\ilspy-mcp\ILSpy.Mcp.exe
-```
+3. Continue to [Configure Your MCP Client](#configure-your-mcp-client) below.
 
-**Linux:**
+### Option C: Build from Source
 
-```bash
-tar -xzf ilspy-mcp-linux-x64.tar.gz -C ilspy-mcp
-chmod +x ilspy-mcp/ILSpy.Mcp
-./ilspy-mcp/ILSpy.Mcp
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/gentledepp/ILSpy-Mcp.git
+   cd ILSpy-Mcp
+   ```
 
-**macOS:**
+2. Build the project:
+   ```bash
+   dotnet build
+   ```
 
-```bash
-unzip ilspy-mcp-osx-arm64.zip -d ilspy-mcp
-chmod +x ilspy-mcp/ILSpy.Mcp
-./ilspy-mcp/ILSpy.Mcp
-```
+3. The binary is at `src/ILSpy.Mcp/bin/Debug/net10.0/ILSpy.Mcp`. Use this path when configuring your MCP client below.
 
-To configure an MCP client with the pre-built binary, point the command to the extracted path:
+## Configure Your MCP Client
 
-```json
-{
-  "mcpServers": {
-    "ilspy-mcp": {
-      "type": "stdio",
-      "command": "/path/to/ilspy-mcp/ILSpy.Mcp",
-      "args": []
-    }
-  }
-}
-```
+Pick your client and follow the steps.
 
-### Configure MCP Client
+### Claude Code
 
-For **Claude Code**, register the MCP server:
+1. Run:
+   ```bash
+   claude mcp add ilspy-mcp --command "ilspy-mcp" --scope user
+   ```
+   If using a pre-built binary, use the full path instead:
+   ```bash
+   claude mcp add ilspy-mcp --command "/path/to/ilspy-mcp/ILSpy.Mcp" --scope user
+   ```
 
-```bash
-claude mcp add ilspy-mcp --command "ilspy-mcp" --scope user
-```
+2. Restart Claude Code. The tools are now available.
 
-Or create/update `.mcp.json` in your project root:
+### Cursor
 
-```json
-{
-  "mcpServers": {
-    "ilspy-mcp": {
-      "type": "stdio",
-      "command": "ilspy-mcp",
-      "args": []
-    }
-  }
-}
-```
+1. Add to your MCP settings JSON:
+   ```json
+   {
+     "mcpServers": {
+       "ilspy-mcp": {
+         "command": "ilspy-mcp",
+         "args": []
+       }
+     }
+   }
+   ```
+   For pre-built binary, replace `"ilspy-mcp"` with the full path to the `ILSpy.Mcp` executable.
 
-For **Cursor**, add to your MCP settings:
+2. Restart Cursor.
 
-```json
-{
-  "mcpServers": {
-    "ilspy-mcp": {
-      "command": "ilspy-mcp",
-      "args": []
-    }
-  }
-}
-```
+### Claude Desktop
 
-For **Claude Desktop**, add to `claude_desktop_config.json`:
+1. Add to `claude_desktop_config.json`:
+   ```json
+   {
+     "mcpServers": {
+       "ilspy-mcp": {
+         "command": "ilspy-mcp",
+         "args": []
+       }
+     }
+   }
+   ```
+   For pre-built binary, replace `"ilspy-mcp"` with the full path to the `ILSpy.Mcp` executable.
 
-```json
-{
-  "mcpServers": {
-    "ilspy-mcp": {
-      "command": "ilspy-mcp",
-      "args": []
-    }
-  }
-}
-```
-
-## Transport Modes
-
-ILSpy MCP Server supports two transport modes:
-
-### Stdio (Default)
-
-The default mode. The MCP client launches and communicates with the server process via stdin/stdout. This is the standard mode for local usage.
-
-```bash
-ilspy-mcp
-```
-
-### HTTP
-
-HTTP mode runs the server as a standalone HTTP service, useful for remote access (e.g., running in a VM and connecting from the host machine).
-
-```bash
-ilspy-mcp --transport http
-```
-
-By default, the HTTP server listens on `http://0.0.0.0:3001`.
-
-#### Configuration
-
-The transport mode can be set through three layers (highest priority first):
-
-1. **CLI argument**: `--transport http`
-2. **Environment variable**: `ILSPY_TRANSPORT=http`
-3. **appsettings.json**: Set `"Transport": { "Type": "http" }`
-
-Port and host are configurable:
-
-| Setting | Default | Env Variable | appsettings.json Path |
-|---------|---------|--------------|----------------------|
-| Port | 3001 | `Transport__Http__Port` | `Transport:Http:Port` |
-| Host | 0.0.0.0 | `Transport__Http__Host` | `Transport:Http:Host` |
-
-#### MCP Client Configuration (HTTP)
-
-To connect an MCP client to the HTTP server, configure it to use the Streamable HTTP endpoint:
-
-```json
-{
-  "mcpServers": {
-    "ilspy-mcp": {
-      "type": "http",
-      "url": "http://localhost:3001/"
-    }
-  }
-}
-```
-
-> **Note:** No authentication is applied. Rely on network-level security (firewall rules, VM networking) to control access.
+2. Restart Claude Desktop.
 
 ## Usage Examples
 
-### Decompile a Type
-```
-Decompile the String class from /path/to/System.Runtime.dll
-```
+Once configured, ask your AI assistant to work with .NET assemblies using natural language:
 
-### List All Types
-```
-List all types in the assembly /path/to/MyLibrary.dll
-```
-
-### Find a Specific Method
-```
-Find the CalculateTotal method in /path/to/Calculator.dll
-```
-
-### Analyze Type Hierarchy
-```
-Show me the type hierarchy for ProductService in /path/to/ECommerce.dll
-```
-
-### Search Members
-```
-Search for members containing "Authenticate" in /path/to/Auth.dll
-```
+- **Decompile a type** -- "Decompile the String class from /path/to/System.Runtime.dll"
+- **List all types** -- "List all types in the assembly /path/to/MyLibrary.dll"
+- **Find a method** -- "Find the CalculateTotal method in /path/to/Calculator.dll"
+- **Analyze type hierarchy** -- "Show me the type hierarchy for ProductService in /path/to/ECommerce.dll"
+- **Search members** -- "Search for members containing 'Authenticate' in /path/to/Auth.dll"
 
 ## Available Tools
 
@@ -220,33 +146,79 @@ Search for members containing "Authenticate" in /path/to/Auth.dll
 | `search_members_by_name` | Search for members by name |
 | `find_extension_methods` | Find extension methods for a type |
 
-## Configuration
+<details>
+<summary>Transport Modes (stdio / HTTP)</summary>
+
+### Stdio (Default)
+
+The default mode. The MCP client launches and communicates with the server via stdin/stdout. No additional configuration needed.
+
+```bash
+ilspy-mcp
+```
+
+### HTTP
+
+HTTP mode runs the server as a standalone HTTP service, useful for remote access or running in a VM.
+
+```bash
+ilspy-mcp --transport http
+```
+
+By default, the HTTP server listens on `http://0.0.0.0:3001`.
+
+**Configuration priority** (highest first):
+
+| Priority | Method | Example |
+|----------|--------|---------|
+| 1 | CLI argument | `--transport http` |
+| 2 | Environment variable | `ILSPY_TRANSPORT=http` |
+| 3 | appsettings.json | `"Transport": { "Type": "http" }` |
+
+Port and host are configurable:
+
+| Setting | Default | Env Variable | appsettings.json Path |
+|---------|---------|--------------|----------------------|
+| Port | 3001 | `Transport__Http__Port` | `Transport:Http:Port` |
+| Host | 0.0.0.0 | `Transport__Http__Host` | `Transport:Http:Host` |
+
+**MCP client configuration for HTTP:**
+
+```json
+{
+  "mcpServers": {
+    "ilspy-mcp": {
+      "type": "http",
+      "url": "http://localhost:3001/"
+    }
+  }
+}
+```
+
+**Note:** No authentication is applied. Rely on network-level security (firewall rules, VM networking) to control access.
+
+</details>
+
+<details>
+<summary>Configuration Reference</summary>
 
 The server can be configured via environment variables:
 
-- `ILSpy__MaxDecompilationSize`: Maximum size of decompiled code in bytes (default: 1048576 = 1 MB)
-- `ILSpy__DefaultTimeoutSeconds`: Default timeout for operations in seconds (default: 30)
-- `ILSpy__MaxConcurrentOperations`: Maximum number of concurrent operations (default: 10)
-- `ILSPY_TRANSPORT`: Transport mode — `stdio` (default) or `http`
-- `Transport__Http__Port`: HTTP server port (default: 3001)
-- `Transport__Http__Host`: HTTP server bind address (default: 0.0.0.0)
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ILSpy__MaxDecompilationSize` | 1048576 (1 MB) | Maximum size of decompiled code in bytes |
+| `ILSpy__DefaultTimeoutSeconds` | 30 | Default timeout for operations in seconds |
+| `ILSpy__MaxConcurrentOperations` | 10 | Maximum number of concurrent operations |
+| `ILSPY_TRANSPORT` | `stdio` | Transport mode: `stdio` or `http` |
+| `Transport__Http__Port` | 3001 | HTTP server port |
+| `Transport__Http__Host` | 0.0.0.0 | HTTP server bind address |
+
+</details>
 
 ## Architecture
 
-This server follows a clean architecture with clear separation of concerns:
-
-- **Domain**: Core business logic and entities
-- **Application**: Use cases and application services
-- **Infrastructure**: External system adapters (ILSpy, file system)
-- **Transport**: MCP protocol layer
-
-## Security
-
-- All operations are read-only (no file modifications)
-- Assembly path validation
-- Timeout and cancellation support
-- Request context propagation
+The server follows a clean layered architecture: **Domain** (core entities), **Application** (use cases), **Infrastructure** (ILSpy and file system adapters), and **Transport** (MCP protocol layer). All operations are read-only -- the server never modifies files on disk.
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT -- see [LICENSE](LICENSE) for details.
