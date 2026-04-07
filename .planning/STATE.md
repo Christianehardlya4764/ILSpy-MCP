@@ -80,6 +80,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260407-hz7 | Switch MCP server from stdio to HTTP server transport | 2026-04-07 | e38806a | [260407-hz7-switch-mcp-server-from-stdio-to-http-ser](./quick/260407-hz7-switch-mcp-server-from-stdio-to-http-ser/) |
+| 260407-kbk | GitHub Actions release workflow for self-contained binaries | 2026-04-07 | pending | [260407-kbk-create-github-actions-workflow-for-publi](./quick/260407-kbk-create-github-actions-workflow-for-publi/) |
 
 ## Session Continuity
 
