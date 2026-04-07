@@ -31,10 +31,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Every existing tool (list_assembly_types, decompile_type, decompile_method, get_type_members, get_base_types, get_derived_types, get_type_hierarchy, list_namespaces) has at least one regression test
   3. All regression tests pass against the current (pre-upgrade) codebase, establishing the known-good baseline
   4. Tests run in CI (or can be run via dotnet test) with clear pass/fail reporting
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Create TestTargets class library and shared test fixture infrastructure
+- [ ] 01-02-PLAN.md — Write regression tests for all 8 tools and remove old test files
 
 ### Phase 2: SDK Upgrades & Bug Fixes
 **Goal**: Existing tools work identically on current SDK versions with all known bugs fixed, validated by the baseline test suite
@@ -133,7 +134,7 @@ Note: Phase 5 depends only on Phase 2 (not Phase 3/4), so it could run in parall
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Test Infrastructure & Baseline | 0/TBD | Not started | - |
+| 1. Test Infrastructure & Baseline | 0/2 | Planning complete | - |
 | 2. SDK Upgrades & Bug Fixes | 0/TBD | Not started | - |
 | 3. IL Infrastructure & Disassembly | 0/TBD | Not started | - |
 | 4. Cross-Reference Analysis | 0/TBD | Not started | - |
