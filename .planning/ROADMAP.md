@@ -78,11 +78,11 @@ Plans:
   3. User can find all outward dependencies (calls, field refs) of a method or type
   4. User can find all instantiation sites (newobj) of a given type
   5. Cross-reference results are validated by integration tests against known assemblies
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Domain contracts, ICrossReferenceService infrastructure, and TestTargets cross-reference types
+- [ ] 04-02-PLAN.md — Use cases, MCP tools, DI wiring, and integration tests
 
 ### Phase 5: Assembly Inspection
 **Goal**: Users can fully inspect assembly metadata, custom attributes, embedded resources, and type structure including nested and compiler-generated types
@@ -94,7 +94,7 @@ Plans:
   3. User can inspect custom attributes at assembly, type, and member level with their constructor arguments
   4. User can list embedded resources with type and size, and extract content (text inline, binary as base64)
   5. User can list nested types and find compiler-generated types (DisplayClass, async state machines, closures)
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 05-01: TBD
@@ -109,7 +109,7 @@ Plans:
   2. User can search for numeric and enum constants across an assembly
   3. User can resolve which assembly in a directory defines a given type name
   4. User can load all assemblies from a directory for cross-assembly analysis operations
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 06-01: TBD
@@ -123,7 +123,7 @@ Plans:
   1. User can decompile all types in a namespace with a single tool call
   2. User can export a complete .csproj with all decompiled source files to a target directory
   3. README.md documents all new tools with usage examples and the current feature list is accurate
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 07-01: TBD
