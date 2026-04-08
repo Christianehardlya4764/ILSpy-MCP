@@ -29,16 +29,16 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 - [ ] Cross-reference analysis: find_usages, find_implementors, find_instantiations, find_dependencies
 - [x] IL/CIL output for types and methods — Validated in Phase 3: IL Infrastructure & Disassembly
 - [ ] List assembly references (name, version, culture, public key token)
-- [ ] Resolve type across assemblies in a directory
-- [ ] Load all assemblies from a folder for cross-assembly analysis
-- [ ] String search across assembly IL (ldstr operands)
-- [ ] Constant/enum search via ldc.*/FieldDefinition.HasDefault
+- [x] Resolve type across assemblies in a directory — Validated in Phase 6: Search & Cross-Assembly
+- [x] Load all assemblies from a folder for cross-assembly analysis — Validated in Phase 6: Search & Cross-Assembly
+- [x] String search across assembly IL (ldstr operands) — Validated in Phase 6: Search & Cross-Assembly
+- [x] Constant/enum search via ldc.*/FieldDefinition.HasDefault — Validated in Phase 6: Search & Cross-Assembly
 - [x] Assembly metadata (target framework, PE bitness, strong name, entry point) — Validated in Phase 5: Assembly Inspection
 - [x] Assembly-level and type-level custom attribute inspection — Validated in Phase 5: Assembly Inspection
 - [x] List and extract embedded resources — Validated in Phase 5: Assembly Inspection
 - [x] List nested types and find compiler-generated types — Validated in Phase 5: Assembly Inspection
 - [ ] Bulk decompilation: decompile_namespace, export_project
-- [~] Critical-path test coverage for P0 features and bug fixes — Phase 1 baseline (31 tests), Phase 2 added 11 (42), Phase 3 added 16 (58), Phase 4 added 24 (82), Phase 5 added 32 (114 total)
+- [~] Critical-path test coverage for P0 features and bug fixes — Phase 1 baseline (31 tests), Phase 2 added 11 (42), Phase 3 added 16 (58), Phase 4 added 24 (82), Phase 5 added 32 (114), Phase 6 added 23 (137 total)
 
 ### Out of Scope
 
@@ -72,7 +72,7 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 | P0-P2 this milestone, P3 deferred | Session management is architectural change, separable | — Pending |
 | Critical-path tests (not exhaustive) | P0 + bug fixes get thorough tests, lighter elsewhere | — Pending |
 | Separate IDisassemblyService from IDecompilerService | Disassembly is a distinct concern with different output format | ✓ Done (Phase 3) |
-| Reusable ILScanner for IL-based features | Cross-refs, string search, constant search share scanning logic | — Pending |
+| Reusable ILScanner for IL-based features | Cross-refs, string search, constant search share scanning logic | Duplicated IL helpers in ILSpySearchService — acceptable for 2 services |
 
 ## Evolution
 
@@ -92,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after Phase 5 completion — assembly inspection tools (get_assembly_metadata, get_assembly_attributes, get_type_attributes, get_member_attributes, list_embedded_resources, extract_resource, find_compiler_generated_types), 22 MCP tools total, 114 tests*
+*Last updated: 2026-04-08 after Phase 6 completion — search & cross-assembly tools (search_strings, search_constants, resolve_type, load_assembly_directory), 26 MCP tools total, 137 tests*
