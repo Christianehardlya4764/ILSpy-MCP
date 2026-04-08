@@ -51,6 +51,7 @@ This means you can do things the ILSpy GUI can't:
 - **Read raw IL** — view CIL/IL disassembly at the type or method level alongside decompiled C#, useful for understanding compiler output and low-level behavior
 - **Chain analysis across multiple assemblies** in a single conversation — trace a call from your app through framework code and into a NuGet package
 - **Get AI-powered explanations** alongside raw decompiled code — the assistant reads the output and explains patterns, potential bugs, or architectural decisions
+- **Inspect assembly metadata** — check target framework, PE bitness, strong name, referenced assemblies, custom attributes at assembly/type/member level, and embedded resources
 - **Automate bulk analysis** — decompile entire namespaces, search across types, and map dependency graphs without manual navigation
 - **Integrate into any MCP client** — Claude Code, Cursor, VS Code, or any tool that speaks MCP
 
@@ -260,6 +261,10 @@ Ask your AI assistant to work with .NET assemblies using natural language. Repla
 - **Find implementors** -- "What types implement ILogger in `C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.0\Microsoft.Extensions.Logging.dll`?"
 - **Trace dependencies** -- "What does the ProcessOrder method in OrderService depend on in `C:\repos\ECommerce\bin\Release\net10.0\ECommerce.dll`?"
 - **Find instantiations** -- "Where is HttpClient instantiated in `C:\repos\MyApp\bin\Debug\net10.0\MyApp.dll`?"
+- **Inspect assembly metadata** -- "What target framework and PE bitness does `C:\repos\MyApp\bin\Release\net10.0\MyApp.dll` target?"
+- **Read custom attributes** -- "What custom attributes are on the OrderService class in `C:\repos\ECommerce\bin\Debug\net10.0\ECommerce.dll`?"
+- **Extract embedded resources** -- "List all embedded resources in `C:\repos\MyApp\bin\Debug\net10.0\MyApp.dll` and extract the SQL migration script"
+- **Find compiler-generated types** -- "Show me the async state machines and closures in `C:\repos\MyApp\bin\Debug\net10.0\MyApp.dll`"
 
 ## Available Tools
 
@@ -287,6 +292,18 @@ Ask your AI assistant to work with .NET assemblies using natural language. Repla
 | `find_dependencies` | Find all outward dependencies (calls, field accesses) of a type or method |
 | `find_instantiations` | Find all sites where a type is instantiated (`newobj`) |
 | `analyze_references` | Unified cross-reference dispatcher -- routes to the above tools by analysis type |
+
+**Assembly Inspection**
+
+| Tool | Description |
+|------|-------------|
+| `get_assembly_metadata` | Get assembly metadata including target framework, runtime version, PE bitness, strong name, entry point, and referenced assemblies |
+| `get_assembly_attributes` | List all custom attributes declared on an assembly with their constructor arguments and named properties |
+| `get_type_attributes` | List all custom attributes declared on a type with their constructor arguments and named properties |
+| `get_member_attributes` | List all custom attributes on a type member (method, property, field, event) with their constructor arguments |
+| `list_embedded_resources` | List all embedded resources in an assembly with name, type, size, and visibility |
+| `extract_resource` | Extract embedded resource content -- text inline or binary as base64, with optional offset/limit pagination |
+| `find_compiler_generated_types` | Find compiler-generated types (async state machines, display classes, closures, iterators) with parent method and type context |
 
 ## HTTP Server Reference
 
@@ -420,6 +437,10 @@ Several projects expose .NET decompilation over MCP. Here's how ILSpy MCP Server
 | **Extension method discovery** | Yes | No | No | No | No |
 | **IL disassembly output** | Yes (type + method level) | Yes | No | No | No |
 | **Cross-reference analysis** | Yes (usages, implementors, dependencies, instantiations) | No | No | No | No |
+| **Assembly metadata inspection** | Yes (target framework, PE bitness, strong name, entry point, references) | No | No | No | No |
+| **Custom attribute inspection** | Yes (assembly, type, and member level with decoded arguments) | No | No | No | No |
+| **Embedded resource extraction** | Yes (text inline, binary as base64, with pagination) | No | No | No | No |
+| **Compiler-generated type discovery** | Yes (async state machines, closures, display classes with parent context) | No | No | No | No |
 | **Assembly architecture overview** | Yes | Yes | No | Yes | No |
 | **Member search** | Yes | Yes | Yes | No | No |
 | **Multi-version comparison** | No | No | Yes | No | No |
@@ -433,6 +454,7 @@ Several projects expose .NET decompilation over MCP. Here's how ILSpy MCP Server
 - **True cross-platform support.** Pre-built binaries for Windows, Linux, and macOS on both x64 and ARM64. No Windows-only dependencies.
 - **Direct engine integration.** Calls the decompiler library in-process for maximum speed and fidelity. No shelling out to CLI tools, no parsing text output, no intermediate formats.
 - **Cross-reference analysis.** The only .NET decompilation MCP server that can trace usages, find implementors, map dependencies, and locate instantiation sites — all via IL bytecode scanning.
+- **Deep assembly inspection.** Read assembly metadata, custom attributes at every scope level, extract embedded resources, and discover compiler-generated types with parent context. No other .NET decompilation MCP server exposes this.
 - **Safe by design.** Every operation is read-only. The server never writes to disk, never modifies assemblies, never executes the code it analyzes.
 
 ## Acknowledgements
