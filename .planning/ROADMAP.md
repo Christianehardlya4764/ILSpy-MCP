@@ -94,10 +94,10 @@ Plans:
   3. User can inspect custom attributes at assembly, type, and member level with their constructor arguments
   4. User can list embedded resources with type and size, and extract content (text inline, binary as base64)
   5. User can list nested types and find compiler-generated types (DisplayClass, async state machines, closures)
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
-- [ ] 05-01-PLAN.md — Domain contracts, infrastructure service, and TestTargets extensions
+- [x] 05-01-PLAN.md — Domain contracts, infrastructure service, and TestTargets extensions
 - [ ] 05-02-PLAN.md — Use cases, MCP tools, DI wiring, and integration tests
 
 ### Phase 6: Search & Cross-Assembly
@@ -140,6 +140,6 @@ Note: Phase 5 depends only on Phase 2 (not Phase 3/4), so it could run in parall
 | 2. SDK Upgrades & Bug Fixes | 0/3 | Planned    |  |
 | 3. IL Infrastructure & Disassembly | 1/2 | In Progress|  |
 | 4. Cross-Reference Analysis | 0/2 | Planned    |  |
-| 5. Assembly Inspection | 0/2 | Planned | - |
+| 5. Assembly Inspection | 1/2 | In Progress|  |
 | 6. Search & Cross-Assembly | 0/TBD | Not started | - |
 | 7. Bulk Operations & Documentation | 0/TBD | Not started | - |
