@@ -67,6 +67,8 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<SearchConstantsUseCase>();
         services.AddScoped<ResolveTypeUseCase>();
         services.AddScoped<LoadAssemblyDirectoryUseCase>();
+        services.AddScoped<ExportProjectUseCase>();
+        services.AddScoped<DecompileNamespaceUseCase>();
 
         services.AddScoped<DecompileTypeTool>();
         services.AddScoped<DecompileMethodTool>();
@@ -94,6 +96,8 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<SearchConstantsTool>();
         services.AddScoped<ResolveTypeTool>();
         services.AddScoped<LoadAssemblyDirectoryTool>();
+        services.AddScoped<ExportProjectTool>();
+        services.AddScoped<DecompileNamespaceTool>();
 
         ServiceProvider = services.BuildServiceProvider();
     }

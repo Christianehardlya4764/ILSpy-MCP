@@ -140,6 +140,8 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<SearchConstantsUseCase>();
     services.AddScoped<ResolveTypeUseCase>();
     services.AddScoped<LoadAssemblyDirectoryUseCase>();
+    services.AddScoped<ExportProjectUseCase>();
+    services.AddScoped<DecompileNamespaceUseCase>();
 
     // MCP tool handlers
     services.AddScoped<DecompileTypeTool>();
@@ -168,4 +170,6 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<SearchConstantsTool>();
     services.AddScoped<ResolveTypeTool>();
     services.AddScoped<LoadAssemblyDirectoryTool>();
+    services.AddScoped<ExportProjectTool>();
+    services.AddScoped<DecompileNamespaceTool>();
 }
