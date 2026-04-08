@@ -110,6 +110,7 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<IDecompilerService, ILSpyDecompilerService>();
     services.AddScoped<IDisassemblyService, ILSpyDisassemblyService>();
     services.AddScoped<ICrossReferenceService, ILSpyCrossReferenceService>();
+    services.AddScoped<IAssemblyInspectionService, ILSpyAssemblyInspectionService>();
 
     // Application use cases
     services.AddScoped<DecompileTypeUseCase>();
@@ -126,6 +127,13 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<FindImplementorsUseCase>();
     services.AddScoped<FindDependenciesUseCase>();
     services.AddScoped<FindInstantiationsUseCase>();
+    services.AddScoped<GetAssemblyMetadataUseCase>();
+    services.AddScoped<GetAssemblyAttributesUseCase>();
+    services.AddScoped<GetTypeAttributesUseCase>();
+    services.AddScoped<GetMemberAttributesUseCase>();
+    services.AddScoped<ListEmbeddedResourcesUseCase>();
+    services.AddScoped<ExtractResourceUseCase>();
+    services.AddScoped<FindCompilerGeneratedTypesUseCase>();
 
     // MCP tool handlers
     services.AddScoped<DecompileTypeTool>();
@@ -143,4 +151,11 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<FindDependenciesTool>();
     services.AddScoped<FindInstantiationsTool>();
     services.AddScoped<AnalyzeReferencesTool>();
+    services.AddScoped<GetAssemblyMetadataTool>();
+    services.AddScoped<GetAssemblyAttributesTool>();
+    services.AddScoped<GetTypeAttributesTool>();
+    services.AddScoped<GetMemberAttributesTool>();
+    services.AddScoped<ListEmbeddedResourcesTool>();
+    services.AddScoped<ExtractResourceTool>();
+    services.AddScoped<FindCompilerGeneratedTypesTool>();
 }
