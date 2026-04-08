@@ -1,0 +1,64 @@
+using System.ComponentModel;
+using ILSpy.Mcp.Application.UseCases;
+using ILSpy.Mcp.Domain.Errors;
+using ILSpy.Mcp.Transport.Mcp.Errors;
+using Microsoft.Extensions.Logging;
+using ModelContextProtocol.Server;
+
+namespace ILSpy.Mcp.Transport.Mcp.Tools;
+
+/// <summary>
+/// MCP tool handler for finding all types implementing an interface or extending a base class.
+/// </summary>
+[McpServerToolType]
+public sealed class FindImplementorsTool
+{
+    private readonly FindImplementorsUseCase _useCase;
+    private readonly ILogger<FindImplementorsTool> _logger;
+
+    public FindImplementorsTool(
+        FindImplementorsUseCase useCase,
+        ILogger<FindImplementorsTool> logger)
+    {
+        _useCase = useCase;
+        _logger = logger;
+    }
+
+    [McpServerTool(Name = "find_implementors")]
+    [Description("Find all types implementing a given interface or extending a given base class within an assembly. Returns type names with their relationship (implements/extends).")]
+    public async Task<string> ExecuteAsync(
+        [Description("Path to the .NET assembly file")] string assemblyPath,
+        [Description("Full name of the interface or base class (e.g., 'MyNamespace.IMyInterface')")] string typeName,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await _useCase.ExecuteAsync(assemblyPath, typeName, cancellationToken);
+        }
+        catch (TypeNotFoundException ex)
+        {
+            _logger.LogWarning("Type not found: {TypeName} in {Assembly}", ex.TypeName, ex.AssemblyPath);
+            throw new McpToolException("TYPE_NOT_FOUND", ex.Message);
+        }
+        catch (AssemblyLoadException ex)
+        {
+            _logger.LogError(ex, "Failed to load assembly: {Assembly}", ex.AssemblyPath);
+            throw new McpToolException("ASSEMBLY_LOAD_FAILED", ex.Message);
+        }
+        catch (TimeoutException ex)
+        {
+            _logger.LogWarning("Timeout in find_implementors tool: {Message}", ex.Message);
+            throw new McpToolException("TIMEOUT", "The operation timed out. The assembly may be too large or the operation took too long.");
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Operation cancelled in find_implementors tool");
+            throw new McpToolException("CANCELLED", "The operation was cancelled.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error in find_implementors tool");
+            throw new McpToolException("INTERNAL_ERROR", "An unexpected error occurred while finding implementors.");
+        }
+    }
+}

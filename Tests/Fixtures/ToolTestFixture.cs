@@ -37,6 +37,7 @@ public sealed class ToolTestFixture : IDisposable
         services.AddSingleton<IConcurrencyLimiter, ConcurrencyLimiter>();
         services.AddScoped<IDecompilerService, ILSpyDecompilerService>();
         services.AddScoped<IDisassemblyService, ILSpyDisassemblyService>();
+        services.AddScoped<ICrossReferenceService, ILSpyCrossReferenceService>();
 
         services.AddScoped<DecompileTypeUseCase>();
         services.AddScoped<DecompileMethodUseCase>();
@@ -48,6 +49,10 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<FindTypeHierarchyUseCase>();
         services.AddScoped<SearchMembersByNameUseCase>();
         services.AddScoped<FindExtensionMethodsUseCase>();
+        services.AddScoped<FindUsagesUseCase>();
+        services.AddScoped<FindImplementorsUseCase>();
+        services.AddScoped<FindDependenciesUseCase>();
+        services.AddScoped<FindInstantiationsUseCase>();
 
         services.AddScoped<DecompileTypeTool>();
         services.AddScoped<DecompileMethodTool>();
@@ -59,6 +64,11 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<FindTypeHierarchyTool>();
         services.AddScoped<SearchMembersByNameTool>();
         services.AddScoped<FindExtensionMethodsTool>();
+        services.AddScoped<FindUsagesTool>();
+        services.AddScoped<FindImplementorsTool>();
+        services.AddScoped<FindDependenciesTool>();
+        services.AddScoped<FindInstantiationsTool>();
+        services.AddScoped<AnalyzeReferencesTool>();
 
         ServiceProvider = services.BuildServiceProvider();
     }

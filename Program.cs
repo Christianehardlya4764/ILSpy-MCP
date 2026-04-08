@@ -109,6 +109,7 @@ static void RegisterServices(IServiceCollection services)
     // Domain services (ports)
     services.AddScoped<IDecompilerService, ILSpyDecompilerService>();
     services.AddScoped<IDisassemblyService, ILSpyDisassemblyService>();
+    services.AddScoped<ICrossReferenceService, ILSpyCrossReferenceService>();
 
     // Application use cases
     services.AddScoped<DecompileTypeUseCase>();
@@ -121,6 +122,10 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<FindTypeHierarchyUseCase>();
     services.AddScoped<SearchMembersByNameUseCase>();
     services.AddScoped<FindExtensionMethodsUseCase>();
+    services.AddScoped<FindUsagesUseCase>();
+    services.AddScoped<FindImplementorsUseCase>();
+    services.AddScoped<FindDependenciesUseCase>();
+    services.AddScoped<FindInstantiationsUseCase>();
 
     // MCP tool handlers
     services.AddScoped<DecompileTypeTool>();
@@ -133,4 +138,9 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<FindTypeHierarchyTool>();
     services.AddScoped<SearchMembersByNameTool>();
     services.AddScoped<FindExtensionMethodsTool>();
+    services.AddScoped<FindUsagesTool>();
+    services.AddScoped<FindImplementorsTool>();
+    services.AddScoped<FindDependenciesTool>();
+    services.AddScoped<FindInstantiationsTool>();
+    services.AddScoped<AnalyzeReferencesTool>();
 }
