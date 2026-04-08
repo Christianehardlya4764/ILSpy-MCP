@@ -1,6 +1,7 @@
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.Disassembler;
+using ICSharpCode.Decompiler.Metadata;
 using ICSharpCode.Decompiler.Output;
 using ICSharpCode.Decompiler.TypeSystem;
 using ILSpy.Mcp.Domain.Errors;
@@ -99,6 +100,12 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
                 _logger.LogError(ex, "Assembly file not found: {Assembly}", assemblyPath.Value);
                 throw new AssemblyLoadException(assemblyPath.Value, ex);
             }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to disassemble type {TypeName} from {Assembly}",
@@ -173,6 +180,12 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
             {
                 _logger.LogError(ex, "Assembly file not found: {Assembly}", assemblyPath.Value);
                 throw new AssemblyLoadException(assemblyPath.Value, ex);
+            }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
             }
             catch (Exception ex)
             {
