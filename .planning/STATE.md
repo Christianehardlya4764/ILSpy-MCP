@@ -33,12 +33,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-07)
 
 **Core value:** AI assistants can perform complete .NET static analysis workflows — trace execution, find usages, search strings, and navigate across types and assemblies.
-**Current focus:** Phase 06 — search-cross-assembly
+**Current focus:** Phase 07 — bulk-operations-documentation
 
 ## Current Position
 
 Phase: 7
-Plan: Not started
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -73,6 +73,7 @@ Plan: Not started
 | Phase 05 P02 | 7m | 2 tasks | 23 files |
 | Phase 06 P01 | 6m | 2 tasks | 12 files |
 | Phase 06 P02 | 4m | 2 tasks | 12 files |
+| Phase 07 P02 | 6m | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -111,6 +112,9 @@ Recent decisions affecting current work:
 - [Phase 06]: DirectoryPath value object validates directory existence at creation, mirroring AssemblyPath pattern
 - [Phase 06]: PEFile for lightweight assembly loading in LoadDirectory; CSharpDecompiler for ResolveType (needs full type system)
 - [Phase 06]: Depth-limited directory enumeration avoids SearchOption.AllDirectories for safety
+- [Phase 07]: WholeProjectDecompiler used directly in use case, not via IDecompilerService
+- [Phase 07]: NamespaceFilteredProjectDecompiler overrides IncludeTypeWhenDecompilingProject with fallback
+- [Phase 07]: DIRECTORY_NOT_EMPTY validation as McpToolException (tool-specific, not domain)
 
 ### Pending Todos
 
@@ -133,6 +137,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-08T11:12:38.016Z
-Stopped at: Phase 7 context gathered
-Resume file: .planning/phases/07-bulk-operations-documentation/07-CONTEXT.md
+Last session: 2026-04-08T14:25:00Z
+Stopped at: Completed 07-02-PLAN.md
+Resume file: .planning/phases/07-bulk-operations-documentation/07-02-SUMMARY.md
