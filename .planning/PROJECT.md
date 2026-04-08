@@ -33,12 +33,12 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 - [ ] Load all assemblies from a folder for cross-assembly analysis
 - [ ] String search across assembly IL (ldstr operands)
 - [ ] Constant/enum search via ldc.*/FieldDefinition.HasDefault
-- [ ] Assembly metadata (target framework, PE bitness, strong name, entry point)
-- [ ] Assembly-level and type-level custom attribute inspection
-- [ ] List and extract embedded resources
-- [ ] List nested types and find compiler-generated types
+- [x] Assembly metadata (target framework, PE bitness, strong name, entry point) — Validated in Phase 5: Assembly Inspection
+- [x] Assembly-level and type-level custom attribute inspection — Validated in Phase 5: Assembly Inspection
+- [x] List and extract embedded resources — Validated in Phase 5: Assembly Inspection
+- [x] List nested types and find compiler-generated types — Validated in Phase 5: Assembly Inspection
 - [ ] Bulk decompilation: decompile_namespace, export_project
-- [~] Critical-path test coverage for P0 features and bug fixes — Phase 1 baseline (31 tests), Phase 2 added 11 (42), Phase 3 added 16 (58 total)
+- [~] Critical-path test coverage for P0 features and bug fixes — Phase 1 baseline (31 tests), Phase 2 added 11 (42), Phase 3 added 16 (58), Phase 4 added 24 (82), Phase 5 added 32 (114 total)
 
 ### Out of Scope
 
@@ -92,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-07 after Phase 3 completion — IL disassembly tools (disassemble_type, disassemble_method), 10 MCP tools total, 58 tests*
+*Last updated: 2026-04-08 after Phase 5 completion — assembly inspection tools (get_assembly_metadata, get_assembly_attributes, get_type_attributes, get_member_attributes, list_embedded_resources, extract_resource, find_compiler_generated_types), 22 MCP tools total, 114 tests*
