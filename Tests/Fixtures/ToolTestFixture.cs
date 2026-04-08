@@ -38,6 +38,7 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<IDecompilerService, ILSpyDecompilerService>();
         services.AddScoped<IDisassemblyService, ILSpyDisassemblyService>();
         services.AddScoped<ICrossReferenceService, ILSpyCrossReferenceService>();
+        services.AddScoped<ICrossAssemblyService, ILSpyCrossAssemblyService>();
 
         services.AddScoped<DecompileTypeUseCase>();
         services.AddScoped<DecompileMethodUseCase>();
@@ -53,6 +54,8 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<FindImplementorsUseCase>();
         services.AddScoped<FindDependenciesUseCase>();
         services.AddScoped<FindInstantiationsUseCase>();
+        services.AddScoped<ResolveTypeUseCase>();
+        services.AddScoped<LoadAssemblyDirectoryUseCase>();
 
         services.AddScoped<DecompileTypeTool>();
         services.AddScoped<DecompileMethodTool>();
@@ -69,6 +72,8 @@ public sealed class ToolTestFixture : IDisposable
         services.AddScoped<FindDependenciesTool>();
         services.AddScoped<FindInstantiationsTool>();
         services.AddScoped<AnalyzeReferencesTool>();
+        services.AddScoped<ResolveTypeTool>();
+        services.AddScoped<LoadAssemblyDirectoryTool>();
 
         ServiceProvider = services.BuildServiceProvider();
     }
