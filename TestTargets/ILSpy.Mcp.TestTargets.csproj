@@ -4,5 +4,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\sample.txt" />
+    <EmbeddedResource Include="Resources\sample.bin" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,2 @@
+Hello from embedded resource!
+This is a test text resource for ILSpy MCP.
