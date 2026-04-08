@@ -56,7 +56,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Bulk Operations
 
-- [ ] **BULK-01**: User can decompile all types in a namespace at once
+- [x] **BULK-01**: User can decompile all types in a namespace at once
 - [x] **BULK-02**: User can export a complete .csproj with all decompiled source files to disk
 
 ### Testing
@@ -125,7 +125,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SRCH-02 | Phase 6 | Complete |
 | XASM-01 | Phase 6 | Complete |
 | XASM-02 | Phase 6 | Complete |
-| BULK-01 | Phase 7 | Pending |
+| BULK-01 | Phase 7 | Complete |
 | BULK-02 | Phase 7 | Complete |
 | DOC-01 | Phase 7 | Pending |
 
