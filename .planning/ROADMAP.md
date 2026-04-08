@@ -109,10 +109,10 @@ Plans:
   2. User can search for numeric and enum constants across an assembly
   3. User can resolve which assembly in a directory defines a given type name
   4. User can load all assemblies from a directory for cross-assembly analysis operations
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
-- [ ] 06-01-PLAN.md — ISearchService, IL scanning for ldstr/ldc.*, search_strings and search_constants tools with tests
+- [x] 06-01-PLAN.md — ISearchService, IL scanning for ldstr/ldc.*, search_strings and search_constants tools with tests
 - [ ] 06-02-PLAN.md — ICrossAssemblyService, directory scanning, resolve_type and load_assembly_directory tools with tests
 
 ### Phase 7: Bulk Operations & Documentation
@@ -141,5 +141,5 @@ Note: Phase 5 depends only on Phase 2 (not Phase 3/4), so it could run in parall
 | 3. IL Infrastructure & Disassembly | 1/2 | In Progress|  |
 | 4. Cross-Reference Analysis | 0/2 | Planned    |  |
 | 5. Assembly Inspection | 1/2 | In Progress|  |
-| 6. Search & Cross-Assembly | 0/2 | Planned | - |
+| 6. Search & Cross-Assembly | 1/2 | In Progress|  |
 | 7. Bulk Operations & Documentation | 0/TBD | Not started | - |

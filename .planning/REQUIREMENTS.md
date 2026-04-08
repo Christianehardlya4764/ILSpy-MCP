@@ -29,30 +29,30 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Assembly Metadata
 
-- [ ] **META-01**: User can retrieve assembly metadata (target framework, runtime version, PE bitness, strong name, entry point)
-- [ ] **META-02**: User can list all referenced assemblies with name, version, culture, and public key token
-- [ ] **META-03**: User can inspect assembly-level custom attributes with their arguments
-- [ ] **META-04**: User can inspect custom attributes on types and members (Serializable, DataContract, Route, etc.)
+- [x] **META-01**: User can retrieve assembly metadata (target framework, runtime version, PE bitness, strong name, entry point)
+- [x] **META-02**: User can list all referenced assemblies with name, version, culture, and public key token
+- [x] **META-03**: User can inspect assembly-level custom attributes with their arguments
+- [x] **META-04**: User can inspect custom attributes on types and members (Serializable, DataContract, Route, etc.)
 
 ### Search
 
-- [ ] **SRCH-01**: User can search for string literals (ldstr operands) matching a regex pattern across an assembly
-- [ ] **SRCH-02**: User can search for numeric and enum constants across an assembly
+- [x] **SRCH-01**: User can search for string literals (ldstr operands) matching a regex pattern across an assembly
+- [x] **SRCH-02**: User can search for numeric and enum constants across an assembly
 
 ### Cross-Assembly
 
-- [ ] **XASM-01**: User can resolve which assembly in a directory defines a given type
-- [ ] **XASM-02**: User can load all assemblies from a directory for cross-assembly analysis
+- [x] **XASM-01**: User can resolve which assembly in a directory defines a given type
+- [x] **XASM-02**: User can load all assemblies from a directory for cross-assembly analysis
 
 ### Resources
 
-- [ ] **RES-01**: User can list all embedded resources in an assembly with type and size
-- [ ] **RES-02**: User can extract embedded resource content (text inline, binary as base64)
+- [x] **RES-01**: User can list all embedded resources in an assembly with type and size
+- [x] **RES-02**: User can extract embedded resource content (text inline, binary as base64)
 
 ### Compiler-Generated & Nested Types
 
-- [ ] **TYPE-01**: User can list nested types within a type (or see them in list_assembly_types)
-- [ ] **TYPE-02**: User can find compiler-generated types (DisplayClass, async state machines, closures) filtered by CompilerGenerated attribute
+- [x] **TYPE-01**: User can list nested types within a type (or see them in list_assembly_types)
+- [x] **TYPE-02**: User can find compiler-generated types (DisplayClass, async state machines, closures) filtered by CompilerGenerated attribute
 
 ### Bulk Operations
 
@@ -113,18 +113,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 | XREF-03 | Phase 4 | Complete |
 | XREF-04 | Phase 4 | Complete |
 | TEST-02 | Phase 4 | Complete |
-| META-01 | Phase 5 | Pending |
-| META-02 | Phase 5 | Pending |
-| META-03 | Phase 5 | Pending |
-| META-04 | Phase 5 | Pending |
-| RES-01 | Phase 5 | Pending |
-| RES-02 | Phase 5 | Pending |
-| TYPE-01 | Phase 5 | Pending |
-| TYPE-02 | Phase 5 | Pending |
-| SRCH-01 | Phase 6 | Pending |
-| SRCH-02 | Phase 6 | Pending |
-| XASM-01 | Phase 6 | Pending |
-| XASM-02 | Phase 6 | Pending |
+| META-01 | Phase 5 | Complete |
+| META-02 | Phase 5 | Complete |
+| META-03 | Phase 5 | Complete |
+| META-04 | Phase 5 | Complete |
+| RES-01 | Phase 5 | Complete |
+| RES-02 | Phase 5 | Complete |
+| TYPE-01 | Phase 5 | Complete |
+| TYPE-02 | Phase 5 | Complete |
+| SRCH-01 | Phase 6 | Complete |
+| SRCH-02 | Phase 6 | Complete |
+| XASM-01 | Phase 6 | Complete |
+| XASM-02 | Phase 6 | Complete |
 | BULK-01 | Phase 7 | Pending |
 | BULK-02 | Phase 7 | Pending |
 | DOC-01 | Phase 7 | Pending |
