@@ -49,6 +49,12 @@ public sealed class ILSpyDecompilerService : IDecompilerService
             {
                 throw;
             }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to decompile type {TypeName} from {Assembly}", typeName.FullName, assemblyPath.Value);
@@ -96,9 +102,15 @@ public sealed class ILSpyDecompilerService : IDecompilerService
             {
                 throw;
             }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to decompile method {MethodName} from {TypeName} in {Assembly}", 
+                _logger.LogError(ex, "Failed to decompile method {MethodName} from {TypeName} in {Assembly}",
                     methodName, typeName.FullName, assemblyPath.Value);
                 throw new AssemblyLoadException(assemblyPath.Value, ex);
             }
@@ -126,9 +138,15 @@ public sealed class ILSpyDecompilerService : IDecompilerService
             {
                 throw;
             }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get type info for {TypeName} from {Assembly}", 
+                _logger.LogError(ex, "Failed to get type info for {TypeName} from {Assembly}",
                     typeName.FullName, assemblyPath.Value);
                 throw new AssemblyLoadException(assemblyPath.Value, ex);
             }
@@ -157,6 +175,12 @@ public sealed class ILSpyDecompilerService : IDecompilerService
                     .ToList();
 
                 return types;
+            }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
             }
             catch (Exception ex)
             {
@@ -197,6 +221,12 @@ public sealed class ILSpyDecompilerService : IDecompilerService
                     NamespaceCounts = namespaceCounts,
                     TotalTypeCount = decompiler.TypeSystem.MainModule.TypeDefinitions.Count()
                 };
+            }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
             }
             catch (Exception ex)
             {
@@ -244,9 +274,15 @@ public sealed class ILSpyDecompilerService : IDecompilerService
 
                 return extensionMethods;
             }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to find extension methods for {TypeName} in {Assembly}", 
+                _logger.LogError(ex, "Failed to find extension methods for {TypeName} in {Assembly}",
                     targetType.FullName, assemblyPath.Value);
                 throw new AssemblyLoadException(assemblyPath.Value, ex);
             }
@@ -336,6 +372,12 @@ public sealed class ILSpyDecompilerService : IDecompilerService
                 }
 
                 return results;
+            }
+            catch (MetadataFileNotSupportedException ex)
+            {
+                _logger.LogWarning("Assembly is not a .NET assembly: {Assembly}", assemblyPath.Value);
+                throw new AssemblyLoadException(assemblyPath.Value,
+                    $"'{assemblyPath.FileName}' is not a .NET assembly. The file does not contain managed (.NET) metadata and cannot be decompiled.", ex);
             }
             catch (Exception ex)
             {
