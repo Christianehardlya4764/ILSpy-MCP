@@ -68,7 +68,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Documentation
 
-- [ ] **DOC-01**: README.md updated with all new tools, usage examples, and current feature list
+- [x] **DOC-01**: README.md updated with all new tools, usage examples, and current feature list
 
 ## v2 Requirements
 
@@ -127,7 +127,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | XASM-02 | Phase 6 | Complete |
 | BULK-01 | Phase 7 | Complete |
 | BULK-02 | Phase 7 | Complete |
-| DOC-01 | Phase 7 | Pending |
+| DOC-01 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total
