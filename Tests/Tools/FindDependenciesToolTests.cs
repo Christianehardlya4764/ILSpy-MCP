@@ -63,4 +63,20 @@ public class FindDependenciesToolTests
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().Be("TYPE_NOT_FOUND");
     }
+
+    [Fact]
+    public async Task FindDependencies_NonExistentMember_ThrowsMemberNotFound()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<FindDependenciesTool>();
+
+        var act = () => tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.CrossRef.DataService",
+            "NonExistentMethod",
+            CancellationToken.None);
+
+        var ex = await act.Should().ThrowAsync<McpToolException>();
+        ex.Which.ErrorCode.Should().Be("MEMBER_NOT_FOUND");
+    }
 }
