@@ -487,11 +487,11 @@ public sealed class ILSpyAssemblyInspectionService : IAssemblyInspectionService
                     totalSize = allBytes.Length;
                 }
 
-                // Apply offset/limit on raw bytes
+                // Apply offset/limit on raw bytes (cast to int is safe — allBytes.Length is int)
                 var actualOffset = offset ?? 0;
-                var actualLimit = limit ?? totalSize;
-                if (actualOffset > totalSize) actualOffset = totalSize;
-                var remaining = totalSize - actualOffset;
+                var actualLimit = limit ?? (int)totalSize;
+                if (actualOffset > (int)totalSize) actualOffset = (int)totalSize;
+                var remaining = (int)totalSize - actualOffset;
                 var sliceLength = Math.Min(actualLimit, remaining);
 
                 var slice = new byte[sliceLength];
@@ -517,7 +517,7 @@ public sealed class ILSpyAssemblyInspectionService : IAssemblyInspectionService
                     Content = content,
                     TotalSize = totalSize,
                     Offset = offset.HasValue ? actualOffset : null,
-                    Length = limit.HasValue ? sliceLength : null
+                    Length = limit.HasValue ? (int?)sliceLength : null
                 };
             }
             catch (InvalidOperationException) { throw; }

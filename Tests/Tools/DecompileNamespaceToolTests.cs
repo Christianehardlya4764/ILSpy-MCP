@@ -118,7 +118,7 @@ public class DecompileNamespaceToolTests
              l.TrimStart().StartsWith("delegate ") ||
              l.TrimStart().StartsWith("type ")));
 
-        topLevelEntries.Should().BeLessOrEqualTo(2);
+        topLevelEntries.Should().BeLessThanOrEqualTo(2);
     }
 
     [Fact]
