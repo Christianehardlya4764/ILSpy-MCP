@@ -12,7 +12,7 @@ Requirements for v1.2.0 Tool Polish. Each maps to roadmap phases.
 
 Uniform pagination contract across unbounded tools. Agents get sensible defaults (no forced pagination params), but `truncated`/`total` metadata is always returned so agents know when to page.
 
-- [ ] **PAGE-01**: Uniform pagination contract defined and documented — every list-returning tool accepts `(maxResults, offset)` with sensible defaults, returns `(truncated: bool, total: int)`; documented as a reusable pattern so agents don't need to specify pagination unless they intend to page
+- [x] **PAGE-01**: Uniform pagination contract defined and documented — every list-returning tool accepts `(maxResults, offset)` with sensible defaults, returns `(truncated: bool, total: int)`; documented as a reusable pattern so agents don't need to specify pagination unless they intend to page
 - [ ] **PAGE-02**: All `find_*` tools implement PAGE-01 contract (`find_usages`, `find_implementors`, `find_dependencies`, `find_instantiations`, `find_extension_methods`, `find_compiler_generated_types`)
 - [ ] **PAGE-03**: All `list_*` tools implement PAGE-01 contract (`list_assembly_types`, `list_embedded_resources`)
 - [ ] **PAGE-04**: `get_type_members` implements PAGE-01 contract
@@ -99,7 +99,7 @@ Which phases cover which requirements.
 | DEBT-02 | Phase 8 | Complete |
 | DEBT-03 | Phase 8 | Complete |
 | DEBT-04 | Phase 8 | Complete |
-| PAGE-01 | Phase 9 | Pending |
+| PAGE-01 | Phase 9 | Complete |
 | CLEAN-01 | Phase 9 | Pending |
 | CLEAN-02 | Phase 9 | Pending |
 | CLEAN-03 | Phase 9 | Pending |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Phase 9 context gathered
-last_updated: "2026-04-09T12:41:26.374Z"
+stopped_at: Completed 09-01-PLAN.md
+last_updated: "2026-04-09T14:30:58.479Z"
 last_activity: 2026-04-09 - Plan 08-03 closed DEBT-04 with runtime verification evidence (173/173 tests green) appended to all three Phase 7 SUMMARY files. Phase 08 complete.
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 7
+  completed_plans: 4
 ---
 
 # Project State
@@ -67,6 +67,7 @@ Coverage: 27/27 v1.2 requirements mapped.
 | Phase 08-tech-debt-cleanup P02 | 2 min | 1 tasks | 6 files |
 | Phase 08 P01 | 3m | 4 tasks | 5 files |
 | Phase 08-tech-debt-cleanup P03 | 2m | 2 tasks | 3 files |
+| Phase 09-pagination-contract-structural-cleanup P01 | 14min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 - [Phase 08]: Plan 08-03: 07-03-SUMMARY.md received a symmetric 'Applicable tests: None' Runtime Verification block rather than being skipped — uniform evidence layer across all three Phase 7 plans
 - [Phase 08]: Plan 08-03: Phase-gate validation complete — 173 passed / 0 failed / 0 skipped on full dotnet test ILSpy.Mcp.sln. Phase 08 tech-debt cleanup closed (DEBT-01..04 all resolved)
 - [Quick 260411]: --host/--port CLI flags implemented via switch-mapped AddCommandLine provider registered after WebApplication.CreateBuilder — framework-native precedence chain (CLI > env > appsettings.json > default) instead of hand-rolled parsing. Stdio mode rejects the flags fail-fast with exit code 2. HttpBindingResolver public static helper extracted as unit-test seam (10 new tests, 183/183 total). Adding `return 2;` forced explicit `return 0;` in both transport branches.
+- [Phase 09-01]: PAGINATION.md placed in docs/ rather than .planning/ as project documentation for downstream phases
+- [Phase 09-01]: Cross-reference added inside Principle 4 body as blockquote, not only Reference section
 
 ### Quick Tasks Completed
 
@@ -105,6 +108,6 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 
 ## Session Continuity
 
-Last session: 2026-04-09T12:41:26.370Z
-Stopped at: Phase 9 context gathered
-Resume file: .planning/phases/09-pagination-contract-structural-cleanup/09-CONTEXT.md
+Last session: 2026-04-09T14:30:58.477Z
+Stopped at: Completed 09-01-PLAN.md
+Resume file: None
