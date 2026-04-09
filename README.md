@@ -1398,6 +1398,12 @@ For remote access (analysis VMs, build servers, containers), run in HTTP mode. C
 # From the directory where you extracted the release archive
 ./ILSpy.Mcp --transport http        # Linux / macOS
 .\ILSpy.Mcp.exe --transport http    # Windows
+
+# Bind to loopback only (useful with SSH tunnels)
+./ILSpy.Mcp --transport http --host 127.0.0.1                    # Linux / macOS
+./ILSpy.Mcp --transport http --host 127.0.0.1 --port 8080        # Linux / macOS
+.\ILSpy.Mcp.exe --transport http --host 127.0.0.1                # Windows
+.\ILSpy.Mcp.exe --transport http --host 127.0.0.1 --port 8080    # Windows
 ```
 
 </details>
@@ -1408,6 +1414,12 @@ For remote access (analysis VMs, build servers, containers), run in HTTP mode. C
 ```bash
 # From the repo root
 dotnet run -- --transport http
+
+# Bind to loopback only (useful with SSH tunnels)
+dotnet run -- --transport http --host 127.0.0.1
+
+# Custom host and port together
+dotnet run -- --transport http --host 127.0.0.1 --port 8080
 ```
 
 </details>
@@ -1419,10 +1431,10 @@ The server prints `ILSpy MCP server listening on http://0.0.0.0:3001` and stays 
 | Setting | Default | CLI | Env Variable | appsettings.json |
 |---------|---------|-----|--------------|------------------|
 | Transport | stdio | `--transport http` | `ILSPY_TRANSPORT=http` | `Transport:Type` |
-| Port | 3001 | -- | `Transport__Http__Port` | `Transport:Http:Port` |
-| Host | 0.0.0.0 | -- | `Transport__Http__Host` | `Transport:Http:Host` |
+| Port | 3001 | `--port <value>` | `Transport__Http__Port` | `Transport:Http:Port` |
+| Host | 0.0.0.0 | `--host <value>` | `Transport__Http__Host` | `Transport:Http:Host` |
 
-Transport mode is resolved in priority order: CLI arg > env var > appsettings.json.
+All three settings are resolved in priority order: CLI arg > env var > appsettings.json > default. The `--host` and `--port` flags apply only when HTTP transport is selected — using them with stdio transport is an error and the server will refuse to start.
 
 <details>
 <summary><b>Make HTTP the permanent default via appsettings.json</b></summary>

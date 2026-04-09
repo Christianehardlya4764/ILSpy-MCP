@@ -46,6 +46,15 @@ if (transportMode == "http")
     // HTTP mode - use WebApplication for ASP.NET Core pipeline
     var builder = WebApplication.CreateBuilder(args);
 
+    // Register switch-mapped command-line provider AFTER CreateBuilder so it
+    // overrides env vars and appsettings.json. This gives --host / --port the
+    // precedence: CLI > env > appsettings.json > defaults.
+    builder.Configuration.AddCommandLine(args, new Dictionary<string, string>
+    {
+        { "--host", "Transport:Http:Host" },
+        { "--port", "Transport:Http:Port" },
+    });
+
     // Configure logging to stderr
     builder.Logging.AddConsole(consoleLogOptions =>
     {
@@ -64,18 +73,30 @@ if (transportMode == "http")
     // Register all services
     RegisterServices(builder.Services);
 
-    // Read port/host from config
-    var port = builder.Configuration.GetValue<int>("Transport:Http:Port", 3001);
-    var host = builder.Configuration.GetValue<string>("Transport:Http:Host") ?? "0.0.0.0";
+    // Read port/host via the unit-tested helper so the production code path and
+    // the tests exercise the exact same resolution logic.
+    var (host, port) = HttpBindingResolver.Resolve(builder.Configuration);
 
     var app = builder.Build();
     app.MapMcp("/mcp");
 
     Console.Error.WriteLine($"ILSpy MCP server listening on http://{host}:{port}");
     app.Run($"http://{host}:{port}");
+    return 0;
 }
 else
 {
+    // Reject --host / --port in stdio mode: these flags are HTTP-only and silently
+    // accepting them would hide misconfiguration (especially when transport is
+    // flipped via env var and the flags no longer apply).
+    if (HttpBindingResolver.StdioHasBindingFlags(args))
+    {
+        var offending = args.Contains("--host") ? "--host" : "--port";
+        Console.Error.WriteLine(
+            $"Error: {offending} is only valid with --transport http (current transport: stdio).");
+        return 2;
+    }
+
     // Stdio mode - use Host.CreateApplicationBuilder (original behavior)
     var builder = Host.CreateApplicationBuilder(args);
 
@@ -98,6 +119,7 @@ else
     RegisterServices(builder.Services);
 
     await builder.Build().RunAsync();
+    return 0;
 }
 
 // Shared service registration to avoid duplication
@@ -177,4 +199,28 @@ static void RegisterServices(IServiceCollection services)
     services.AddScoped<LoadAssemblyDirectoryTool>();
     services.AddScoped<ExportProjectTool>();
     services.AddScoped<DecompileNamespaceTool>();
+}
+
+public static class HttpBindingResolver
+{
+    public const string DefaultHost = "0.0.0.0";
+    public const int DefaultPort = 3001;
+
+    public static (string Host, int Port) Resolve(IConfiguration configuration)
+    {
+        var host = configuration.GetValue<string>("Transport:Http:Host");
+        if (string.IsNullOrWhiteSpace(host))
+        {
+            host = DefaultHost;
+        }
+
+        var port = configuration.GetValue<int?>("Transport:Http:Port") ?? DefaultPort;
+
+        return (host, port);
+    }
+
+    public static bool StdioHasBindingFlags(string[] args)
+    {
+        return args.Contains("--host") || args.Contains("--port");
+    }
 }
