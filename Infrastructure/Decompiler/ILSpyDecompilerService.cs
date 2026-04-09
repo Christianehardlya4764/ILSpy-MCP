@@ -200,18 +200,23 @@ public sealed class ILSpyDecompilerService : IDecompilerService
             {
                 var decompiler = new CSharpDecompiler(assemblyPath.Value, _settings);
                 var mainModule = decompiler.TypeSystem.MainModule;
-                var publicTypes = mainModule.TypeDefinitions
-                    .Where(t => 
+                var allPublicTypeDefinitions = mainModule.TypeDefinitions
+                    .Where(t =>
                         // Only include types actually defined in this assembly (not type forwards)
                         t.ParentModule == mainModule &&
                         t.Accessibility == ICSharpCode.Decompiler.TypeSystem.Accessibility.Public)
-                    .Select(MapToTypeInfo)
-                    .Take(100)
                     .ToList();
 
-                var namespaceCounts = publicTypes
+                // Compute namespace counts from ALL public types (not capped list)
+                var namespaceCounts = allPublicTypeDefinitions
                     .GroupBy(t => t.Namespace ?? "(global)")
                     .ToDictionary(g => g.Key, g => g.Count());
+
+                // Cap the detailed type list to avoid excessive output
+                var publicTypes = allPublicTypeDefinitions
+                    .Take(100)
+                    .Select(MapToTypeInfo)
+                    .ToList();
 
                 return new AssemblyInfo
                 {
