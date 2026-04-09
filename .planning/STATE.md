@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 09-02-PLAN.md
-last_updated: "2026-04-09T14:35:24.433Z"
+stopped_at: Completed 09-03-PLAN.md
+last_updated: "2026-04-09T14:45:18.866Z"
 last_activity: 2026-04-09 - Plan 08-03 closed DEBT-04 with runtime verification evidence (173/173 tests green) appended to all three Phase 7 SUMMARY files. Phase 08 complete.
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # Project State
@@ -69,6 +69,7 @@ Coverage: 27/27 v1.2 requirements mapped.
 | Phase 08-tech-debt-cleanup P03 | 2m | 2 tasks | 3 files |
 | Phase 09-pagination-contract-structural-cleanup P01 | 14min | 2 tasks | 2 files |
 | Phase 09-pagination-contract-structural-cleanup P02 | 2min | 2 tasks | 4 files |
+| Phase 09-pagination-contract-structural-cleanup P03 | 6min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,9 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 - [Phase 09-01]: PAGINATION.md placed in docs/ rather than .planning/ as project documentation for downstream phases
 - [Phase 09-01]: Cross-reference added inside Principle 4 body as blockquote, not only Reference section
 - [Phase 09-pagination-contract-structural-cleanup]: Hard delete with no deprecation alias: dispatcher anti-pattern gets no legacy shim per CONTEXT.md and Principle 7 — Per CONTEXT.md and mcp-tool-design Principle 7 — dispatchers hide the option set and advertise overlap with individual tools
+- [Phase 09-pagination-contract-structural-cleanup]: SearchResults<T> kept as-is (not renamed to PagedResult<T>) per CONTEXT.md discretion — formatter computes returned inline — RESEARCH.md Open Q2 recommended keeping SearchResults<T>; no code-cleanliness win from adding Returned property
+- [Phase 09-pagination-contract-structural-cleanup]: NamespaceTypeSummary.TotalTypeCount reports top-level types only (not nested types from exactMatches.Count) — Open Q1 from RESEARCH.md: top-level count is the correct semantic for pagination; including nested types inflated the count (Pitfall 2 avoided)
+- [Phase 09-pagination-contract-structural-cleanup]: PAGE-06 (list_namespace_types pagination) landed in Phase 9, not Phase 11 as roadmap originally planned — CONTEXT.md: apply pagination during rename to avoid two edits to same tool across two phases. Plan 09-04 handles REQUIREMENTS.md/ROADMAP.md ripple.
 
 ### Quick Tasks Completed
 
@@ -110,6 +114,6 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 
 ## Session Continuity
 
-Last session: 2026-04-09T14:35:24.431Z
-Stopped at: Completed 09-02-PLAN.md
+Last session: 2026-04-09T14:45:05.881Z
+Stopped at: Completed 09-03-PLAN.md
 Resume file: None
