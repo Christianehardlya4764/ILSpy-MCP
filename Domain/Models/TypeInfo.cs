@@ -17,6 +17,7 @@ public sealed record TypeInfo
     public IReadOnlyList<EventInfo> Events { get; init; } = Array.Empty<EventInfo>();
     public IReadOnlyList<string> BaseTypes { get; init; } = Array.Empty<string>();
     public IReadOnlyList<string> Interfaces { get; init; } = Array.Empty<string>();
+    public string? DeclaringTypeFullName { get; init; }
 }
 
 public enum TypeKind

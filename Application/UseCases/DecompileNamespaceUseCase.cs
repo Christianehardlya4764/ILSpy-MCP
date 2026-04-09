@@ -74,20 +74,17 @@ public sealed class DecompileNamespaceUseCase
                 }
 
                 // Separate top-level from nested types
-                // Nested types have '+' in FullName (e.g., "Outer+Inner")
                 var nestedByParent = new Dictionary<string, List<TypeInfo>>();
                 var topLevelTypes = new List<TypeInfo>();
 
                 foreach (var type in exactMatches)
                 {
-                    var plusIndex = type.FullName.IndexOf('+');
-                    if (plusIndex >= 0)
+                    if (type.DeclaringTypeFullName != null)
                     {
-                        var parentName = type.FullName[..plusIndex];
-                        if (!nestedByParent.TryGetValue(parentName, out var nested))
+                        if (!nestedByParent.TryGetValue(type.DeclaringTypeFullName, out var nested))
                         {
                             nested = new List<TypeInfo>();
-                            nestedByParent[parentName] = nested;
+                            nestedByParent[type.DeclaringTypeFullName] = nested;
                         }
                         nested.Add(type);
                     }

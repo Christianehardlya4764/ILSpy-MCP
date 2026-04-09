@@ -401,6 +401,7 @@ public sealed class ILSpyDecompilerService : IDecompilerService
             Properties = type.Properties.Select(MapToPropertyInfo).ToList(),
             Fields = type.Fields.Select(MapToFieldInfo).ToList(),
             Events = type.Events.Select(MapToEventInfo).ToList(),
+            DeclaringTypeFullName = type.DeclaringTypeDefinition?.FullName,
             BaseTypes = type.DirectBaseTypes
                 .Where(t => t.Kind == ICSharpCode.Decompiler.TypeSystem.TypeKind.Class && t.FullName != "System.Object")
                 .Select(t => t.FullName)
