@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 09-01-PLAN.md
-last_updated: "2026-04-09T14:30:58.479Z"
+stopped_at: Completed 09-02-PLAN.md
+last_updated: "2026-04-09T14:35:24.433Z"
 last_activity: 2026-04-09 - Plan 08-03 closed DEBT-04 with runtime verification evidence (173/173 tests green) appended to all three Phase 7 SUMMARY files. Phase 08 complete.
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 7
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # Project State
@@ -68,6 +68,7 @@ Coverage: 27/27 v1.2 requirements mapped.
 | Phase 08 P01 | 3m | 4 tasks | 5 files |
 | Phase 08-tech-debt-cleanup P03 | 2m | 2 tasks | 3 files |
 | Phase 09-pagination-contract-structural-cleanup P01 | 14min | 2 tasks | 2 files |
+| Phase 09-pagination-contract-structural-cleanup P02 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,7 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 - [Quick 260411]: --host/--port CLI flags implemented via switch-mapped AddCommandLine provider registered after WebApplication.CreateBuilder — framework-native precedence chain (CLI > env > appsettings.json > default) instead of hand-rolled parsing. Stdio mode rejects the flags fail-fast with exit code 2. HttpBindingResolver public static helper extracted as unit-test seam (10 new tests, 183/183 total). Adding `return 2;` forced explicit `return 0;` in both transport branches.
 - [Phase 09-01]: PAGINATION.md placed in docs/ rather than .planning/ as project documentation for downstream phases
 - [Phase 09-01]: Cross-reference added inside Principle 4 body as blockquote, not only Reference section
+- [Phase 09-pagination-contract-structural-cleanup]: Hard delete with no deprecation alias: dispatcher anti-pattern gets no legacy shim per CONTEXT.md and Principle 7 — Per CONTEXT.md and mcp-tool-design Principle 7 — dispatchers hide the option set and advertise overlap with individual tools
 
 ### Quick Tasks Completed
 
@@ -108,6 +110,6 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 
 ## Session Continuity
 
-Last session: 2026-04-09T14:30:58.477Z
-Stopped at: Completed 09-01-PLAN.md
+Last session: 2026-04-09T14:35:24.431Z
+Stopped at: Completed 09-02-PLAN.md
 Resume file: None
