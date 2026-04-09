@@ -1367,6 +1367,24 @@ Files:
 
 ---
 
+## Design Philosophy
+
+The tools in this project are designed for a specific user: an AI agent working through a large .NET assembly with no prior knowledge of it. That assumption drives every interface decision and distinguishes this project from a general-purpose decompilation library.
+
+**AI agents are lazy.** They will not chase round-trips. They will not infer hidden affordances from tool names. They will read a tool's description and parameter list once, decide whether it fits their current intent, and either call it or ignore it. If the description is mechanical ("Lists all X of kind Y"), the agent has to translate that into a use case on the fly — and it does that badly. If the output is bare ("match found in method 'Process'"), the agent has to make a follow-up call just to figure out *which* `Process` method — and after a few such round-trips it gives up and hallucinates. Every design principle in this project flows from treating both of those behaviors as the default and designing to prevent them.
+
+**Descriptions express scenarios, not mechanics.** A well-written tool description starts with "Use this when…" and names the situation the user is in. "Use this when you just installed a NuGet library and need to understand its overall architecture" is a better description than "Analyzes an assembly's types and namespaces." The scenario framing lets the agent match intent-to-tool in one pass; the mechanical framing forces it to reason about verbs.
+
+**Outputs include nested references by default.** When a tool's result references a type, a method, or a metadata token that the agent will obviously want next, this project resolves it inline. IL disassembly includes the fully-qualified targets of `call` and `newobj` instructions. Match results include the containing type and assembly. Attribute listings include constructor arguments and named properties. The principle is simple: pay a little more work on the server to save the agent an entire round-trip and the confusion it causes.
+
+**Pagination is mandatory for unbounded output.** Any tool whose result count depends on the assembly's contents — lists of types, lists of usages, search matches, dependency graphs — exposes `maxResults` and `offset` parameters and reports `truncated`/`total` in the response. Silent truncation is treated as a bug, not a feature. This is a hard rule.
+
+**Rich, but not flooding.** The tension between "include nested context" and "don't flood the context window" is real. The project resolves it by defaulting to summary views and offering opt-in verbosity for specific items the agent can point at. Default responses should contain enough for the agent to pick the next call correctly — not an entire dump.
+
+See `.claude/skills/mcp-tool-design/SKILL.md` for the developer-facing version of these principles, including the new-tool checklist and the verb-noun naming convention used across the MCP surface.
+
+---
+
 ## HTTP Server Reference
 
 For remote access (analysis VMs, build servers, containers), run in HTTP mode. Client configuration for HTTP is covered in [Step 3](#step-3-configure-your-mcp-client) above.
