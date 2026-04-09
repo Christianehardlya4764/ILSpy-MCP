@@ -100,6 +100,14 @@ None - no external service configuration required.
 - Build and test verification needed when dotnet CLI is available
 - README documentation update planned in 07-03
 
+## Runtime Verification
+
+- **Verified:** 2026-04-09 (Phase 8 DEBT-04)
+- **Command:** `dotnet test ILSpy.Mcp.sln`
+- **Result:** 173 passed, 0 failed, 0 skipped
+- **Phase 7 tests in run:** ExportProjectToolTests (5 tests)
+- **Closes:** Phase 7 self-check "dotnet CLI not available in execution environment" caveat
+
 ---
 *Phase: 07-bulk-operations-documentation*
 *Completed: 2026-04-08*
