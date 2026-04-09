@@ -1,12 +1,12 @@
-# Requirements: ILSpy MCP — v1.1.0 Tool Polish
+# Requirements: ILSpy MCP — v1.2.0 Tool Polish
 
 **Defined:** 2026-04-09
 **Core Value:** AI assistants can perform complete .NET static analysis workflows — trace execution, find usages, search strings, and navigate across types and assemblies.
 **Milestone Goal:** Make the 28 existing tools AI-effective. Close the lazy-agent gaps identified in the 260410 audit so agents succeed on first call without round-tripping.
 
-## v1.1 Requirements
+## v1.2 Requirements
 
-Requirements for v1.1.0 Tool Polish. Each maps to roadmap phases.
+Requirements for v1.2.0 Tool Polish. Each maps to roadmap phases.
 
 ### Pagination
 
@@ -63,7 +63,7 @@ Self-describing match records so the agent doesn't need follow-up calls to under
 
 ## v2 Requirements
 
-Deferred to a future milestone. Tracked but not in v1.1.0 roadmap.
+Deferred to a future milestone. Tracked but not in v1.2.0 roadmap.
 
 ### Session Management
 
@@ -91,43 +91,43 @@ Explicitly excluded. Documented to prevent scope creep.
 
 ## Traceability
 
-Which phases cover which requirements. Populated by roadmapper.
+Which phases cover which requirements.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PAGE-01 | TBD | Pending |
-| PAGE-02 | TBD | Pending |
-| PAGE-03 | TBD | Pending |
-| PAGE-04 | TBD | Pending |
-| PAGE-05 | TBD | Pending |
-| PAGE-06 | TBD | Pending |
-| PAGE-07 | TBD | Pending |
-| PAGE-08 | TBD | Pending |
-| DESC-01 | TBD | Pending |
-| DESC-02 | TBD | Pending |
-| IL-01 | TBD | Pending |
-| IL-02 | TBD | Pending |
-| IL-03 | TBD | Pending |
-| OUTPUT-01 | TBD | Pending |
-| OUTPUT-02 | TBD | Pending |
-| OUTPUT-03 | TBD | Pending |
-| OUTPUT-04 | TBD | Pending |
-| OUTPUT-05 | TBD | Pending |
-| OUTPUT-06 | TBD | Pending |
-| OUTPUT-07 | TBD | Pending |
-| CLEAN-01 | TBD | Pending |
-| CLEAN-02 | TBD | Pending |
-| CLEAN-03 | TBD | Pending |
-| DEBT-01 | TBD | Pending |
-| DEBT-02 | TBD | Pending |
-| DEBT-03 | TBD | Pending |
-| DEBT-04 | TBD | Pending |
+| DEBT-01 | Phase 8 | Pending |
+| DEBT-02 | Phase 8 | Pending |
+| DEBT-03 | Phase 8 | Pending |
+| DEBT-04 | Phase 8 | Pending |
+| PAGE-01 | Phase 9 | Pending |
+| CLEAN-01 | Phase 9 | Pending |
+| CLEAN-02 | Phase 9 | Pending |
+| CLEAN-03 | Phase 9 | Pending |
+| PAGE-02 | Phase 10 | Pending |
+| OUTPUT-01 | Phase 10 | Pending |
+| OUTPUT-02 | Phase 10 | Pending |
+| OUTPUT-03 | Phase 10 | Pending |
+| OUTPUT-04 | Phase 10 | Pending |
+| PAGE-03 | Phase 11 | Pending |
+| PAGE-04 | Phase 11 | Pending |
+| PAGE-05 | Phase 11 | Pending |
+| PAGE-06 | Phase 11 | Pending |
+| OUTPUT-05 | Phase 11 | Pending |
+| IL-01 | Phase 12 | Pending |
+| IL-02 | Phase 12 | Pending |
+| IL-03 | Phase 12 | Pending |
+| OUTPUT-06 | Phase 12 | Pending |
+| OUTPUT-07 | Phase 12 | Pending |
+| PAGE-07 | Phase 12 | Pending |
+| PAGE-08 | Phase 12 | Pending |
+| DESC-01 | Phase 13 | Pending |
+| DESC-02 | Phase 13 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 27 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 27 ⚠️
+- v1.2 requirements: 27 total
+- Mapped to phases: 27
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-09*
-*Last updated: 2026-04-09 after initial definition*
+*Last updated: 2026-04-09 after roadmap creation (Phases 8-13 mapped)*

@@ -1,12 +1,12 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1.0
+milestone: v1.2.0
 milestone_name: Tool Polish
-status: defining_requirements
-stopped_at: Defining requirements
+status: roadmap_defined
+stopped_at: Roadmap defined, awaiting phase planning
 last_updated: "2026-04-09T00:00:00.000Z"
 progress:
-  total_phases: 0
+  total_phases: 6
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -19,15 +19,26 @@ progress:
 
 See: .planning/PROJECT.md (updated 2026-04-09)
 
-**Core value:** AI assistants can perform complete .NET static analysis workflows — trace execution, find usages, search strings, and navigate across types and assemblies.
-**Current focus:** v1.1.0 Tool Polish — defining requirements
+**Core value:** AI assistants can perform complete .NET static analysis workflows - trace execution, find usages, search strings, and navigate across types and assemblies.
+**Current focus:** v1.2.0 Tool Polish - roadmap defined (Phases 8-13), awaiting plan-phase
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 8 (not yet planned)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-04-09 — Milestone v1.1.0 started (driven by 260410 audit)
+Status: Roadmap defined
+Last activity: 2026-04-09 - v1.2.0 roadmap created, 6 phases (8-13), 27 requirements mapped
+
+## v1.2.0 Roadmap Summary
+
+- **Phase 8**: Tech Debt Cleanup (DEBT-01..04)
+- **Phase 9**: Pagination Contract & Structural Cleanup (PAGE-01, CLEAN-01..03)
+- **Phase 10**: Find-Tool Pagination & Match Enrichment (PAGE-02, OUTPUT-01..04)
+- **Phase 11**: List/Get/Search Pagination & Member Enrichment (PAGE-03, PAGE-04, PAGE-05, PAGE-06, OUTPUT-05)
+- **Phase 12**: IL Token Resolution, Search Enrichment & Truncation Reporting (IL-01..03, OUTPUT-06, OUTPUT-07, PAGE-07, PAGE-08)
+- **Phase 13**: Scenario Description Sweep (DESC-01, DESC-02)
+
+Coverage: 27/27 v1.2 requirements mapped.
 
 ## Performance Metrics
 
@@ -60,6 +71,14 @@ Last activity: 2026-04-09 — Milestone v1.1.0 started (driven by 260410 audit)
 
 All v1.0 decisions archived in PROJECT.md Key Decisions table.
 
+**v1.2.0 roadmap decisions (2026-04-09):**
+- **Pagination contract defined once, applied across phases**: PAGE-01 lives in Phase 9 alongside structural cleanup so the contract exists before any tool-group phase applies it. Avoids per-tool re-litigation of the contract.
+- **Structural cleanup in Phase 9, not last**: Renaming `decompile_namespace` -> `list_namespace_types` and dropping `analyze_references` happens before description rewrites and before pagination application so subsequent phases work against the final tool names.
+- **Tech debt as seed phase (Phase 8)**: Chosen over trailing phase because the Phase 7 runtime-verification and architecture-violation fixes affect confidence in the baseline that pagination/enrichment work builds on.
+- **Find-tool pagination + enrichment paired in one phase**: Phase 10 combines PAGE-02 with OUTPUT-01..04 because both touch the same tool files and share the same goal-backward test ("find results are paginable AND self-describing").
+- **IL token resolution paired with search enrichment and source truncation**: Phase 12 groups IL-01..03 with OUTPUT-06/07 and PAGE-07/08 because they share metadata-token resolution infrastructure (search_strings needs surrounding IL context; disassemble tools need token resolution; both are source/IL-returning tools that need truncation reporting).
+- **Description sweep as final phase**: Phase 13 runs last so descriptions are not rewritten twice as tool shapes change in earlier phases.
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit |
@@ -74,5 +93,5 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 ## Session Continuity
 
 Last session: 2026-04-09
-Stopped at: Defining v1.1.0 requirements
+Stopped at: v1.2.0 roadmap defined, awaiting `/gsd:plan-phase 8`
 Resume file: None

@@ -41,7 +41,7 @@ AI assistants can perform complete .NET static analysis workflows — not just r
 
 ### Active
 
-#### Current Milestone: v1.1.0 Tool Polish
+#### Current Milestone: v1.2.0 Tool Polish
 
 **Goal:** Make the 28 existing tools AI-effective — close the lazy-agent gaps identified in the 260410 audit so agents succeed on first call without round-tripping.
 
@@ -115,4 +115,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-09 after v1.1.0 milestone start*
+*Last updated: 2026-04-09 after v1.2.0 milestone start*
