@@ -43,7 +43,10 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   2. `ExportProjectUseCase` compiles with zero references to `Transport` layer types - verifiable by grepping `using` directives in `Application/UseCases/ExportProjectUseCase.cs`
   3. Every Phase 1-6 `SUMMARY.md` file has a complete frontmatter block including `requirements_completed` - verifiable by reading each phase's summary file
   4. All Phase 7 tool tests pass when executed (`dotnet test` green), not just by code inspection - verifiable by running the test suite and checking the run produced actual Phase 7 test results
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 08-01-PLAN.md — DEBT-01 + DEBT-02: normalize FindDependenciesTool error code to MEMBER_NOT_FOUND and eliminate Application->Transport layer violation via new OutputDirectoryNotEmptyException (Wave 1)
+- [ ] 08-02-PLAN.md — DEBT-03: backfill requirements-completed frontmatter in 6 Phase 1-6 SUMMARY files (Wave 1, parallel with 08-01)
+- [ ] 08-03-PLAN.md — DEBT-04: run full dotnet test suite and record Runtime Verification evidence in Phase 7 SUMMARY files (Wave 2, depends on 08-01)
 
 ### Phase 9: Pagination Contract & Structural Cleanup
 **Milestone**: v1.2.0
