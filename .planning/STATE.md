@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 08-01-PLAN.md
-last_updated: "2026-04-09T11:37:51.668Z"
-last_activity: 2026-04-09 - Plan 08-01 closed DEBT-01 (MEMBER_NOT_FOUND wire-code normalization) and DEBT-02 (Application->Transport layer violation); 173/173 tests green
+status: completed
+stopped_at: Completed 08-03-PLAN.md (Phase 08 complete)
+last_updated: "2026-04-09T11:44:14.514Z"
+last_activity: 2026-04-09 - Plan 08-03 closed DEBT-04 with runtime verification evidence (173/173 tests green) appended to all three Phase 7 SUMMARY files. Phase 08 complete.
 progress:
   total_phases: 6
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
 ---
 
 # Project State
@@ -25,9 +25,9 @@ See: .planning/PROJECT.md (updated 2026-04-09)
 ## Current Position
 
 Phase: 08-tech-debt-cleanup
-Plan: 01 complete; 03 remaining
-Status: Phase 08 in progress (2/3 plans complete)
-Last activity: 2026-04-09 - Plan 08-01 closed DEBT-01 (MEMBER_NOT_FOUND wire-code normalization) and DEBT-02 (Application->Transport layer violation); 173/173 tests green
+Plan: 01, 02, 03 all complete
+Status: Phase 08 COMPLETE (3/3 plans). All four DEBT requirements closed: DEBT-01, DEBT-02, DEBT-03, DEBT-04
+Last activity: 2026-04-09 - Plan 08-03 closed DEBT-04 with runtime verification evidence (173/173 tests green) appended to all three Phase 7 SUMMARY files. Phase 08 complete.
 
 ## v1.2.0 Roadmap Summary
 
@@ -66,6 +66,7 @@ Coverage: 27/27 v1.2 requirements mapped.
 **Totals:** 16 plans, ~71m execution, 154 files touched
 | Phase 08-tech-debt-cleanup P02 | 2 min | 1 tasks | 6 files |
 | Phase 08 P01 | 3m | 4 tasks | 5 files |
+| Phase 08-tech-debt-cleanup P03 | 2m | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,9 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 - [Phase 08-tech-debt-cleanup]: Wave 1 parallel-execution staging race accepted: Plan 08-02 edits landed in commit 854e045 under Plan 08-01 attribution — documented in SUMMARY rather than rewriting history
 - [Phase 08]: Plan 08-01: Preserved DIRECTORY_NOT_EMPTY wire code verbatim via new OutputDirectoryNotEmptyException domain type — ExportProjectToolTests.FailsOnNonEmptyDirectory guardrail passes unchanged, clients see byte-identical error on the wire
 - [Phase 08]: Plan 08-01: Domain/Errors/MethodNotFoundException keeps METHOD_NOT_FOUND base code; only the Transport->wire mapping in FindDependenciesTool changed to MEMBER_NOT_FOUND to match FindUsagesTool and GetMemberAttributesTool siblings
+- [Phase 08]: Plan 08-03: Full suite no-filter run chosen as the DEBT-04 evidence artifact — a filtered run would miss regressions outside Phase 7 test classes caused by Plan 01 DEBT-01/02 edits
+- [Phase 08]: Plan 08-03: 07-03-SUMMARY.md received a symmetric 'Applicable tests: None' Runtime Verification block rather than being skipped — uniform evidence layer across all three Phase 7 plans
+- [Phase 08]: Plan 08-03: Phase-gate validation complete — 173 passed / 0 failed / 0 skipped on full dotnet test ILSpy.Mcp.sln. Phase 08 tech-debt cleanup closed (DEBT-01..04 all resolved)
 
 ### Quick Tasks Completed
 
@@ -99,6 +103,6 @@ All v1.0 decisions archived in PROJECT.md Key Decisions table.
 
 ## Session Continuity
 
-Last session: 2026-04-09T11:37:51.665Z
-Stopped at: Completed 08-01-PLAN.md
+Last session: 2026-04-09T11:44:14.512Z
+Stopped at: Completed 08-03-PLAN.md (Phase 08 complete)
 Resume file: None

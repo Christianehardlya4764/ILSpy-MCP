@@ -59,7 +59,7 @@ Self-describing match records so the agent doesn't need follow-up calls to under
 - [x] **DEBT-01**: `FindDependenciesTool` error codes normalized (resolve `METHOD_NOT_FOUND` vs `MEMBER_NOT_FOUND` inconsistency)
 - [x] **DEBT-02**: `ExportProjectUseCase` no longer imports `McpToolException` from Transport layer (fix layered-architecture violation — Application layer must not depend on Transport)
 - [x] **DEBT-03**: v1.0 Phase 1-6 SUMMARY.md frontmatter gaps filled (add missing `requirements_completed` fields)
-- [ ] **DEBT-04**: Phase 7 tool tests are runtime-verified (not just code inspection)
+- [x] **DEBT-04**: Phase 7 tool tests are runtime-verified (not just code inspection)
 
 ## v2 Requirements
 
@@ -98,7 +98,7 @@ Which phases cover which requirements.
 | DEBT-01 | Phase 8 | Complete |
 | DEBT-02 | Phase 8 | Complete |
 | DEBT-03 | Phase 8 | Complete |
-| DEBT-04 | Phase 8 | Pending |
+| DEBT-04 | Phase 8 | Complete |
 | PAGE-01 | Phase 9 | Pending |
 | CLEAN-01 | Phase 9 | Pending |
 | CLEAN-02 | Phase 9 | Pending |
