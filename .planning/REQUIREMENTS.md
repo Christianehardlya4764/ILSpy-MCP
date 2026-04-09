@@ -17,7 +17,7 @@ Uniform pagination contract across unbounded tools. Agents get sensible defaults
 - [ ] **PAGE-03**: All `list_*` tools implement PAGE-01 contract (`list_assembly_types`, `list_embedded_resources`)
 - [ ] **PAGE-04**: `get_type_members` implements PAGE-01 contract
 - [ ] **PAGE-05**: `search_members_by_name` implements PAGE-01 contract
-- [ ] **PAGE-06**: `list_namespace_types` (renamed from `decompile_namespace`) implements PAGE-01 contract (replaces the `maxTypes=200` hard cap)
+- [x] **PAGE-06**: `list_namespace_types` implements PAGE-01 contract (replaces the previous `maxTypes=200` hard cap) — landed in Phase 9 alongside CLEAN-02
 - [ ] **PAGE-07**: Source-returning tools (`decompile_type`, `decompile_method`, `disassemble_type`, `disassemble_method`) report `(truncated, total_lines)` when output exceeds line cap — makes silent truncation visible
 - [ ] **PAGE-08**: Bounded-output tools (`export_project`, `analyze_assembly`) report `truncated`/`total` metadata so silent truncation becomes visible
 
@@ -111,7 +111,7 @@ Which phases cover which requirements.
 | PAGE-03 | Phase 11 | Pending |
 | PAGE-04 | Phase 11 | Pending |
 | PAGE-05 | Phase 11 | Pending |
-| PAGE-06 | Phase 11 | Pending |
+| PAGE-06 | Phase 9 | Complete |
 | OUTPUT-05 | Phase 11 | Pending |
 | IL-01 | Phase 12 | Pending |
 | IL-02 | Phase 12 | Pending |
