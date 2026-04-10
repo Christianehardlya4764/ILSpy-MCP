@@ -131,4 +131,41 @@ public class DisassembleTypeToolTests
         // Interface methods have no body
         result.Should().NotContain(".maxstack");
     }
+
+    [Fact]
+    public async Task DisassembleType_ResolveDeep_ExpandsFieldTypes()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<DisassembleTypeTool>();
+
+        // SimpleClass has string and int32 fields -- resolveDeep should expand them
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            showTokens: false,
+            resolveDeep: true,
+            cancellationToken: CancellationToken.None);
+
+        // Deep resolution should expand IL type abbreviations in field/method signatures
+        result.Should().Contain("System.String");
+    }
+
+    [Fact]
+    public async Task DisassembleType_DefaultResolveDeep_BackwardCompatible()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<DisassembleTypeTool>();
+
+        // Call with default resolveDeep (false) -- existing behavior preserved
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            showTokens: false,
+            cancellationToken: CancellationToken.None);
+
+        result.Should().Contain(".method");
+        result.Should().Contain("GetGreeting");
+        result.Should().Contain("Calculate");
+        result.Should().NotContain(".maxstack");
+    }
 }

@@ -184,4 +184,66 @@ public class DisassembleMethodToolTests
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().BeOneOf("ASSEMBLY_LOAD_FAILED", "INTERNAL_ERROR");
     }
+
+    [Fact]
+    public async Task DisassembleMethod_ResolveDeep_ExpandsILTypeAbbreviations()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<DisassembleMethodTool>();
+
+        // GetGreeting uses string concatenation, so IL will have string references
+        var resultDeep = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            "GetGreeting",
+            showBytes: false,
+            showTokens: false,
+            resolveDeep: true,
+            CancellationToken.None);
+
+        // Deep resolution should expand IL type abbreviations to FQNs
+        resultDeep.Should().Contain("System.String");
+    }
+
+    [Fact]
+    public async Task DisassembleMethod_ResolveDeep_ShowsFullParameterTypes()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<DisassembleMethodTool>();
+
+        // Calculate has int parameters and throws ArgumentException -- cross-assembly calls
+        var resultDeep = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            "Calculate",
+            showBytes: false,
+            showTokens: false,
+            resolveDeep: true,
+            CancellationToken.None);
+
+        // Deep resolution should expand 'string' to 'System.String' in operand positions
+        resultDeep.Should().Contain("System.String");
+    }
+
+    [Fact]
+    public async Task DisassembleMethod_DefaultResolveDeep_BackwardCompatible()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<DisassembleMethodTool>();
+
+        // Call with default resolveDeep (false) -- should produce same output as before
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.SimpleClass",
+            "GetGreeting",
+            showBytes: false,
+            showTokens: false,
+            cancellationToken: CancellationToken.None);
+
+        result.Should().Contain(".method");
+        result.Should().Contain(".maxstack");
+        result.Should().Contain("IL_");
+        result.Should().Contain("ldstr");
+        result.Should().Contain("ret");
+    }
 }
