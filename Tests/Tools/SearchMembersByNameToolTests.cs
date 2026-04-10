@@ -24,7 +24,7 @@ public class SearchMembersByNameToolTests
             _fixture.TestAssemblyPath,
             "Calculate",
             null,
-            cancellationToken: CancellationToken.None);
+            CancellationToken.None);
 
         result.Should().Contain("Search results for 'Calculate'");
         result.Should().Contain("Calculate");
@@ -41,7 +41,7 @@ public class SearchMembersByNameToolTests
             _fixture.TestAssemblyPath,
             "Name",
             "property",
-            cancellationToken: CancellationToken.None);
+            CancellationToken.None);
 
         result.Should().Contain("Search results for 'Name'");
         result.Should().Contain("Name");
@@ -57,7 +57,7 @@ public class SearchMembersByNameToolTests
             _fixture.TestAssemblyPath,
             "ZzzNonExistentMember",
             null,
-            cancellationToken: CancellationToken.None);
+            CancellationToken.None);
 
         result.Should().Contain("Found 0 matching members");
     }
@@ -72,144 +72,9 @@ public class SearchMembersByNameToolTests
             @"C:\NonExistent\Assembly.dll",
             "ToString",
             null,
-            cancellationToken: CancellationToken.None);
+            CancellationToken.None);
 
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().Be("INTERNAL_ERROR");
-    }
-
-    // ===== Pagination tests (Phase 11 — PAGE-05 contract) =====
-
-    [Fact]
-    public async Task Pagination_DefaultReturnsFooter()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var result = await tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            cancellationToken: CancellationToken.None);
-
-        result.Should().Contain("[pagination:");
-        result.Should().Contain("\"truncated\":");
-    }
-
-    [Fact]
-    public async Task Pagination_MaxResultsCapsOutput()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var result = await tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: 1,
-            cancellationToken: CancellationToken.None);
-
-        result.Should().Contain("[pagination:");
-        result.Should().Contain("\"returned\":1");
-    }
-
-    [Fact]
-    public async Task Pagination_OffsetSkipsItems()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var defaultResult = await tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: 1,
-            cancellationToken: CancellationToken.None);
-
-        var offsetResult = await tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: 1,
-            offset: 1,
-            cancellationToken: CancellationToken.None);
-
-        // The two single-item pages should show different members (sorted by type then name)
-        var defaultMemberLines = defaultResult.Split('\n').Where(l => l.StartsWith("  [")).ToList();
-        var offsetMemberLines = offsetResult.Split('\n').Where(l => l.StartsWith("  [")).ToList();
-
-        defaultMemberLines.Should().HaveCount(1);
-        offsetMemberLines.Should().HaveCount(1);
-        defaultMemberLines[0].Should().NotBe(offsetMemberLines[0]);
-    }
-
-    [Fact]
-    public async Task Pagination_TruncatedTrueWhenMoreExist()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var result = await tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: 1,
-            cancellationToken: CancellationToken.None);
-
-        result.Should().Contain("\"truncated\":true");
-    }
-
-    [Fact]
-    public async Task Pagination_ExceedingCapRejectsWithInvalidParameter()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var act = () => tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: 501,
-            cancellationToken: CancellationToken.None);
-
-        var ex = await act.Should().ThrowAsync<McpToolException>();
-        ex.Which.ErrorCode.Should().Be("INVALID_PARAMETER");
-        ex.Which.Message.Should().Contain("500");
-    }
-
-    [Fact]
-    public async Task Pagination_ZeroMaxResultsRejects()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var act = () => tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: 0,
-            cancellationToken: CancellationToken.None);
-
-        var ex = await act.Should().ThrowAsync<McpToolException>();
-        ex.Which.ErrorCode.Should().Be("INVALID_PARAMETER");
-        ex.Which.Message.Should().Contain(">= 1");
-    }
-
-    [Fact]
-    public async Task Pagination_NegativeMaxResultsRejects()
-    {
-        using var scope = _fixture.CreateScope();
-        var tool = scope.ServiceProvider.GetRequiredService<SearchMembersByNameTool>();
-
-        var act = () => tool.ExecuteAsync(
-            _fixture.TestAssemblyPath,
-            "Get",
-            null,
-            maxResults: -1,
-            cancellationToken: CancellationToken.None);
-
-        var ex = await act.Should().ThrowAsync<McpToolException>();
-        ex.Which.ErrorCode.Should().Be("INVALID_PARAMETER");
-        ex.Which.Message.Should().Contain(">= 1");
     }
 }
