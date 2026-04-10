@@ -1,5 +1,6 @@
 using System.Text;
 using ILSpy.Mcp.Application.Configuration;
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -10,14 +11,14 @@ using Microsoft.Extensions.Options;
 namespace ILSpy.Mcp.Application.UseCases;
 
 /// <summary>
-/// Use case for decompiling all types in a namespace into a summary listing.
+/// Use case for listing all types in a namespace with pagination support.
 /// </summary>
-public sealed class DecompileNamespaceUseCase
+public sealed class ListNamespaceTypesUseCase
 {
     private readonly IDecompilerService _decompiler;
     private readonly ITimeoutService _timeout;
     private readonly IConcurrencyLimiter _limiter;
-    private readonly ILogger<DecompileNamespaceUseCase> _logger;
+    private readonly ILogger<ListNamespaceTypesUseCase> _logger;
     private readonly ILSpyOptions _options;
 
     private static readonly Dictionary<TypeKind, int> KindOrder = new()
@@ -30,11 +31,11 @@ public sealed class DecompileNamespaceUseCase
         [TypeKind.Unknown] = 5,
     };
 
-    public DecompileNamespaceUseCase(
+    public ListNamespaceTypesUseCase(
         IDecompilerService decompiler,
         ITimeoutService timeout,
         IConcurrencyLimiter limiter,
-        ILogger<DecompileNamespaceUseCase> logger,
+        ILogger<ListNamespaceTypesUseCase> logger,
         IOptions<ILSpyOptions> options)
     {
         _decompiler = decompiler;
@@ -47,7 +48,8 @@ public sealed class DecompileNamespaceUseCase
     public async Task<string> ExecuteAsync(
         string assemblyPath,
         string namespaceName,
-        int maxTypes = 200,
+        int maxResults = 100,
+        int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
@@ -95,23 +97,26 @@ public sealed class DecompileNamespaceUseCase
                 }
 
                 // Sort top-level types by kind then alphabetically
-                var sorted = topLevelTypes
+                var allSorted = topLevelTypes
                     .OrderBy(t => KindOrder.GetValueOrDefault(t.Kind, 5))
                     .ThenBy(t => t.FullName, StringComparer.OrdinalIgnoreCase)
-                    .Take(maxTypes)
+                    .ToList();
+                var totalTopLevelTypes = allSorted.Count;
+                var page = allSorted
+                    .Skip(offset)
+                    .Take(maxResults)
                     .ToList();
 
-                // Build summary entries
-                var entries = sorted.Select(t => BuildEntry(t, nestedByParent)).ToList();
+                var entries = page.Select(t => BuildEntry(t, nestedByParent)).ToList();
 
                 var summary = new NamespaceTypeSummary
                 {
                     Namespace = namespaceName,
                     Types = entries,
-                    TotalTypeCount = exactMatches.Count,
+                    TotalTypeCount = totalTopLevelTypes,  // top-level types only, not exactMatches.Count
                 };
 
-                var result = FormatOutput(summary);
+                var result = FormatOutput(summary, totalTopLevelTypes, offset, maxResults);
                 if (result.Length > _options.MaxDecompilationSize)
                 {
                     result = result[.._options.MaxDecompilationSize]
@@ -179,28 +184,52 @@ public sealed class DecompileNamespaceUseCase
         return $"{method.ReturnType} {method.Name}({parameters})";
     }
 
-    private static string FormatOutput(NamespaceTypeSummary summary)
+    private static string FormatOutput(
+        NamespaceTypeSummary summary,
+        int totalTopLevelTypes,
+        int offset,
+        int maxResults)
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"Namespace: {summary.Namespace} ({summary.TotalTypeCount} types)");
 
-        // Group by kind
+        // Header — three branches:
+        // 1. Namespace exists but zero top-level types (rare — nested-only namespace)
+        // 2. Namespace exists, types exist, but current page is empty (offset >= total)
+        // 3. Normal case
+        var returned = summary.Types.Count;
+        if (totalTopLevelTypes == 0)
+        {
+            sb.AppendLine($"Namespace: {summary.Namespace} (0 top-level types)");
+        }
+        else if (returned == 0)
+        {
+            sb.AppendLine($"Namespace: {summary.Namespace} ({totalTopLevelTypes} top-level types, offset {offset} is beyond last page)");
+        }
+        else
+        {
+            var rangeStart = offset + 1;
+            var rangeEnd = offset + returned;
+            sb.AppendLine($"Namespace: {summary.Namespace} ({totalTopLevelTypes} top-level types, showing {rangeStart}-{rangeEnd})");
+        }
+
+        // Body — existing grouping by kind, preserved verbatim
         var groups = summary.Types
             .GroupBy(t => t.Kind)
             .OrderBy(g => KindOrder.GetValueOrDefault(g.Key, 5));
-
         foreach (var group in groups)
         {
             sb.AppendLine();
             sb.AppendLine($"{GetKindGroupName(group.Key)}:");
-
             foreach (var entry in group)
             {
                 WriteEntry(sb, entry, indent: "  ");
             }
         }
 
-        return sb.ToString().TrimEnd();
+        // Footer — the parseable contract. ALWAYS present.
+        PaginationEnvelope.AppendFooter(sb, totalTopLevelTypes, returned, offset);
+
+        return sb.ToString();
     }
 
     private static void WriteEntry(StringBuilder sb, TypeSummaryEntry entry, string indent)
