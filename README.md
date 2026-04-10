@@ -25,25 +25,25 @@ Ask your favourite AI Chatbot to explain how to use ILSpy MCP Server: [![ChatGPT
 
 - [What is this?](#what-is-this)
 - [Features](#features)
-- [Supported MCP Clients](#supported-mcp-clients)
-- [Quick Start](#quick-start)
-  - [Step 1: Get the Binary](#step-1-get-the-binary)
-  - [Step 2: Choose Your Transport](#step-2-choose-your-transport)
-  - [Step 3: Configure Your MCP Client](#step-3-configure-your-mcp-client)
-- [How It Works](#how-it-works)
-- [Usage Examples](#usage-examples)
-- [Tool Reference](#tool-reference)
+- [Supported MCP clients](#supported-mcp-clients)
+- [Quick start](#quick-start)
+  - [Step 1: Get the binary](#step-1-get-the-binary)
+  - [Step 2: Choose your transport](#step-2-choose-your-transport)
+  - [Step 3: Configure your MCP client](#step-3-configure-your-mcp-client)
+- [How it works](#how-it-works)
+- [Usage examples](#usage-examples)
+- [Tool reference](#tool-reference)
   - [Decompilation](#decompilation)
-  - [IL Disassembly](#il-disassembly)
-  - [Type Analysis](#type-analysis)
-  - [Cross-References](#cross-references)
-  - [Assembly Inspection](#assembly-inspection)
+  - [IL disassembly](#il-disassembly)
+  - [Type analysis](#type-analysis)
+  - [Cross-references](#cross-references)
+  - [Assembly inspection](#assembly-inspection)
   - [Search](#search)
-  - [Cross-Assembly](#cross-assembly)
-  - [Bulk Operations](#bulk-operations)
-- [HTTP Server Reference](#http-server-reference)
-- [Configuration Reference](#configuration-reference)
-- [Comparison with Other Servers](#comparison-with-other-net-decompilation-mcp-servers)
+  - [Cross-assembly](#cross-assembly)
+  - [Bulk operations](#bulk-operations)
+- [HTTP server reference](#http-server-reference)
+- [Configuration reference](#configuration-reference)
+- [Comparison with other servers](#comparison-with-other-net-decompilation-mcp-servers)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
@@ -51,30 +51,30 @@ Ask your favourite AI Chatbot to explain how to use ILSpy MCP Server: [![ChatGPT
 
 ## What is this?
 
-ILSpy MCP Server lets AI assistants decompile, inspect, and analyze .NET assemblies through natural language. It wraps [ICSharpCode.Decompiler](https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.Decompiler) -- the same decompilation engine that powers ILSpy -- as a [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server. No GUI needed. Your AI assistant calls the decompiler directly and gets back structured results it can reason over.
+ILSpy MCP Server wraps [ICSharpCode.Decompiler](https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.Decompiler) (the engine behind ILSpy) as a [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server. Your AI assistant calls the decompiler directly and gets back structured results it can reason over. No GUI needed.
 
 ## Features
 
-**28 tools** across 8 categories:
+**27 tools** across 8 categories:
 
-- **Decompilation** -- Decompile types, methods, and entire namespaces to C# source
-- **IL Disassembly** -- View raw CIL/IL at the type or method level
-- **Type Analysis** -- List types, inspect members, trace hierarchies, find implementors, discover extension methods
-- **Cross-References** -- Find usages, dependencies, instantiation sites, and combined reference analysis
-- **Assembly Inspection** -- Read metadata, custom attributes (assembly/type/member), embedded resources, compiler-generated types
-- **Search** -- Search string literals and numeric constants in IL bytecode
-- **Cross-Assembly** -- Resolve types across assemblies, load entire directories
-- **Bulk Operations** -- Export assemblies as complete C# projects
+- **Decompilation** -- types, methods, and entire namespaces to C# source
+- **IL disassembly** -- raw CIL/IL at the type or method level
+- **Type analysis** -- list types, inspect members, trace hierarchies, find implementors, discover extension methods
+- **Cross-references** -- usages, dependencies, instantiation sites
+- **Assembly inspection** -- metadata, custom attributes (assembly/type/member), embedded resources, compiler-generated types
+- **Search** -- string literals and numeric constants in IL bytecode
+- **Cross-assembly** -- resolve types across assemblies, load entire directories
+- **Bulk operations** -- export assemblies as complete C# projects
 
-## Supported MCP Clients
+## Supported MCP clients
 
 Works with any MCP-compatible client. We recommend **Claude Code**.
 
 Amazon Q Developer CLI, Augment Code, Claude, **Claude Code** (recommended), Cline, Codex, Copilot CLI, Crush, Cursor, Gemini CLI, Kilo Code, Kiro, LM Studio, Opencode, Qodo Gen, Qwen Coder, Roo Code, Trae, VS Code, VS Code Insiders, Warp, Windsurf, Zed, and more.
 
-## Quick Start
+## Quick start
 
-### Step 1: Get the Binary
+### Step 1: Get the binary
 
 Choose how you want to install:
 
@@ -132,7 +132,7 @@ Choose how you want to install:
 
 </details>
 
-### Step 2: Choose Your Transport
+### Step 2: Choose your transport
 
 Use the flowchart below to decide how to set up the server:
 
@@ -152,7 +152,7 @@ flowchart TD
 
 **HTTP** -- You start the server manually on a remote machine. Use this for analysis VMs, build servers, or Docker containers. See [HTTP Server Reference](#http-server-reference) for startup commands and configuration.
 
-### Step 3: Configure Your MCP Client
+### Step 3: Configure your MCP client
 
 Pick your client and follow the steps.
 
@@ -251,15 +251,15 @@ Consult your client's documentation for how to add MCP servers.
 
 </details>
 
-## How It Works
+## How it works
 
 You don't interact with ILSpy MCP directly. Your MCP client (Claude Code, Cursor, etc.) launches and communicates with it automatically in the background.
 
-To analyze a .NET assembly, just **mention the full path to the DLL** in your chat. The AI assistant will call the appropriate ILSpy tools for you.
+To analyze a .NET assembly, mention the full path to the DLL in your chat. The AI assistant picks the right tools automatically.
 
-## Usage Examples
+## Usage examples
 
-Ask your AI assistant to work with .NET assemblies using natural language. Replace the paths with actual DLL paths on your machine:
+Replace the paths below with actual DLL paths on your machine:
 
 - **Decompile a type** -- "Decompile the String class from `C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.0\System.Runtime.dll`"
 - **List all types** -- "List all types in `C:\Users\me\projects\MyApp\bin\Debug\net10.0\MyLibrary.dll`"
@@ -278,7 +278,14 @@ Ask your AI assistant to work with .NET assemblies using natural language. Repla
 - **Find compiler-generated types** -- "Show me the async state machines and closures in `C:\repos\MyApp\bin\Debug\net10.0\MyApp.dll`"
 - **Export a project** -- "Export `C:\repos\MyApp\bin\Debug\net10.0\MyApp.dll` as a C# project to `C:\temp\MyApp-decompiled`"
 
-## Tool Reference
+## Tool reference
+
+> **Pagination:** Tools that return lists (e.g., `list_namespace_types`,
+> `find_*`, `search_*`) accept `maxResults` and `offset` parameters with
+> sensible defaults and always include a trailing `[pagination:{...}]`
+> footer reporting `total`, `returned`, `truncated`, and `nextOffset`.
+> See [`docs/PAGINATION.md`](docs/PAGINATION.md) for the complete contract,
+> including the hard ceiling and worked examples.
 
 ### Decompilation
 
@@ -373,7 +380,7 @@ public async Task<User> GetByIdAsync(int id)
 
 ---
 
-#### `decompile_namespace`
+#### `list_namespace_types`
 
 List all types in a namespace with full signatures, member counts, and public method signatures. Returns a summary -- use `decompile_type` to get full source for individual types.
 
@@ -381,7 +388,8 @@ List all types in a namespace with full signatures, member counts, and public me
 |-----------|------|----------|-------------|
 | `assemblyPath` | string | Yes | Path to the .NET assembly file |
 | `namespaceName` | string | Yes | Full namespace name (e.g., `System.Collections.Generic`) |
-| `maxTypes` | int | No | Maximum number of types to return (default: 200) |
+| `maxResults` | int | No | Maximum number of results to return (default: 100) |
+| `offset` | int | No | Number of results to skip for pagination (default: 0) |
 
 <details>
 <summary>Example</summary>
@@ -422,7 +430,7 @@ OrderService : IOrderService (Class, 3 members)
 
 ---
 
-### IL Disassembly
+### IL disassembly
 
 #### `disassemble_type`
 
@@ -519,11 +527,11 @@ Get raw CIL/IL disassembly of a specific method with opcodes, labels, and stack 
 
 ---
 
-### Type Analysis
+### Type analysis
 
 #### `list_assembly_types`
 
-List all types in an assembly, organized by namespace. Essential first step for exploring unfamiliar libraries.
+List all types in an assembly, organized by namespace. Start here when exploring an unfamiliar library.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -559,7 +567,7 @@ Types in namespace 'MyLibrary.Services': 5
 
 #### `get_type_members`
 
-Get the complete API surface of a type -- constructors, methods, properties, fields, and events -- without implementation details.
+Get the complete API surface of a type (constructors, methods, properties, fields, events) without implementation details.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -604,7 +612,7 @@ Fields:
 
 #### `find_type_hierarchy`
 
-Find inheritance relationships -- base classes, implemented interfaces, and derived types.
+Find inheritance relationships: base classes, implemented interfaces, and derived types.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -776,7 +784,7 @@ Members matching 'Async': 4
 
 ---
 
-### Cross-References
+### Cross-references
 
 #### `find_usages`
 
@@ -881,46 +889,11 @@ Instantiations of System.Net.Http.HttpClient: 2
 
 ---
 
-#### `analyze_references`
-
-Unified cross-reference analysis tool. Routes to the appropriate analysis based on `analysisType` parameter. Use for exploratory analysis when you are not sure which specific tool to call.
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `assemblyPath` | string | Yes | Path to the .NET assembly file |
-| `analysisType` | string | Yes | Type of analysis: `usages`, `implementors`, `dependencies`, or `instantiations` |
-| `typeName` | string | Yes | Full name of the type to analyze |
-| `memberName` | string | No | Member name (required for `usages`, optional for `dependencies`) |
-
-<details>
-<summary>Example</summary>
-
-**Input:**
-```json
-{
-  "assemblyPath": "C:\\libs\\MyLibrary.dll",
-  "analysisType": "implementors",
-  "typeName": "MyLibrary.Services.IUserService"
-}
-```
-
-**Output (trimmed):**
-```
-Implementors of MyLibrary.Services.IUserService:
-
-  MyLibrary.Services.UserService (implements)
-  MyLibrary.Services.CachedUserService (implements)
-```
-
-</details>
-
----
-
-### Assembly Inspection
+### Assembly inspection
 
 #### `analyze_assembly`
 
-Get a high-level overview of an assembly's architecture -- main namespaces, key public types, and design patterns.
+Get an overview of an assembly's architecture: main namespaces, public types, and design patterns.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -1127,7 +1100,7 @@ Embedded resources: 3
 
 #### `extract_resource`
 
-Extract embedded resource content -- text displayed inline, binary as base64. Supports offset and limit for paginated binary extraction.
+Extract embedded resource content. Text is displayed inline, binary as base64. Supports offset and limit for paginated binary extraction.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -1244,7 +1217,7 @@ Constant matches for 404: 2
 
 ---
 
-### Cross-Assembly
+### Cross-assembly
 
 #### `resolve_type`
 
@@ -1320,7 +1293,7 @@ Skipped:
 
 ---
 
-### Bulk Operations
+### Bulk operations
 
 #### `export_project`
 
@@ -1367,15 +1340,15 @@ Files:
 
 ---
 
-## Design Philosophy
+## Design philosophy
 
 The tools in this project are designed for a specific user: an AI agent working through a large .NET assembly with no prior knowledge of it. That assumption drives every interface decision and distinguishes this project from a general-purpose decompilation library.
 
-**AI agents are lazy.** They will not chase round-trips. They will not infer hidden affordances from tool names. They will read a tool's description and parameter list once, decide whether it fits their current intent, and either call it or ignore it. If the description is mechanical ("Lists all X of kind Y"), the agent has to translate that into a use case on the fly — and it does that badly. If the output is bare ("match found in method 'Process'"), the agent has to make a follow-up call just to figure out *which* `Process` method — and after a few such round-trips it gives up and hallucinates. Every design principle in this project flows from treating both of those behaviors as the default and designing to prevent them.
+**AI agents are lazy.** They will not chase round-trips. They will not infer hidden affordances from tool names. They will read a tool's description and parameter list once, decide whether it fits their current intent, and either call it or ignore it. If the description is mechanical ("Lists all X of kind Y"), the agent has to translate that into a use case on the fly — and it does that badly. If the output is bare ("match found in method 'Process'"), the agent has to make a follow-up call just to figure out *which* `Process` method — and after a few such round-trips it gives up and hallucinates. The rest of the design follows from these two assumptions.
 
 **Descriptions express scenarios, not mechanics.** A well-written tool description starts with "Use this when…" and names the situation the user is in. "Use this when you just installed a NuGet library and need to understand its overall architecture" is a better description than "Analyzes an assembly's types and namespaces." The scenario framing lets the agent match intent-to-tool in one pass; the mechanical framing forces it to reason about verbs.
 
-**Outputs include nested references by default.** When a tool's result references a type, a method, or a metadata token that the agent will obviously want next, this project resolves it inline. IL disassembly includes the fully-qualified targets of `call` and `newobj` instructions. Match results include the containing type and assembly. Attribute listings include constructor arguments and named properties. The principle is simple: pay a little more work on the server to save the agent an entire round-trip and the confusion it causes.
+**Outputs include nested references by default.** When a tool's result references a type, a method, or a metadata token that the agent will obviously want next, this project resolves it inline. IL disassembly includes the fully-qualified targets of `call` and `newobj` instructions. Match results include the containing type and assembly. Attribute listings include constructor arguments and named properties. The tradeoff is worth it: spend more work on the server to save the agent a round-trip.
 
 **Pagination is mandatory for unbounded output.** Any tool whose result count depends on the assembly's contents — lists of types, lists of usages, search matches, dependency graphs — exposes `maxResults` and `offset` parameters and reports `truncated`/`total` in the response. Silent truncation is treated as a bug, not a feature. This is a hard rule.
 
@@ -1385,9 +1358,9 @@ See `.claude/skills/mcp-tool-design/SKILL.md` for the developer-facing version o
 
 ---
 
-## HTTP Server Reference
+## HTTP server reference
 
-For remote access (analysis VMs, build servers, containers), run in HTTP mode. Client configuration for HTTP is covered in [Step 3](#step-3-configure-your-mcp-client) above.
+For remote access (analysis VMs, build servers, containers), run in HTTP mode. See [Step 3](#step-3-configure-your-mcp-client) for client configuration.
 
 ### Starting the HTTP server
 
@@ -1481,7 +1454,7 @@ sudo systemctl enable --now ilspy-mcp
 Start-Process -NoNewWindow -FilePath .\ILSpy.Mcp.exe -ArgumentList "--transport http"
 ```
 
-**Docker / tmux / screen** also work -- the server is a single self-contained binary with no external dependencies.
+**Docker / tmux / screen** also work. The server is a single self-contained binary with no external dependencies.
 
 </details>
 
@@ -1493,7 +1466,7 @@ No authentication is built in. The server binds to `0.0.0.0` (all interfaces) by
 - VPN or SSH tunnel between client and server
 - Binding to `127.0.0.1` and using SSH port forwarding
 
-## Configuration Reference
+## Configuration reference
 
 | Variable | Default | Description |
 |----------|---------|-------------|
@@ -1504,9 +1477,9 @@ No authentication is built in. The server binds to `0.0.0.0` (all interfaces) by
 | `Transport__Http__Port` | 3001 | HTTP server port |
 | `Transport__Http__Host` | 0.0.0.0 | HTTP server bind address |
 
-## Comparison with Other .NET Decompilation MCP Servers
+## Comparison with other .NET decompilation MCP servers
 
-Several projects expose .NET decompilation over MCP. Here's how ILSpy MCP Server compares:
+Several projects expose .NET decompilation over MCP:
 
 | | **ILSpy MCP Server** | [DnSpy-MCPserver-Extension](https://github.com/AgentSmithers/DnSpy-MCPserver-Extension) | [DecompilerServer](https://github.com/pardeike/DecompilerServer) | [ilspy-mcp-server](https://github.com/Borealin/ilspy-mcp-server) | [@iffrce/mcp-dotnetdc](https://www.npmjs.com/package/@iffrce/mcp-dotnetdc) |
 |---|---|---|---|---|---|
@@ -1533,16 +1506,19 @@ Several projects expose .NET decompilation over MCP. Here's how ILSpy MCP Server
 | **Member search** | Yes | Yes | Yes | No | No |
 | **Read-only by design** | Yes (never modifies files) | Has renaming/edit capabilities | Yes | Yes | Yes |
 
-### Why ILSpy MCP Server?
+### Why this one?
 
-- **Zero-dependency install.** Download a single self-contained binary -- no .NET SDK, no Python, no Node.js, no ILSpy CLI to install separately. It just works.
-- **Actively maintained engine.** Built on ICSharpCode.Decompiler, the same library that powers ILSpy -- under active development with regular releases. Not dependent on abandoned tools like dnSpy.
-- **Remote analysis via HTTP.** Run the server on an analysis VM or build server and connect from anywhere. No other .NET decompilation MCP server supports this out of the box.
-- **True cross-platform support.** Pre-built binaries for Windows, Linux, and macOS on both x64 and ARM64. No Windows-only dependencies.
-- **Direct engine integration.** Calls the decompiler library in-process for maximum speed and fidelity. No shelling out to CLI tools, no parsing text output, no intermediate formats.
-- **Cross-reference analysis.** The only .NET decompilation MCP server that can trace usages, find implementors, map dependencies, and locate instantiation sites -- all via IL bytecode scanning.
-- **Deep assembly inspection.** Read assembly metadata, custom attributes at every scope level, extract embedded resources, and discover compiler-generated types with parent context. No other .NET decompilation MCP server exposes this.
-- **Safe by design.** Every operation is read-only. The server never writes to disk (except `export_project`), never modifies assemblies, never executes the code it analyzes.
+The comparison table above covers feature differences. Here is what it does not show:
+
+You download one binary and run it. No .NET SDK, no Python, no Node.js required. Pre-built binaries exist for Windows, Linux, and macOS on x64 and ARM64.
+
+The server calls ICSharpCode.Decompiler in-process rather than shelling out to CLI tools, so there is no text-parsing layer in between. ICSharpCode.Decompiler is under active development with regular releases, unlike dnSpy which was abandoned in 2020.
+
+HTTP transport lets you run the server on a VM or build server and connect remotely. None of the other servers in the table support this.
+
+Cross-reference analysis (tracing usages, finding implementors, mapping dependencies) and assembly inspection (metadata, attributes, embedded resources, compiler-generated types) are not available in any of the other servers either.
+
+Every operation is read-only. The server never modifies assemblies or executes the code it analyzes. The one exception is `export_project`, which writes decompiled source files to a directory you specify.
 
 ## Acknowledgements
 

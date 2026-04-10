@@ -127,7 +127,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 | 7. Bulk Operations & Documentation | v1.0 | 3/3 | Complete | 2026-04-08 |
 | 8. Tech Debt Cleanup | v1.2.0 | 0/? | Not started | - |
 | 9. Pagination Contract & Structural Cleanup | v1.2.0 | 0/? | Not started | - |
-| 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 0/? | Not started | - |
+| 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 1/5 | In Progress|  |
 | 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 0/? | Not started | - |
 | 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 0/? | Not started | - |
 | 13. Scenario Description Sweep | v1.2.0 | 0/? | Not started | - |
