@@ -1,4 +1,5 @@
 using System.Text;
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -31,6 +32,8 @@ public sealed class ListEmbeddedResourcesUseCase
 
     public async Task<string> ExecuteAsync(
         string assemblyPath,
+        int maxResults = 100,
+        int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
@@ -43,7 +46,13 @@ public sealed class ListEmbeddedResourcesUseCase
             {
                 using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
                 var resources = await _inspection.ListEmbeddedResourcesAsync(assembly, timeout.Token);
-                return FormatResources(resources);
+
+                var sorted = resources.OrderBy(r => r.Name, StringComparer.OrdinalIgnoreCase).ToList();
+                var total = sorted.Count;
+                var page = sorted.Skip(offset).Take(maxResults).ToList();
+                var returned = page.Count;
+
+                return FormatResources(page, total, returned, offset);
             }, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -67,26 +76,28 @@ public sealed class ListEmbeddedResourcesUseCase
         }
     }
 
-    private static string FormatResources(IReadOnlyList<ResourceInfo> resources)
+    private static string FormatResources(IReadOnlyList<ResourceInfo> resources, int total, int returned, int offset)
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"# Embedded Resources ({resources.Count})");
+        sb.AppendLine($"# Embedded Resources ({total})");
         sb.AppendLine();
 
-        if (resources.Count == 0)
+        if (total == 0)
         {
             sb.AppendLine("No embedded resources found.");
-            return sb.ToString();
         }
-
-        foreach (var resource in resources)
+        else
         {
-            sb.AppendLine($"- {resource.Name}");
-            sb.AppendLine($"  Type: {resource.ResourceType}");
-            sb.AppendLine($"  Size: {resource.Size} bytes");
-            sb.AppendLine($"  Visibility: {(resource.IsPublic ? "Public" : "Private")}");
+            foreach (var resource in resources)
+            {
+                sb.AppendLine($"- {resource.Name}");
+                sb.AppendLine($"  Type: {resource.ResourceType}");
+                sb.AppendLine($"  Size: {resource.Size} bytes");
+                sb.AppendLine($"  Visibility: {(resource.IsPublic ? "Public" : "Private")}");
+            }
         }
 
+        PaginationEnvelope.AppendFooter(sb, total, returned, offset);
         return sb.ToString();
     }
 }

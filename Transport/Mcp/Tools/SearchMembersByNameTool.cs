@@ -27,11 +27,29 @@ public sealed class SearchMembersByNameTool
         [Description("Path to the .NET assembly file")] string assemblyPath,
         [Description("Name or partial name to search for (case-insensitive)")] string searchTerm,
         [Description("Optional: Filter by member kind (method, property, field, event)")] string? memberKind = null,
+        [Description("Maximum number of results to return (default: 100)")] int maxResults = 100,
+        [Description("Number of results to skip for pagination (default: 0)")] int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            return await _useCase.ExecuteAsync(assemblyPath, searchTerm, memberKind, cancellationToken);
+            // Phase 11 pagination contract: hard ceiling + positive minimum.
+            if (maxResults > 500)
+            {
+                throw new McpToolException("INVALID_PARAMETER",
+                    "maxResults cannot exceed 500. Use offset to paginate.");
+            }
+            if (maxResults <= 0)
+            {
+                throw new McpToolException("INVALID_PARAMETER",
+                    "maxResults must be >= 1.");
+            }
+
+            return await _useCase.ExecuteAsync(assemblyPath, searchTerm, memberKind, maxResults, offset, cancellationToken);
+        }
+        catch (McpToolException)
+        {
+            throw;  // Rethrow our own INVALID_PARAMETER without mapping it again
         }
         catch (AssemblyLoadException ex)
         {

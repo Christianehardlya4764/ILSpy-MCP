@@ -1,3 +1,5 @@
+using System.Text;
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -28,6 +30,8 @@ public sealed class ListAssemblyTypesUseCase
     public async Task<string> ExecuteAsync(
         string assemblyPath,
         string? namespaceFilter,
+        int maxResults = 100,
+        int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
@@ -42,17 +46,23 @@ public sealed class ListAssemblyTypesUseCase
                 using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
                 var types = await _decompiler.ListTypesAsync(assembly, namespaceFilter, timeout.Token);
 
-                var result = new System.Text.StringBuilder();
+                var sorted = types.OrderBy(t => t.FullName, StringComparer.OrdinalIgnoreCase).ToList();
+                var total = sorted.Count;
+                var page = sorted.Skip(offset).Take(maxResults).ToList();
+                var returned = page.Count;
+
+                var result = new StringBuilder();
                 result.AppendLine($"Assembly: {assembly.FileName}");
-                result.AppendLine($"Types found: {types.Count}");
+                result.AppendLine($"Types found: {total}");
                 result.AppendLine();
 
-                foreach (var type in types)
+                foreach (var type in page)
                 {
                     var kind = type.Kind.ToString().ToLower();
                     result.AppendLine($"  {kind,-10} {type.FullName}");
                 }
 
+                PaginationEnvelope.AppendFooter(result, total, returned, offset);
                 return result.ToString();
             }, cancellationToken);
         }
