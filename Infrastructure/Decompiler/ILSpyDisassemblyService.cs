@@ -241,8 +241,8 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
 
             // Apply 'string' -> 'System.String' and 'object' -> 'System.Object' carefully
             // to avoid matching inside identifiers. These appear as standalone IL type keywords.
-            line = Regex.Replace(line, @"(?<=[\s\(\[,])string(?=[\s\)\],]|$)", "System.String");
-            line = Regex.Replace(line, @"(?<=[\s\(\[,])object(?=[\s\)\],]|$)", "System.Object");
+            line = Regex.Replace(line, @"(?<=[\s\(\[,])string(?=[\s\)\],\r\n]|$)", "System.String");
+            line = Regex.Replace(line, @"(?<=[\s\(\[,])object(?=[\s\)\],\r\n]|$)", "System.Object");
 
             // Apply other type expansions
             foreach (var (pattern, replacement) in typeExpansions)
