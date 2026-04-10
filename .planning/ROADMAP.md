@@ -117,7 +117,10 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   1. Every mechanical "Lists all X..." or "Get raw Y..." description identified in the audit (21 tools) has been rewritten to a scenario-oriented "Use this when..." description - verifiable by reading the `[Description]` attribute of every tool file and matching against the audit's worst-offender list
   2. `decompile_type` and `get_type_members` descriptions cross-reference each other with guidance on when to pick each (cost difference, structural vs. decompiled output) - verifiable by reading both descriptions
   3. `list_assembly_types` and `list_namespace_types` descriptions cross-reference each other with guidance on scope difference (whole assembly vs. single namespace) - verifiable by reading both descriptions
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 13-01-PLAN.md — DESC-01 + DESC-02: Rewrite tool and parameter descriptions for decompile/disassemble/export/list/load/resolve/extract/search_members group (13 tools, Wave 1)
+- [ ] 13-02-PLAN.md — DESC-01 + DESC-02: Rewrite tool and parameter descriptions for find/get/search_constants/search_strings group (14 tools, Wave 1, parallel with 13-01)
 
 ## Progress
 
@@ -135,4 +138,4 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 | 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 5/5 | Complete    | 2026-04-10 |
 | 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 2/2 | Complete    | 2026-04-10 |
 | 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Complete    | 2026-04-10 |
-| 13. Scenario Description Sweep | v1.2.0 | 0/? | Not started | - |
+| 13. Scenario Description Sweep | v1.2.0 | 0/2 | Not started | - |
