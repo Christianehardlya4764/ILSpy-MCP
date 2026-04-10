@@ -1,3 +1,4 @@
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -32,6 +33,8 @@ public sealed class FindUsagesUseCase
         string assemblyPath,
         string typeName,
         string memberName,
+        int maxResults = 100,
+        int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
@@ -46,8 +49,10 @@ public sealed class FindUsagesUseCase
             {
                 using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
                 var results = await _crossRef.FindUsagesAsync(assembly, type, memberName, timeout.Token);
+                var total = results.Count;
+                var page = results.Skip(offset).Take(maxResults).ToList();
 
-                return FormatResults(typeName, memberName, results);
+                return FormatResults(typeName, memberName, page, total, offset);
             }, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -71,23 +76,38 @@ public sealed class FindUsagesUseCase
         }
     }
 
-    private static string FormatResults(string typeName, string memberName, IReadOnlyList<UsageResult> results)
+    private static string FormatResults(string typeName, string memberName, IReadOnlyList<UsageResult> page, int total, int offset)
     {
         var sb = new System.Text.StringBuilder();
-        sb.AppendLine($"Usages of {typeName}.{memberName}: {results.Count} found");
-        sb.AppendLine();
+        var returned = page.Count;
 
-        if (results.Count == 0)
+        if (total == 0)
         {
+            sb.AppendLine($"Usages of {typeName}.{memberName}: 0 found");
+            sb.AppendLine();
             sb.AppendLine("No usages found in the assembly.");
+            PaginationEnvelope.AppendFooter(sb, 0, 0, offset);
             return sb.ToString();
         }
 
-        foreach (var result in results)
+        if (offset >= total)
+        {
+            sb.AppendLine($"Usages of {typeName}.{memberName}: {total} found (offset {offset} is beyond last page)");
+            PaginationEnvelope.AppendFooter(sb, total, 0, offset);
+            return sb.ToString();
+        }
+
+        var rangeStart = offset + 1;
+        var rangeEnd = offset + returned;
+        sb.AppendLine($"Usages of {typeName}.{memberName}: {total} found (showing {rangeStart}-{rangeEnd})");
+        sb.AppendLine();
+
+        foreach (var result in page)
         {
             sb.AppendLine($"  [{result.Kind}] {result.DeclaringType}.{result.MethodName} (IL_{result.ILOffset:X4})");
         }
 
+        PaginationEnvelope.AppendFooter(sb, total, returned, offset);
         return sb.ToString();
     }
 }

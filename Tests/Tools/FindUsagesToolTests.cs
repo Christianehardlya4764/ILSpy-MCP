@@ -24,7 +24,7 @@ public class FindUsagesToolTests
             _fixture.TestAssemblyPath,
             "ILSpy.Mcp.TestTargets.CrossRef.IRepository",
             "Save",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("Usages of");
         result.Should().Contain("Save");
@@ -41,7 +41,7 @@ public class FindUsagesToolTests
             _fixture.TestAssemblyPath,
             "ILSpy.Mcp.TestTargets.CrossRef.IRepository",
             "Load",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("Usages of");
         result.Should().Contain("Load");
@@ -60,7 +60,7 @@ public class FindUsagesToolTests
             _fixture.TestAssemblyPath,
             "ILSpy.Mcp.TestTargets.CrossRef.CachedFileRepository",
             "Load",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("0 found");
     }
@@ -75,7 +75,7 @@ public class FindUsagesToolTests
             _fixture.TestAssemblyPath,
             "ILSpy.Mcp.TestTargets.CrossRef.IRepository",
             "NonExistentMember",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().Be("MEMBER_NOT_FOUND");
@@ -91,9 +91,47 @@ public class FindUsagesToolTests
             "nonexistent.dll",
             "SomeType",
             "SomeMember",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().BeOneOf("ASSEMBLY_LOAD_FAILED", "INTERNAL_ERROR");
+    }
+
+    // ===== Pagination tests =====
+
+    [Fact]
+    public async Task FindUsages_Pagination_MaxResultsLimitsOutput()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<FindUsagesTool>();
+
+        var result = await tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.CrossRef.IRepository",
+            "Save",
+            maxResults: 1,
+            offset: 0,
+            CancellationToken.None);
+
+        result.Should().Contain("[pagination:");
+        result.Should().Contain("\"returned\":1");
+    }
+
+    [Fact]
+    public async Task FindUsages_Pagination_MaxResultsExceedsLimit_ThrowsError()
+    {
+        using var scope = _fixture.CreateScope();
+        var tool = scope.ServiceProvider.GetRequiredService<FindUsagesTool>();
+
+        var act = () => tool.ExecuteAsync(
+            _fixture.TestAssemblyPath,
+            "ILSpy.Mcp.TestTargets.CrossRef.IRepository",
+            "Save",
+            maxResults: 501,
+            offset: 0,
+            CancellationToken.None);
+
+        var ex = await act.Should().ThrowAsync<McpToolException>();
+        ex.Which.ErrorCode.Should().Be("INVALID_PARAMETER");
     }
 }
