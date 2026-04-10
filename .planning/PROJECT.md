@@ -115,4 +115,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-09 after v1.2.0 milestone start*
+*Last updated: 2026-04-10 after Phase 11 complete — all list/get/search tools paginated, get_type_members enriched with inheritance + modifiers*
