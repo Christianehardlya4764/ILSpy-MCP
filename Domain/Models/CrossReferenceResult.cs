@@ -65,6 +65,25 @@ public sealed record DependencyResult
 
     /// <summary>Kind of dependency.</summary>
     public required DependencyKind Kind { get; init; }
+
+    /// <summary>
+    /// Full name of the assembly that terminally defines the referenced member.
+    /// When deep type-forward resolution succeeds, this is the terminal assembly
+    /// (e.g. System.Runtime type-forwards through to System.Private.CoreLib →
+    /// DefiningAssembly = "System.Private.CoreLib"). When the referenced assembly
+    /// cannot be loaded from the analyzed assembly's directory, this falls back
+    /// to the immediate AssemblyReference name from metadata and ResolutionNote
+    /// is populated.
+    /// </summary>
+    public required string DefiningAssembly { get; init; }
+
+    /// <summary>
+    /// Populated ONLY on fail-soft degradation — e.g. "unresolved: referenced
+    /// assembly not present in analyzed assembly directory". Null on the happy
+    /// path. Agents can treat a non-null value as "DefiningAssembly is a
+    /// best-effort guess, not the confirmed terminal assembly".
+    /// </summary>
+    public string? ResolutionNote { get; init; }
 }
 
 /// <summary>
