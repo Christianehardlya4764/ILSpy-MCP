@@ -32,6 +32,7 @@ public sealed class DisassembleTypeUseCase
         string assemblyPath,
         string typeName,
         bool showTokens,
+        bool resolveDeep = false,
         CancellationToken cancellationToken = default)
     {
         try
@@ -44,7 +45,7 @@ public sealed class DisassembleTypeUseCase
             return await _limiter.ExecuteAsync(async () =>
             {
                 using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
-                return await _disassembly.DisassembleTypeAsync(assembly, type, showTokens, timeout.Token);
+                return await _disassembly.DisassembleTypeAsync(assembly, type, showTokens, resolveDeep, timeout.Token);
             }, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
