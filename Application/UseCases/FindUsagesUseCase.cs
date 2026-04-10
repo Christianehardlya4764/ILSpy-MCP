@@ -1,3 +1,5 @@
+using System.Text;
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -32,6 +34,8 @@ public sealed class FindUsagesUseCase
         string assemblyPath,
         string typeName,
         string memberName,
+        int maxResults = 100,
+        int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
@@ -47,7 +51,13 @@ public sealed class FindUsagesUseCase
                 using var timeout = _timeout.CreateTimeoutToken(cancellationToken);
                 var results = await _crossRef.FindUsagesAsync(assembly, type, memberName, timeout.Token);
 
-                return FormatResults(typeName, memberName, results);
+                var sorted = results
+                    .OrderBy(r => r.DeclaringType, StringComparer.Ordinal)
+                    .ThenBy(r => r.ILOffset)
+                    .ToList();
+                var total = sorted.Count;
+                var page = sorted.Skip(offset).Take(maxResults).ToList();
+                return FormatResults(typeName, memberName, page, total, offset);
             }, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -71,22 +81,33 @@ public sealed class FindUsagesUseCase
         }
     }
 
-    private static string FormatResults(string typeName, string memberName, IReadOnlyList<UsageResult> results)
+    private static string FormatResults(string typeName, string memberName, IReadOnlyList<UsageResult> page, int total, int offset)
     {
-        var sb = new System.Text.StringBuilder();
-        sb.AppendLine($"Usages of {typeName}.{memberName}: {results.Count} found");
-        sb.AppendLine();
+        var sb = new StringBuilder();
 
-        if (results.Count == 0)
+        // Header — three branches
+        if (total == 0)
         {
-            sb.AppendLine("No usages found in the assembly.");
-            return sb.ToString();
+            sb.AppendLine($"Usages of {typeName}.{memberName}: {total} found");
+        }
+        else if (page.Count == 0)
+        {
+            sb.AppendLine($"Usages of {typeName}.{memberName}: {total} found (offset {offset} is beyond last page)");
+        }
+        else
+        {
+            sb.AppendLine($"Usages of {typeName}.{memberName}: {total} found (showing {offset + 1}-{offset + page.Count})");
         }
 
-        foreach (var result in results)
+        // Body — one line per match
+        foreach (var result in page)
         {
-            sb.AppendLine($"  [{result.Kind}] {result.DeclaringType}.{result.MethodName} (IL_{result.ILOffset:X4})");
+            var signature = result.MethodSignature != null ? $" {result.MethodSignature}" : "";
+            sb.AppendLine($"  [{result.Kind}] {result.DeclaringType}.{result.MethodName} (IL_{result.ILOffset:X4}){signature}");
         }
+
+        // Footer — the parseable contract. ALWAYS present.
+        PaginationEnvelope.AppendFooter(sb, total, page.Count, offset);
 
         return sb.ToString();
     }
