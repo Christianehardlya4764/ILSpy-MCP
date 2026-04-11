@@ -29,7 +29,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 - [x] **Phase 10: Find-Tool Pagination & Match Enrichment** - Apply pagination contract to all `find_*` tools and make match records self-describing (declaring type FQN, method signature, IL offset, kind grouping) (completed 2026-04-10)
 - [x] **Phase 11: List/Get/Search Pagination & Member Enrichment** - Apply pagination contract to `list_*`, `get_type_members`, `search_members_by_name`, and `list_namespace_types`; enrich `get_type_members` with inherited/declared distinction and modifier flags (completed 2026-04-10)
 - [x] **Phase 12: IL Token Resolution, Search Enrichment & Truncation Reporting** - Inline-resolve metadata tokens in IL disassembly, enrich search_strings/search_constants with context, report truncation on source-returning and bounded-output tools (completed 2026-04-10)
-- [ ] **Phase 13: Scenario Description Sweep** - Rewrite all mechanical tool descriptions to "Use this when..." format and cross-reference overlapping tools
+- [x] **Phase 13: Scenario Description Sweep** - Rewrite all mechanical tool descriptions to "Use this when..." format and cross-reference overlapping tools (completed 2026-04-10)
 
 ## Phase Details
 
@@ -117,11 +117,12 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   1. Every mechanical "Lists all X..." or "Get raw Y..." description identified in the audit (21 tools) has been rewritten to a scenario-oriented "Use this when..." description - verifiable by reading the `[Description]` attribute of every tool file and matching against the audit's worst-offender list
   2. `decompile_type` and `get_type_members` descriptions cross-reference each other with guidance on when to pick each (cost difference, structural vs. decompiled output) - verifiable by reading both descriptions
   3. `list_assembly_types` and `list_namespace_types` descriptions cross-reference each other with guidance on scope difference (whole assembly vs. single namespace) - verifiable by reading both descriptions
-**Plans**: 3 plans
+**Plans**: 4 plans
 Plans:
 - [x] 13-01-PLAN.md — DESC-01 + DESC-02: Rewrite tool and parameter descriptions for decompile/disassemble/export/list/load/resolve/extract/search_members group (13 tools, Wave 1)
 - [x] 13-02-PLAN.md — DESC-01 + DESC-02: Rewrite tool and parameter descriptions for find/get/search_constants/search_strings group (14 tools, Wave 1, parallel with 13-01)
-- [ ] 13-03-PLAN.md — Gap closure: Rename decompile_namespace to list_namespace_types (CLEAN-02 not applied), restore find_usages pagination parameters (merge regression) (Wave 1)
+- [x] 13-03-PLAN.md — Gap closure: Rename decompile_namespace to list_namespace_types (CLEAN-02 not applied), restore find_usages pagination parameters (merge regression) (Wave 1)
+- [ ] 13-04-PLAN.md — Gap closure: Restore scenario-oriented descriptions and bidirectional cross-references for list_assembly_types and list_namespace_types (regression from 13-03) (Wave 1)
 
 ## Progress
 
@@ -139,4 +140,4 @@ Plans:
 | 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 5/5 | Complete    | 2026-04-10 |
 | 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 2/2 | Complete    | 2026-04-10 |
 | 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Complete    | 2026-04-10 |
-| 13. Scenario Description Sweep | v1.2.0 | 2/3 | In progress | - |
+| 13. Scenario Description Sweep | v1.2.0 | 3/4 | In progress | - |
