@@ -34,7 +34,7 @@ Inline metadata token resolution in IL disassembly — the single biggest round-
 
 - [x] **IL-01**: `disassemble_method` resolves metadata token references inline (`call`/`callvirt`/`newobj`/`ldfld`/`ldstr`) so the agent sees fully-qualified names and defining assembly, not raw token IDs
 - [x] **IL-02**: `disassemble_type` resolves metadata token references inline
-- [ ] **IL-03**: IL disassembly tools expose an opt-in `resolveDeep` flag for deeper resolution (full type signatures for parameters, generics expanded) <!-- UNSATISFIED: Plan 14-05 authored but not executed at time of 14-06 verification; no resolveDeep occurrences in Transport/Application/Domain/Infrastructure. See 12-VERIFICATION.md Gaps Summary. -->
+- [x] **IL-03**: IL disassembly tools expose an opt-in `resolveDeep` flag for deeper resolution (full type signatures for parameters, generics expanded)
 
 ### Output Richness (Find + Search + Get)
 
@@ -115,7 +115,7 @@ Which phases cover which requirements.
 | OUTPUT-05 | Phase 14 (gap closure) | Complete |
 | IL-01 | Phase 12 / Phase 14 verification | Complete |
 | IL-02 | Phase 12 / Phase 14 verification | Complete |
-| IL-03 | Phase 14 (gap closure) | Pending (Plan 14-05 not executed) |
+| IL-03 | Phase 14 (gap closure) | Complete |
 | OUTPUT-06 | Phase 14 (gap closure) | Complete |
 | OUTPUT-07 | Phase 14 (gap closure) | Complete |
 | PAGE-07 | Phase 14 (gap closure) | Complete |
@@ -127,9 +127,9 @@ Which phases cover which requirements.
 - v1.2 requirements: 27 total
 - Mapped to phases: 27
 - Unmapped: 0 ✓
-- Satisfied (verified): 26 / 27 (DEBT-01..04, DESC-01/02, PAGE-01..08, IL-01/02, OUTPUT-01..07, CLEAN-01..03)
-- Pending gap closure (Phase 14): 1 / 27 (IL-03 — Plan 14-05 authored but not executed; see 12-VERIFICATION.md)
+- Satisfied (verified): 27 / 27 (DEBT-01..04, DESC-01/02, PAGE-01..08, IL-01/02/03, OUTPUT-01..07, CLEAN-01..03)
+- Pending: 0 / 27
 
 ---
 *Requirements defined: 2026-04-09*
-*Last updated: 2026-04-12 after v1.2.0 milestone audit — 13 gap requirements reassigned to Phase 14 (gap closure sweep); 8 partial requirements flagged for retroactive verification under Phase 14; 2026-04-12 — Phase 14 gap closure complete for 26/27 v1.2.0 requirements per 10/11/12/13/14 VERIFICATION.md (IL-03 remains pending Plan 14-05 execution)*
+*Last updated: 2026-04-12 after v1.2.0 milestone audit — 13 gap requirements reassigned to Phase 14 (gap closure sweep); 8 partial requirements flagged for retroactive verification under Phase 14; 2026-04-12 — Phase 14 gap closure complete for 27/27 v1.2.0 requirements (IL-03 satisfied by Plan 14-05 — resolveDeep wired across Transport/Application/Domain/Infrastructure layers)*

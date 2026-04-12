@@ -28,7 +28,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 - [ ] **Phase 9: Pagination Contract & Structural Cleanup** - Define uniform pagination contract once, drop `analyze_references` dispatcher, rename `decompile_namespace` to `list_namespace_types`, update README *(audit 2026-04-12: REGRESSED — CLEAN-01 undone, docs/PAGINATION.md missing; closed by Phase 14)*
 - [x] **Phase 10: Find-Tool Pagination & Match Enrichment** - Apply pagination contract to all `find_*` tools and make match records self-describing (declaring type FQN, method signature, IL offset, kind grouping) *(audit 2026-04-12: UNVERIFIED — closed by Phase 14; 10-VERIFICATION.md PASS 2026-04-12)*
 - [x] **Phase 11: List/Get/Search Pagination & Member Enrichment** - Apply pagination contract to `list_*`, `get_type_members`, `search_members_by_name`, and `list_namespace_types`; enrich `get_type_members` with inherited/declared distinction and modifier flags *(audit 2026-04-12: UNWIRED — closed by Phase 14; 11-VERIFICATION.md PASS 2026-04-12)*
-- [ ] **Phase 12: IL Token Resolution, Search Enrichment & Truncation Reporting** - Inline-resolve metadata tokens in IL disassembly, enrich search_strings/search_constants with context, report truncation on source-returning and bounded-output tools *(audit 2026-04-12: PARTIAL — closed by Phase 14 except IL-03; 12-VERIFICATION.md gaps_found 2026-04-12: 5/6 SCs PASS, IL-03 pending Plan 14-05 execution)*
+- [x] **Phase 12: IL Token Resolution, Search Enrichment & Truncation Reporting** - Inline-resolve metadata tokens in IL disassembly, enrich search_strings/search_constants with context, report truncation on source-returning and bounded-output tools *(audit 2026-04-12: PARTIAL — closed by Phase 14; 12-VERIFICATION.md PASS 2026-04-12 post-14-05 resolveDeep wiring)*
 - [x] **Phase 13: Scenario Description Sweep** - Rewrite all mechanical tool descriptions to "Use this when..." format and cross-reference overlapping tools (completed 2026-04-12)
 - [ ] **Phase 14: v1.2.0 Gap Closure Sweep** - Close all gaps identified by the 2026-04-12 milestone audit: CLEAN-01 regression fix, restore docs/PAGINATION.md, wire Phase 11 pagination, canonical pagination footer for search/source/bounded-output tools, `resolveDeep` flag on disassemble tools, retroactive VERIFICATION.md for Phases 10/11/12, REQUIREMENTS.md traceability sync
 
@@ -145,8 +145,8 @@ Plans:
 - [x] 14-02-PLAN.md — PAGE-03/04/05/06 + OUTPUT-05: rewire pagination on list_assembly_types, list_embedded_resources, get_type_members, search_members_by_name, list_namespace_types (Wave 1)
 - [x] 14-03-PLAN.md — OUTPUT-06/07: canonical pagination footer for search_strings and search_constants (Wave 1)
 - [x] 14-04-PLAN.md — PAGE-07/08: canonical truncation footer for decompile_*, disassemble_*, export_project, analyze_assembly (Wave 1)
-- [ ] 14-05-PLAN.md — IL-03: add resolveDeep flag to disassemble_type and disassemble_method (Wave 1)
-- [ ] 14-06-PLAN.md — Retroactive VERIFICATION.md for Phases 10/11/12 + REQUIREMENTS.md/ROADMAP.md traceability sync (Wave 2, depends on 14-01..14-05)
+- [x] 14-05-PLAN.md — IL-03: add resolveDeep flag to disassemble_type and disassemble_method (Wave 2)
+- [x] 14-06-PLAN.md — Retroactive VERIFICATION.md for Phases 10/11/12 + REQUIREMENTS.md/ROADMAP.md traceability sync (Wave 2, depends on 14-01..14-05)
 
 ## Progress
 
@@ -163,6 +163,6 @@ Plans:
 | 9. Pagination Contract & Structural Cleanup | v1.2.0 | 0/? | Not started | - |
 | 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 5/5 | Complete (verified 2026-04-12) | 2026-04-12 |
 | 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 2/2 | Complete (verified 2026-04-12 post-14-02) | 2026-04-12 |
-| 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Gaps Found (IL-03 pending 14-05) | - |
+| 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Complete (verified 2026-04-12 post-14-05) | 2026-04-12 |
 | 13. Scenario Description Sweep | v1.2.0 | 4/2 | Complete   | 2026-04-12 |
-| 14. v1.2.0 Gap Closure Sweep | v1.2.0 | 5/6 | In Progress (14-05 pending) |  |
+| 14. v1.2.0 Gap Closure Sweep | v1.2.0 | 6/6 | In Progress |  |
