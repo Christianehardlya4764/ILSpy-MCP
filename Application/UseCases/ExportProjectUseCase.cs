@@ -50,14 +50,21 @@ public sealed class ExportProjectUseCase
             outputDirectory = Path.GetFullPath(outputDirectory);
 
             // Directory validation (D-08, D-09)
-            // CreateDirectory is a no-op if it already exists, eliminating the
-            // TOCTOU race between existence check and creation. This is acceptable
-            // for a single-user MCP tool.
-            Directory.CreateDirectory(outputDirectory);
-
-            if (Directory.EnumerateFileSystemEntries(outputDirectory).Any())
+            // Split the emptiness check from directory creation so that a non-empty
+            // existing directory fails validation WITHOUT materializing the path on
+            // disk as a side effect. For a mistyped output path, this avoids leaving
+            // an empty stray directory behind. Both branches still race with external
+            // actors (TOCTOU-tolerant), which is acceptable for a single-user MCP tool.
+            if (Directory.Exists(outputDirectory))
             {
-                throw new OutputDirectoryNotEmptyException(outputDirectory);
+                if (Directory.EnumerateFileSystemEntries(outputDirectory).Any())
+                {
+                    throw new OutputDirectoryNotEmptyException(outputDirectory);
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(outputDirectory);
             }
 
             _logger.LogInformation("Exporting project from {Assembly} to {OutputDirectory}",
