@@ -3,6 +3,7 @@ using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Application.UseCases;
 using ILSpy.Mcp.Domain.Services;
 using ILSpy.Mcp.Infrastructure.Decompiler;
+using ILSpy.Mcp.Transport.Cli;
 using ILSpy.Mcp.Transport.Mcp.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol.Server;
+
+if (CommandLineHelp.IsRequested(args))
+{
+    Console.WriteLine(CommandLineHelp.GetText());
+    return 0;
+}
 
 // Determine transport mode from args, env, or config (highest priority first)
 var transportMode = "stdio"; // default
