@@ -22,7 +22,7 @@ public class ListEmbeddedResourcesToolTests
 
         var result = await tool.ExecuteAsync(
             _fixture.TestAssemblyPath,
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("sample.txt");
     }
@@ -35,7 +35,7 @@ public class ListEmbeddedResourcesToolTests
 
         var result = await tool.ExecuteAsync(
             _fixture.TestAssemblyPath,
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("sample.bin");
     }
@@ -48,7 +48,7 @@ public class ListEmbeddedResourcesToolTests
 
         var result = await tool.ExecuteAsync(
             _fixture.TestAssemblyPath,
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("Embedded");
     }
@@ -61,7 +61,7 @@ public class ListEmbeddedResourcesToolTests
 
         var result = await tool.ExecuteAsync(
             _fixture.TestAssemblyPath,
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         // Size should contain numeric values (at least "bytes" with a number)
         result.Should().MatchRegex(@"\d+ bytes");
@@ -75,7 +75,7 @@ public class ListEmbeddedResourcesToolTests
 
         var act = () => tool.ExecuteAsync(
             "nonexistent.dll",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().BeOneOf("ASSEMBLY_LOAD_FAILED", "INTERNAL_ERROR");

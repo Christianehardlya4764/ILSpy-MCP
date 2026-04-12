@@ -28,12 +28,26 @@ public sealed class ListEmbeddedResourcesTool
     [Description("Lists all embedded resources in an assembly with name, type, size, and visibility. Use this when investigating configuration files, localization data, or embedded assets baked into a compiled binary. Use extract_resource to retrieve individual resource contents. Returns paginated resource listing.")]
     public async Task<string> ExecuteAsync(
         [Description("Path to the .NET assembly (.dll/.exe)")] string assemblyPath,
+        [Description("Maximum results to return (default 100)")] int maxResults = 100,
+        [Description("Results to skip for pagination (default 0)")] int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            return await _useCase.ExecuteAsync(assemblyPath, cancellationToken);
+            if (maxResults > 500)
+            {
+                throw new McpToolException("INVALID_PARAMETER",
+                    "maxResults cannot exceed 500. Use offset to paginate.");
+            }
+            if (maxResults <= 0)
+            {
+                throw new McpToolException("INVALID_PARAMETER",
+                    "maxResults must be >= 1.");
+            }
+
+            return await _useCase.ExecuteAsync(assemblyPath, maxResults, offset, cancellationToken);
         }
+        catch (McpToolException) { throw; }
         catch (AssemblyLoadException ex)
         {
             _logger.LogError(ex, "Failed to load assembly: {Assembly}", ex.AssemblyPath);
