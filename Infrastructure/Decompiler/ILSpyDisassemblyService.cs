@@ -35,6 +35,7 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
         AssemblyPath assemblyPath,
         TypeName typeName,
         bool showTokens = false,
+        bool resolveDeep = false,
         CancellationToken cancellationToken = default)
     {
         return await Task.Run(() =>
@@ -55,7 +56,8 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
                 var disassembler = new ReflectionDisassembler(output, cancellationToken)
                 {
                     ShowMetadataTokens = showTokens,
-                    DetectControlStructure = true
+                    DetectControlStructure = true,
+                    ExpandMemberDefinitions = resolveDeep
                 };
 
                 // D-01: Summary header with type metadata for orientation
@@ -121,6 +123,7 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
         string methodName,
         bool showBytes = false,
         bool showTokens = false,
+        bool resolveDeep = false,
         CancellationToken cancellationToken = default)
     {
         return await Task.Run(() =>
@@ -160,7 +163,8 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
                 {
                     ShowMetadataTokens = showTokens,
                     ShowRawRVAOffsetAndBytes = showBytes,
-                    DetectControlStructure = true
+                    DetectControlStructure = true,
+                    ExpandMemberDefinitions = resolveDeep
                 };
 
                 // D-03: Full IL body with .maxstack, IL_xxxx labels, resolved names
