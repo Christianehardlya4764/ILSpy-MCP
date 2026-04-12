@@ -95,7 +95,7 @@ public class ListNamespaceTypesToolTests
         var result = await tool.ExecuteAsync(
             _fixture.TestAssemblyPath,
             "ILSpy.Mcp.TestTargets",
-            maxTypes: 2,
+            maxResults: 2,
             cancellationToken: CancellationToken.None);
 
         // Count how many top-level type entries appear (lines with kind labels at indent level 2)

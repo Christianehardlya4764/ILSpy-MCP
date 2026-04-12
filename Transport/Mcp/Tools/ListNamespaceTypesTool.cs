@@ -29,13 +29,26 @@ public sealed class ListNamespaceTypesTool
     public async Task<string> ExecuteAsync(
         [Description("Path to the .NET assembly (.dll/.exe)")] string assemblyPath,
         [Description("Full namespace name (e.g., 'System.Collections.Generic')")] string namespaceName,
-        [Description("Maximum number of types to return (default 200)")] int maxTypes = 200,
+        [Description("Maximum results to return (default 100)")] int maxResults = 100,
+        [Description("Results to skip for pagination (default 0)")] int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            return await _useCase.ExecuteAsync(assemblyPath, namespaceName, maxTypes, cancellationToken);
+            if (maxResults > 500)
+            {
+                throw new McpToolException("INVALID_PARAMETER",
+                    "maxResults cannot exceed 500. Use offset to paginate.");
+            }
+            if (maxResults <= 0)
+            {
+                throw new McpToolException("INVALID_PARAMETER",
+                    "maxResults must be >= 1.");
+            }
+
+            return await _useCase.ExecuteAsync(assemblyPath, namespaceName, maxResults, offset, cancellationToken);
         }
+        catch (McpToolException) { throw; }
         catch (NamespaceNotFoundException ex)
         {
             _logger.LogWarning("Namespace not found: {Namespace} in {Assembly}", ex.NamespaceName, ex.AssemblyPath);

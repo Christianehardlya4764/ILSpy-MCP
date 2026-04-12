@@ -1,5 +1,6 @@
 using System.Text;
 using ILSpy.Mcp.Application.Configuration;
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -47,7 +48,8 @@ public sealed class ListNamespaceTypesUseCase
     public async Task<string> ExecuteAsync(
         string assemblyPath,
         string namespaceName,
-        int maxTypes = 200,
+        int maxResults = 100,
+        int offset = 0,
         CancellationToken cancellationToken = default)
     {
         try
@@ -95,14 +97,17 @@ public sealed class ListNamespaceTypesUseCase
                 }
 
                 // Sort top-level types by kind then alphabetically
-                var sorted = topLevelTypes
+                var sortedTopLevel = topLevelTypes
                     .OrderBy(t => KindOrder.GetValueOrDefault(t.Kind, 5))
                     .ThenBy(t => t.FullName, StringComparer.OrdinalIgnoreCase)
-                    .Take(maxTypes)
                     .ToList();
 
+                var totalTopLevel = sortedTopLevel.Count;
+                var pageTypes = sortedTopLevel.Skip(offset).Take(maxResults).ToList();
+                var returnedTopLevel = pageTypes.Count;
+
                 // Build summary entries
-                var entries = sorted.Select(t => BuildEntry(t, nestedByParent)).ToList();
+                var entries = pageTypes.Select(t => BuildEntry(t, nestedByParent)).ToList();
 
                 var summary = new NamespaceTypeSummary
                 {
@@ -112,12 +117,11 @@ public sealed class ListNamespaceTypesUseCase
                 };
 
                 var result = FormatOutput(summary);
-                if (result.Length > _options.MaxDecompilationSize)
-                {
-                    result = result[.._options.MaxDecompilationSize]
-                        + $"\n\n[Output truncated at {_options.MaxDecompilationSize} bytes. The full output is {result.Length} bytes.]";
-                }
-                return result;
+
+                // Append canonical pagination footer based on top-level pagination unit
+                var sb = new StringBuilder(result);
+                PaginationEnvelope.AppendFooter(sb, totalTopLevel, returnedTopLevel, offset);
+                return sb.ToString();
             }, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
