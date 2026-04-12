@@ -20,7 +20,7 @@ public class ListAssemblyTypesToolTests
         using var scope = _fixture.CreateScope();
         var tool = scope.ServiceProvider.GetRequiredService<ListAssemblyTypesTool>();
 
-        var result = await tool.ExecuteAsync(_fixture.TestAssemblyPath, null, CancellationToken.None);
+        var result = await tool.ExecuteAsync(_fixture.TestAssemblyPath, null, maxResults: 500, cancellationToken: CancellationToken.None);
 
         result.Should().Contain("Assembly:");
         result.Should().Contain("Types found:");
@@ -44,7 +44,7 @@ public class ListAssemblyTypesToolTests
         var result = await tool.ExecuteAsync(
             _fixture.TestAssemblyPath,
             "ILSpy.Mcp.TestTargets.Animals",
-            CancellationToken.None);
+            cancellationToken: CancellationToken.None);
 
         result.Should().Contain("Dog");
         result.Should().Contain("Cat");
@@ -59,7 +59,7 @@ public class ListAssemblyTypesToolTests
         using var scope = _fixture.CreateScope();
         var tool = scope.ServiceProvider.GetRequiredService<ListAssemblyTypesTool>();
 
-        var result = await tool.ExecuteAsync(_fixture.TestAssemblyPath, null, CancellationToken.None);
+        var result = await tool.ExecuteAsync(_fixture.TestAssemblyPath, null, maxResults: 500, cancellationToken: CancellationToken.None);
 
         // Generic types appear without backtick notation in the listing
         result.Should().Contain("ILSpy.Mcp.TestTargets.Generics.Repository");
@@ -72,7 +72,7 @@ public class ListAssemblyTypesToolTests
         using var scope = _fixture.CreateScope();
         var tool = scope.ServiceProvider.GetRequiredService<ListAssemblyTypesTool>();
 
-        var result = await tool.ExecuteAsync(_fixture.TestAssemblyPath, null, CancellationToken.None);
+        var result = await tool.ExecuteAsync(_fixture.TestAssemblyPath, null, maxResults: 500, cancellationToken: CancellationToken.None);
 
         result.Should().Contain("delegate");
         result.Should().Contain("SimpleAction");
@@ -85,7 +85,7 @@ public class ListAssemblyTypesToolTests
         var tool = scope.ServiceProvider.GetRequiredService<ListAssemblyTypesTool>();
 
         var act = () => tool.ExecuteAsync(
-            @"C:\NonExistent\Assembly.dll", null, CancellationToken.None);
+            @"C:\NonExistent\Assembly.dll", null, cancellationToken: CancellationToken.None);
 
         var ex = await act.Should().ThrowAsync<McpToolException>();
         ex.Which.ErrorCode.Should().Be("INTERNAL_ERROR");
