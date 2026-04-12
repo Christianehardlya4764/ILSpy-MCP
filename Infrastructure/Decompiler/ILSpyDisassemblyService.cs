@@ -151,7 +151,11 @@ public sealed class ILSpyDisassemblyService : IDisassemblyService
                                 m.Parameters.Select(p => $"{p.Type.Name} {p.Name}"));
                             return $"{methodName}({parameters})";
                         }));
-                    throw new MethodNotFoundException(methodName, typeName.FullName);
+                    throw new MethodNotFoundException(
+                        methodName,
+                        typeName.FullName,
+                        $"Multiple overloads found for '{methodName}' in type '{typeName.FullName}': {overloads}. " +
+                        $"The current tool does not accept a parameter-signature selector.");
                 }
 
                 var method = methods[0];

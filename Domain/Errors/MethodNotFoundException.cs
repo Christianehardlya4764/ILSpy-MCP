@@ -11,4 +11,11 @@ public sealed class MethodNotFoundException : DomainException
         MethodName = methodName;
         TypeName = typeName;
     }
+
+    public MethodNotFoundException(string methodName, string typeName, string message)
+        : base("METHOD_NOT_FOUND", message)
+    {
+        MethodName = methodName;
+        TypeName = typeName;
+    }
 }
