@@ -99,27 +99,27 @@ Which phases cover which requirements.
 | DEBT-02 | Phase 8 | Complete |
 | DEBT-03 | Phase 8 | Complete |
 | DEBT-04 | Phase 8 | Complete |
-| PAGE-01 | Phase 9 | Pending |
-| CLEAN-01 | Phase 9 | Pending |
-| CLEAN-02 | Phase 9 | Pending |
-| CLEAN-03 | Phase 9 | Pending |
-| PAGE-02 | Phase 10 | Pending |
-| OUTPUT-01 | Phase 10 | Pending |
-| OUTPUT-02 | Phase 10 | Pending |
-| OUTPUT-03 | Phase 10 | Pending |
-| OUTPUT-04 | Phase 10 | Pending |
-| PAGE-03 | Phase 11 | Pending |
-| PAGE-04 | Phase 11 | Pending |
-| PAGE-05 | Phase 11 | Pending |
-| PAGE-06 | Phase 11 | Pending |
-| OUTPUT-05 | Phase 11 | Pending |
-| IL-01 | Phase 12 | Pending |
-| IL-02 | Phase 12 | Pending |
-| IL-03 | Phase 12 | Pending |
-| OUTPUT-06 | Phase 12 | Pending |
-| OUTPUT-07 | Phase 12 | Pending |
-| PAGE-07 | Phase 12 | Pending |
-| PAGE-08 | Phase 12 | Pending |
+| PAGE-01 | Phase 14 (gap closure) | Pending |
+| CLEAN-01 | Phase 14 (gap closure) | Pending |
+| CLEAN-02 | Phase 9 / Phase 14 verification | Pending |
+| CLEAN-03 | Phase 14 (gap closure) | Pending |
+| PAGE-02 | Phase 10 / Phase 14 verification | Pending |
+| OUTPUT-01 | Phase 10 / Phase 14 verification | Pending |
+| OUTPUT-02 | Phase 10 / Phase 14 verification | Pending |
+| OUTPUT-03 | Phase 10 / Phase 14 verification | Pending |
+| OUTPUT-04 | Phase 10 / Phase 14 verification | Pending |
+| PAGE-03 | Phase 14 (gap closure) | Pending |
+| PAGE-04 | Phase 14 (gap closure) | Pending |
+| PAGE-05 | Phase 14 (gap closure) | Pending |
+| PAGE-06 | Phase 14 (gap closure) | Pending |
+| OUTPUT-05 | Phase 14 (gap closure) | Pending |
+| IL-01 | Phase 12 / Phase 14 verification | Pending |
+| IL-02 | Phase 12 / Phase 14 verification | Pending |
+| IL-03 | Phase 14 (gap closure) | Pending |
+| OUTPUT-06 | Phase 14 (gap closure) | Pending |
+| OUTPUT-07 | Phase 14 (gap closure) | Pending |
+| PAGE-07 | Phase 14 (gap closure) | Pending |
+| PAGE-08 | Phase 14 (gap closure) | Pending |
 | DESC-01 | Phase 13 | Complete |
 | DESC-02 | Phase 13 | Complete |
 
@@ -127,7 +127,9 @@ Which phases cover which requirements.
 - v1.2 requirements: 27 total
 - Mapped to phases: 27
 - Unmapped: 0 ✓
+- Satisfied (verified): 6 / 27 (DEBT-01..04, DESC-01, DESC-02)
+- Pending gap closure (Phase 14): 21 / 27
 
 ---
 *Requirements defined: 2026-04-09*
-*Last updated: 2026-04-09 after roadmap creation (Phases 8-13 mapped)*
+*Last updated: 2026-04-12 after v1.2.0 milestone audit — 13 gap requirements reassigned to Phase 14 (gap closure sweep); 8 partial requirements flagged for retroactive verification under Phase 14*

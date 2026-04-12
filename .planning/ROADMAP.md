@@ -3,7 +3,7 @@
 ## Milestones
 
 - [x] **v1.0 Feature Parity** - Phases 1-7 (shipped 2026-04-08)
-- [ ] **v1.2.0 Tool Polish** - Phases 8-13 (started 2026-04-09)
+- [ ] **v1.2.0 Tool Polish** - Phases 8-14 (started 2026-04-09; gap closure added 2026-04-12)
 
 ## Phases
 
@@ -22,14 +22,15 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
 </details>
 
-### v1.2.0 Tool Polish (Phases 8-13)
+### v1.2.0 Tool Polish (Phases 8-14)
 
 - [ ] **Phase 8: Tech Debt Cleanup** - Normalize error codes, fix architecture violation, backfill SUMMARY frontmatter, runtime-verify Phase 7 tests
-- [ ] **Phase 9: Pagination Contract & Structural Cleanup** - Define uniform pagination contract once, drop `analyze_references` dispatcher, rename `decompile_namespace` to `list_namespace_types`, update README
-- [x] **Phase 10: Find-Tool Pagination & Match Enrichment** - Apply pagination contract to all `find_*` tools and make match records self-describing (declaring type FQN, method signature, IL offset, kind grouping) (completed 2026-04-10)
-- [x] **Phase 11: List/Get/Search Pagination & Member Enrichment** - Apply pagination contract to `list_*`, `get_type_members`, `search_members_by_name`, and `list_namespace_types`; enrich `get_type_members` with inherited/declared distinction and modifier flags (completed 2026-04-10)
-- [x] **Phase 12: IL Token Resolution, Search Enrichment & Truncation Reporting** - Inline-resolve metadata tokens in IL disassembly, enrich search_strings/search_constants with context, report truncation on source-returning and bounded-output tools (completed 2026-04-10)
-- [x] **Phase 13: Scenario Description Sweep** - Rewrite all mechanical tool descriptions to "Use this when..." format and cross-reference overlapping tools (completed 2026-04-10)
+- [ ] **Phase 9: Pagination Contract & Structural Cleanup** - Define uniform pagination contract once, drop `analyze_references` dispatcher, rename `decompile_namespace` to `list_namespace_types`, update README *(audit 2026-04-12: REGRESSED — CLEAN-01 undone, docs/PAGINATION.md missing; closed by Phase 14)*
+- [ ] **Phase 10: Find-Tool Pagination & Match Enrichment** - Apply pagination contract to all `find_*` tools and make match records self-describing (declaring type FQN, method signature, IL offset, kind grouping) *(audit 2026-04-12: UNVERIFIED — no VERIFICATION.md; retroactive verification in Phase 14)*
+- [ ] **Phase 11: List/Get/Search Pagination & Member Enrichment** - Apply pagination contract to `list_*`, `get_type_members`, `search_members_by_name`, and `list_namespace_types`; enrich `get_type_members` with inherited/declared distinction and modifier flags *(audit 2026-04-12: UNWIRED — pagination params absent on target tools; closed by Phase 14)*
+- [ ] **Phase 12: IL Token Resolution, Search Enrichment & Truncation Reporting** - Inline-resolve metadata tokens in IL disassembly, enrich search_strings/search_constants with context, report truncation on source-returning and bounded-output tools *(audit 2026-04-12: PARTIAL — IL-01/02 wired; IL-03/PAGE-07/08/OUTPUT-06/07 gaps; closed by Phase 14)*
+- [x] **Phase 13: Scenario Description Sweep** - Rewrite all mechanical tool descriptions to "Use this when..." format and cross-reference overlapping tools (completed 2026-04-12)
+- [ ] **Phase 14: v1.2.0 Gap Closure Sweep** - Close all gaps identified by the 2026-04-12 milestone audit: CLEAN-01 regression fix, restore docs/PAGINATION.md, wire Phase 11 pagination, canonical pagination footer for search/source/bounded-output tools, `resolveDeep` flag on disassemble tools, retroactive VERIFICATION.md for Phases 10/11/12, REQUIREMENTS.md traceability sync
 
 ## Phase Details
 
@@ -124,6 +125,23 @@ Plans:
 - [x] 13-03-PLAN.md — Gap closure: Rename decompile_namespace to list_namespace_types (CLEAN-02 not applied), restore find_usages pagination parameters (merge regression) (Wave 1)
 - [x] 13-04-PLAN.md — Gap closure: Restore scenario-oriented descriptions and bidirectional cross-references for list_assembly_types and list_namespace_types (regression from 13-03) (Wave 1)
 
+### Phase 14: v1.2.0 Gap Closure Sweep
+**Milestone**: v1.2.0
+**Goal**: Close every gap identified by the 2026-04-12 v1.2.0 milestone audit so the milestone can ship: pagination contract restored end-to-end, CLEAN-01 regression reversed, canonical pagination/truncation footer applied uniformly across list/get/search/source/bounded-output tools, `resolveDeep` exposed on disassemble tools, and Phases 10/11/12 retroactively verified with REQUIREMENTS.md traceability synced.
+**Depends on**: Phase 13 (all description work final before gap closure)
+**Requirements** (gap closure): PAGE-01, PAGE-03, PAGE-04, PAGE-05, PAGE-06, PAGE-07, PAGE-08, CLEAN-01, CLEAN-03, OUTPUT-05, OUTPUT-06, OUTPUT-07, IL-03
+**Requirements** (retroactive verification only): PAGE-02, OUTPUT-01, OUTPUT-02, OUTPUT-03, OUTPUT-04, IL-01, IL-02, CLEAN-02
+**Gap Closure**: Closes all gaps from `.planning/v1.2.0-MILESTONE-AUDIT.md` (13 requirement gaps, 4 integration gaps, 3 broken flows)
+**Success Criteria** (what must be TRUE):
+  1. `Transport/Mcp/Tools/AnalyzeReferencesTool.cs` no longer exists and is no longer registered in `Program.cs`; runtime MCP surface = 27 tools (CLEAN-01)
+  2. `docs/PAGINATION.md` exists in the working tree and matches the canonical contract; README link at line ~287 resolves (PAGE-01, CLEAN-03)
+  3. `list_assembly_types`, `list_embedded_resources`, `get_type_members`, `search_members_by_name`, and `list_namespace_types` all accept `(maxResults, offset)` and their use cases call `PaginationEnvelope.AppendFooter` (PAGE-03/04/05/06, OUTPUT-05)
+  4. `search_strings` and `search_constants` emit the canonical `[pagination:{truncated,total,...}]` footer instead of free-form headers (OUTPUT-06, OUTPUT-07)
+  5. `decompile_type`, `decompile_method`, `disassemble_type`, `disassemble_method`, `export_project`, and `analyze_assembly` emit the canonical truncation footer instead of "[Output truncated at N bytes...]" strings (PAGE-07, PAGE-08)
+  6. `disassemble_type` and `disassemble_method` expose a `resolveDeep` boolean flag that toggles full parameter-signature/generics resolution (IL-03)
+  7. `VERIFICATION.md` exists for Phases 10, 11, and 12 and reflects post-gap-closure state; REQUIREMENTS.md traceability table shows every satisfied v1.2 requirement as `[x]` with accurate coverage count
+**Plans**: TBD (6 plans projected: 14-01 CLEAN-01+PAGE-01+CLEAN-03; 14-02 Phase 11 pagination rewire; 14-03 search canonical footer; 14-04 source/bounded-output canonical truncation; 14-05 IL-03 resolveDeep; 14-06 retroactive VERIFICATION.md + REQUIREMENTS.md sync)
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -137,7 +155,8 @@ Plans:
 | 7. Bulk Operations & Documentation | v1.0 | 3/3 | Complete | 2026-04-08 |
 | 8. Tech Debt Cleanup | v1.2.0 | 0/? | Not started | - |
 | 9. Pagination Contract & Structural Cleanup | v1.2.0 | 0/? | Not started | - |
-| 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 5/5 | Complete    | 2026-04-10 |
-| 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 2/2 | Complete    | 2026-04-10 |
-| 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Complete    | 2026-04-10 |
+| 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 5/5 | Unverified (audit 2026-04-12)  | - |
+| 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 2/2 | Unwired (audit 2026-04-12)  | - |
+| 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Partial (audit 2026-04-12)  | - |
 | 13. Scenario Description Sweep | v1.2.0 | 4/2 | Complete   | 2026-04-12 |
+| 14. v1.2.0 Gap Closure Sweep | v1.2.0 | 0/6 | Not started | - |
