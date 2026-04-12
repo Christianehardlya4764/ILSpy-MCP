@@ -25,8 +25,8 @@ Uniform pagination contract across unbounded tools. Agents get sensible defaults
 
 Scenario-oriented, agent-intent framing. Every description answers "when is the agent reaching for this?" instead of "what does the tool produce mechanically?"
 
-- [ ] **DESC-01**: Every mechanical tool description rewritten to scenario-oriented "Use this when..." format — starts with the 6 worst offenders (`find_usages`, `disassemble_method`, `search_strings`, `find_compiler_generated_types`, `search_constants`, `find_dependencies`) and extends to all 21 mechanical descriptions identified in the audit
-- [ ] **DESC-02**: Overlapping tools cross-reference each other with cost/use-case guidance in their descriptions (`decompile_type` ↔ `get_type_members`; `list_assembly_types` ↔ `list_namespace_types`)
+- [x] **DESC-01**: Every mechanical tool description rewritten to scenario-oriented "Use this when..." format — starts with the 6 worst offenders (`find_usages`, `disassemble_method`, `search_strings`, `find_compiler_generated_types`, `search_constants`, `find_dependencies`) and extends to all 21 mechanical descriptions identified in the audit
+- [x] **DESC-02**: Overlapping tools cross-reference each other with cost/use-case guidance in their descriptions (`decompile_type` ↔ `get_type_members`; `list_assembly_types` ↔ `list_namespace_types`)
 
 ### IL Output Richness
 
@@ -120,8 +120,8 @@ Which phases cover which requirements.
 | OUTPUT-07 | Phase 12 | Pending |
 | PAGE-07 | Phase 12 | Pending |
 | PAGE-08 | Phase 12 | Pending |
-| DESC-01 | Phase 13 | Pending |
-| DESC-02 | Phase 13 | Pending |
+| DESC-01 | Phase 13 | Complete |
+| DESC-02 | Phase 13 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 27 total

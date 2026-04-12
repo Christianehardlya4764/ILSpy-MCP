@@ -122,7 +122,7 @@ Plans:
 - [x] 13-01-PLAN.md — DESC-01 + DESC-02: Rewrite tool and parameter descriptions for decompile/disassemble/export/list/load/resolve/extract/search_members group (13 tools, Wave 1)
 - [x] 13-02-PLAN.md — DESC-01 + DESC-02: Rewrite tool and parameter descriptions for find/get/search_constants/search_strings group (14 tools, Wave 1, parallel with 13-01)
 - [x] 13-03-PLAN.md — Gap closure: Rename decompile_namespace to list_namespace_types (CLEAN-02 not applied), restore find_usages pagination parameters (merge regression) (Wave 1)
-- [ ] 13-04-PLAN.md — Gap closure: Restore scenario-oriented descriptions and bidirectional cross-references for list_assembly_types and list_namespace_types (regression from 13-03) (Wave 1)
+- [x] 13-04-PLAN.md — Gap closure: Restore scenario-oriented descriptions and bidirectional cross-references for list_assembly_types and list_namespace_types (regression from 13-03) (Wave 1)
 
 ## Progress
 
@@ -140,4 +140,4 @@ Plans:
 | 10. Find-Tool Pagination & Match Enrichment | v1.2.0 | 5/5 | Complete    | 2026-04-10 |
 | 11. List/Get/Search Pagination & Member Enrichment | v1.2.0 | 2/2 | Complete    | 2026-04-10 |
 | 12. IL Token Resolution, Search Enrichment & Truncation Reporting | v1.2.0 | 3/3 | Complete    | 2026-04-10 |
-| 13. Scenario Description Sweep | v1.2.0 | 3/4 | In progress | - |
+| 13. Scenario Description Sweep | v1.2.0 | 4/2 | Complete   | 2026-04-12 |
