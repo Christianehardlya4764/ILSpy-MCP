@@ -55,7 +55,7 @@ public sealed class DecompileTypeUseCase
                 var totalBytes = sourceCode.Length;
                 var maxBytes = _options.MaxDecompilationSize;
                 var truncated = totalBytes > maxBytes;
-                var body = truncated ? sourceCode[..maxBytes] : sourceCode;
+                var body = truncated ? SafeTruncate.Chars(sourceCode, maxBytes) : sourceCode;
                 var returnedBytes = body.Length;
 
                 var sb = new System.Text.StringBuilder(body);

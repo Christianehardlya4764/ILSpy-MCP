@@ -55,7 +55,7 @@ public sealed class DisassembleTypeUseCase
                 var totalBytes = raw.Length;
                 var maxBytes = _options.MaxDecompilationSize;
                 var truncated = totalBytes > maxBytes;
-                var body = truncated ? raw[..maxBytes] : raw;
+                var body = truncated ? SafeTruncate.Chars(raw, maxBytes) : raw;
                 var returnedBytes = body.Length;
 
                 var sb = new System.Text.StringBuilder(body);
