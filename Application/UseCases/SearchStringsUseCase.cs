@@ -1,3 +1,4 @@
+using ILSpy.Mcp.Application.Pagination;
 using ILSpy.Mcp.Application.Services;
 using ILSpy.Mcp.Domain.Errors;
 using ILSpy.Mcp.Domain.Models;
@@ -105,8 +106,17 @@ public sealed class SearchStringsUseCase
         foreach (var result in results.Results)
         {
             sb.AppendLine($"  \"{result.MatchedValue}\" in {result.DeclaringType}.{result.MethodName} (IL_{result.ILOffset:X4})");
+            if (result.SurroundingIL.Count > 0)
+            {
+                sb.AppendLine("    surrounding IL:");
+                foreach (var ilLine in result.SurroundingIL)
+                {
+                    sb.AppendLine($"      {ilLine}");
+                }
+            }
         }
 
+        PaginationEnvelope.AppendFooter(sb, results.TotalCount, results.Results.Count, results.Offset);
         return sb.ToString();
     }
 }
