@@ -1498,7 +1498,7 @@ Several projects expose .NET decompilation over MCP:
 | **Install options** | Pre-built binary or source | Clone + build | Clone + build | `pip install` | `npm install` |
 | **Transport** | stdio + HTTP (remote/VM support) | SSE or stdio | stdio | stdio | stdio |
 | **Cross-platform** | Windows, Linux, macOS (x64 + ARM64) | Windows only (dnSpyEx dependency) | Windows, Linux, macOS | Depends on ILSpy CLI availability | Depends on ILSpy CLI availability |
-| **Tools** | 28 | ~10 | ~5 | ~3 | ~3 |
+| **Tools** | 27 | ~10 | ~5 | ~3 | ~3 |
 | **Type decompilation** | Yes | Yes | Yes | Yes | Yes |
 | **Method decompilation** | Yes (including `.ctor`/`.cctor`) | Yes | Yes (member-scoped snippets) | No | No |
 | **Namespace decompilation** | Yes | No | No | No | No |
